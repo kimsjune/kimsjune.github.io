@@ -6,13 +6,16 @@ website:
   title: "Joon's blog"
   favicon: quarto_favicon.svg
   google-analytics: "G-LETXD56KZ0"
+  open-graph: true
+  back-to-top-navigation: true
+  page-footer: "Built with [Quarto](https://quarto.org/). License: [CC BY-NC-SA 4.0](http://creativecommons.org/licenses/by-nc-sa/4.0/)."
   navbar:
     title: 🧐
     right:
       - text: About
         href: about/index.qmd
       - text: Posts
-        href: post/
+        href: /
       - cv.qmd
       - icon: github
         href: https://github.com/kimsjune

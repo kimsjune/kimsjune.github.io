@@ -1,6 +1,6 @@
 ---
 title: "About"
-#image: profile.jpg
+image: profile.jpg
 resources: 
   - "audio/pronunciation.mp3"
 about:
@@ -13,11 +13,17 @@ about:
 
 ## About me
 
+I'm Joon.
+
+```{=html}
+<iframe src="https://giphy.com/embed/Zy7s96dP38MlQe3OjG" width="480" height="270" frameBorder="0" style="pointer-events:none; padding: 0px;"></iframe>
+```
+
 I trained under [Dr. Fred Dick](https://publish.uwo.ca/~fdick/Lab_Web_Page/index.html) at Western University throughout my undergrad and graduate degrees. We did some interesting work, involving a new mouse strain (created in-house with CRISPR-Cas9), epigenetic silencing of repetitive elements and viral mimicry. Currently, I am looking to profile spatially resolved transcriptomes in fibrosing interstitial lung diseases with [Dr. Marco Mura](https://www.schulich.uwo.ca/respirology//people/faculty/bio-mura.html) also at Western.
 
 ## More about me
 
-Despite being Korean, I have both first and middle names. Something to do with a mistake on my first passport application. 'Seung' part is challenging. It's supposed to be as such: <audio controls src="audio/pronunciation.mp3"></audio>. So I just go with Joon.
+Despite being Korean, I have both first and middle names. Something to do with a mistake on my first passport application. 'Seung' part is challenging. It's supposed to be as such: <audio controls src="audio/pronunciation.mp3"></audio>.
 
 ## Purpose of this blog
 
