@@ -1,0 +1,26 @@
+{
+  "about.qmd": {
+    "about.html": "7151b21a"
+  },
+  "posts/post-with-code/index.qmd": {
+    "index.html": "b0e5c811"
+  },
+  "posts/welcome/index.qmd": {
+    "index.html": "9bfabfa5"
+  },
+  "index.qmd": {
+    "index.html": "5d2394fe"
+  },
+  "cv.qmd": {
+    "cv.html": "cbde5b95"
+  },
+  "posts/240508-nextflow-splitcsv/index.qmd": {
+    "index.html": "e5006ee3"
+  },
+  "posts/240508-first-blog/index.qmd": {
+    "index.html": "a0c59ec5"
+  },
+  "about/index.qmd": {
+    "index.html": "1d4ff3d8"
+  }
+}

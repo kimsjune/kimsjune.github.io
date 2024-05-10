@@ -4,7 +4,8 @@ project:
 
 website:
   title: "Joon's blog"
-  favicon: about/favicon.ico
+  favicon: quarto_favicon.svg
+  google-analytics: "G-LETXD56KZ0"
   navbar:
     title: 🧐
     right:
