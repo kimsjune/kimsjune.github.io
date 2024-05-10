@@ -3,6 +3,7 @@ title: "About"
 image: profile.jpg
 resources: 
   - "audio/pronunciation.mp3"
+  - "giphy.gif"
 about:
   template: trestles
   links:
@@ -15,9 +16,9 @@ about:
 
 I'm Joon.
 
-```{=html}
-<iframe src="https://giphy.com/embed/Zy7s96dP38MlQe3OjG" width="480" height="270" frameBorder="0" style="pointer-events:none; padding: 0px;"></iframe>
-```
+:::{.gif}
+[![](giphy.gif)](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHhoOXU0bmdhaHIwMDF4cTJ4YXUzaHF5YnJmY2h2YXNkMmd1NDZxZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Zy7s96dP38MlQe3OjG/giphy.gif)
+:::
 
 I trained under [Dr. Fred Dick](https://publish.uwo.ca/~fdick/Lab_Web_Page/index.html) at Western University throughout my undergrad and graduate degrees. We did some interesting work, involving a new mouse strain (created in-house with CRISPR-Cas9), epigenetic silencing of repetitive elements and viral mimicry. Currently, I am looking to profile spatially resolved transcriptomes in fibrosing interstitial lung diseases with [Dr. Marco Mura](https://www.schulich.uwo.ca/respirology//people/faculty/bio-mura.html) also at Western.
 

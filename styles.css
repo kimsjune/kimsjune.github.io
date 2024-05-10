@@ -15,9 +15,8 @@ audio {
   text-align: center;
 }
 
-.small_caption {
-  text-align: right;
-  font-size: 10px;
-  padding-top: 10px;
-  padding-bottom: 10px;
+.gif {
+  width: 480px;
+  margin-left: auto;
+  margin-right: auto;
 }
