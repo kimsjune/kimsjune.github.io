@@ -1,0 +1,27 @@
+---
+title: "CV"
+format:
+  html: 
+    toc: true
+---
+
+## Education
+
+**PhD Biochemistry** <br> *Western University* [*2016-2022*]{.cvdate}
+
+**BSc Honors Specialization in Biochemistry of Infection and Immunity** <br> *Western University* [*2012-2016*]{.cvdate}
+
+## Publications
+
+**Kim, S. J.**, Cecchini, M.J., Woo, E., Jayawardena, N., Passos, D. T., Dick, F. A. & Mura, M. Spatially resolved gene expression profiles in fibrosing interstitial lung diseases. *Thorax* (*under review*) (2024).
+
+**Kim, S. J.**, Kiser, P. K., Asfaha, S., DeKoter, R. P. & Dick, F. A. EZH2 inhibition stimulates repetitive element expression and viral mimicry in resting splenic B cells. *The EMBO Journal*    42, e114462 (2023).
+
+
+**Kim, S. J.**, MacDonald, J. I. & Dick, F. A. Phosphorylation of the RB C-terminus regulates condensin II release from chromatin. *Journal of Biological Chemistry* 296, (2021).
+
+
+**Kim, S. J.**, Asfaha, S. & Dick, F. A. CDK4 Inhibitors Thwart Immunity by Inhibiting Phospho-RB-NF-κB Complexes. *Mol Cell* 73, 1–2 (2019).
+
+
+Ishak, C. A. et al. An RB-EZH2 Complex Mediates Silencing of Repetitive DNA Sequences. Molecular Cell 64, 1074–1087 (2016).

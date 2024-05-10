@@ -1,0 +1,16 @@
+/* css styles */
+
+audio {
+  width: 100px;
+  height: 20px;
+  vertical-align: middle;
+}
+
+.cvdate {
+  float: right;
+  font-style: italic
+}
+
+.center {
+  text-align: center;
+}

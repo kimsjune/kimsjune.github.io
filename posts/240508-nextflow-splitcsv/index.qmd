@@ -1,0 +1,105 @@
+---
+title: "Nextflow: using splitCsv() operator"
+author: "jk"
+description: a tech tip to future self
+date: "2024-05-08"
+format: 
+  html: default
+toc: true
+categories: [nextflow, 2024]
+---
+
+### Introduction
+
+When I get `*.fastq.gz` files back for my Visium spatial libraries, `spaceranger count` command is used to generate various output files for QC metrics and downstream analysis. The command in my slurm job script looks like this:
+
+```{r, engine='bash'}
+#| eval: false
+#| code-overflow: wrap
+spaceranger count --id=18_57617_A1 --transcriptome=/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A --probe-set=/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv --fastqs=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim --sample=18_57617_A1_D1 --cytaimage=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_D1_18-57617-A1.tif --image=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/tiff/18-57617-A1.tif --slide=V43L25-333 --area=D1 --loupe-alignment=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/json/18_57617_A1.json
+```
+
+With future samples, I want to use `Nextflow` to automate job submission.
+
+### Strategy
+
+My initial thought was to parse `params.fastq`, but `--cytaimage`, `--image`, `--area`, and `--loupe-alignment` arguments are no where to be found in these `fastq` files (unless I submit an ungodly sample name to the genomics core). Instead, I can provide a `metadata.csv` and use `splitCsv()` to store and consume all the required arguments.
+
+```{r}
+#| echo: false
+meta <- read.csv(file="metadata.csv", header=T)
+knitr::kable(meta)
+```
+
+In the working directory, I have `${sample}_{S7,S8}_{L001,L002}_{R1,R2}_001.fastq.gz` files. `id` and `sample` arguments in the .csv file must follow such format above. I think `spaceranger` is expecting some pre-determined `fastq.gz` read pairs across a couple of sequencing lanes.
+
+`etc/` is a subdirectory with CytAssist images, hi-res images, and alignment json files.
+
+### Nextflow
+
+The full `main.nf` looks like this:
+
+```{groovy}
+#| eval: false
+#| code-line-numbers: true
+nextflow.enable.dsl=2
+params.csv = "$projectDir/metadata.csv"
+params.transcriptome = "/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A"
+params.probeSet = "/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv"
+
+csv_ch = Channel
+            .fromPath(params.csv)
+            .splitCsv(header: true)
+            .map(
+                row -> 
+                tuple(row.id,
+                row.sample,
+                file (row.cytaimage),
+                file (row.image),
+                row.slide,
+                row.area,
+                file(row.json))
+            )
+
+transcriptome_ch = Channel.fromPath(params.transcriptome)
+probeSet_ch = Channel.fromPath(params.probeSet)
+
+process SPACECOUNT {
+    publishDir "$projectDir/output", mode: "copy"
+    cpus 32
+    memory 128.GB
+    time 2.h
+    clusterOptions '--account=def-muram'
+
+    input:
+    tuple val(id), val(sample), file (cytaimage), file (image), val(slide), val(area), file (json)
+    // setting directories as path() doesn't seem to work. It can't resolve relative paths. If I just use val(), I just have to express parameters as absolute paths in the script. 
+    // path doesn't work but file does!
+    path transcriptome
+    path probeSet
+
+    output:
+    path "$id/"
+
+    script:
+    """
+    spaceranger count --id $id  --fastqs $baseDir --sample $sample --cytaimage $cytaimage --image $image --slide $slide --area $area --loupe-alignment $json --transcriptome $transcriptome --probe-set $probeSet
+    """
+}
+
+workflow {
+    SPACECOUNT(csv_ch, transcriptome_ch.collect(), probeSet_ch.collect())
+}
+```
+
+::: callout-important
+-   within `.map()` (lines 9-18), must use `file()` instead of `path()` (error otherwise)
+
+-   line 34: must use `file()` for file paths instead of... `path()` (no error, but the relative path does not resolve). I thought `file()` was DSL=1 lingo, but maybe not?
+
+-   [reference](https://nextflow-io.github.io/patterns/process-per-csv-record/)
+:::
+
+::: center
+\\ (•◡•) /
+:::

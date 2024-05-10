@@ -1,0 +1,72 @@
+[
+  {
+    "objectID": "posts/240508-nextflow-splitcsv/index.html",
+    "href": "posts/240508-nextflow-splitcsv/index.html",
+    "title": "Nextflow: using splitCsv() operator",
+    "section": "",
+    "text": "Introduction\nWhen I get *.fastq.gz files back for my Visium spatial libraries, spaceranger count command is used to generate various output files for QC metrics and downstream analysis. The command in my slurm job script looks like this:\n\nspaceranger count --id=18_57617_A1 --transcriptome=/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A --probe-set=/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv --fastqs=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim --sample=18_57617_A1_D1 --cytaimage=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_D1_18-57617-A1.tif --image=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/tiff/18-57617-A1.tif --slide=V43L25-333 --area=D1 --loupe-alignment=/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/json/18_57617_A1.json\n\nWith future samples, I want to use Nextflow to automate job submission.\n\n\nStrategy\nMy initial thought was to parse params.fastq, but --cytaimage, --image, --area, and --loupe-alignment arguments are no where to be found in these fastq files (unless I submit an ungodly sample name to the genomics core). Instead, I can provide a metadata.csv and use splitCsv() to store and consume all the required arguments.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nid\nsample\ncytaimage\nimage\nslide\narea\njson\n\n\n\n\n18_57617_A1\n18_57617_A1_D1\netc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_D1_18-57617-A1.tif\netc/tiff/18-57617-A1.tif\nV43L25-333\nD1\netc/json/18_57617_A1.json\n\n\n20_24241_B2\n20_24241_B2_A1\netc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_A1_20-24241-B2.tif\netc/tiff/20-24241-B2.tif\nV43L25-333\nA1\netc/json/20_24241_B2.json\n\n\n\n\n\nIn the working directory, I have ${sample}_{S7,S8}_{L001,L002}_{R1,R2}_001.fastq.gz files. id and sample arguments in the .csv file must follow such format above. I think spaceranger is expecting some pre-determined fastq.gz read pairs across a couple of sequencing lanes.\netc/ is a subdirectory with CytAssist images, hi-res images, and alignment json files.\n\n\nNextflow\nThe full main.nf looks like this:\n\nnextflow.enable.dsl=2\nparams.csv = \"$projectDir/metadata.csv\"\nparams.transcriptome = \"/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A\"\nparams.probeSet = \"/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv\"\n\ncsv_ch = Channel\n            .fromPath(params.csv)\n            .splitCsv(header: true)\n            .map(\n                row -&gt; \n                tuple(row.id,\n                row.sample,\n                file (row.cytaimage),\n                file (row.image),\n                row.slide,\n                row.area,\n                file(row.json))\n            )\n\ntranscriptome_ch = Channel.fromPath(params.transcriptome)\nprobeSet_ch = Channel.fromPath(params.probeSet)\n\nprocess SPACECOUNT {\n    publishDir \"$projectDir/output\", mode: \"copy\"\n    cpus 32\n    memory 128.GB\n    time 2.h\n    clusterOptions '--account=def-muram'\n\n    input:\n    tuple val(id), val(sample), file (cytaimage), file (image), val(slide), val(area), file (json)\n    // setting directories as path() doesn't seem to work. It can't resolve relative paths. If I just use val(), I just have to express parameters as absolute paths in the script. \n    // path doesn't work but file does!\n    path transcriptome\n    path probeSet\n\n    output:\n    path \"$id/\"\n\n    script:\n    \"\"\"\n    spaceranger count --id $id  --fastqs $baseDir --sample $sample --cytaimage $cytaimage --image $image --slide $slide --area $area --loupe-alignment $json --transcriptome $transcriptome --probe-set $probeSet\n    \"\"\"\n}\n\nworkflow {\n    SPACECOUNT(csv_ch, transcriptome_ch.collect(), probeSet_ch.collect())\n}\n\n\n\n\n\n\n\nImportant\n\n\n\n\nwithin .map() (lines 9-18), must use file() instead of path() (error otherwise)\nline 34: must use file() for file paths instead of… path() (no error, but the relative path does not resolve). I thought file() was DSL=1 lingo, but maybe not?\nreference\n\n\n\n\n\\ (•◡•) /"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "blog",
+    "section": "",
+    "text": "Nextflow: using splitCsv() operator\n\n\n\n\n\n\nnextflow\n\n\n2024\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\n\n\n\nnews\n\n\n2024\n\n\n\nhi there\n\n\n\n\n\nMay 7, 2024\n\n\njk\n\n\n\n\n\n\nNo matching items"
+  },
+  {
+    "objectID": "about/index.html",
+    "href": "about/index.html",
+    "title": "About",
+    "section": "",
+    "text": "I trained under Dr. Fred Dick at Western University throughout my undergrad and graduate degrees. We did some interesting work, involving a new mouse strain (created in-house with CRISPR-Cas9), epigenetic silencing of repetitive elements and viral mimicry. Currently, I am looking to profile spatially resolved transcriptomes in fibrosing interstitial lung diseases with Dr. Marco Mura also at Western."
+  },
+  {
+    "objectID": "about/index.html#about-me",
+    "href": "about/index.html#about-me",
+    "title": "About",
+    "section": "",
+    "text": "I trained under Dr. Fred Dick at Western University throughout my undergrad and graduate degrees. We did some interesting work, involving a new mouse strain (created in-house with CRISPR-Cas9), epigenetic silencing of repetitive elements and viral mimicry. Currently, I am looking to profile spatially resolved transcriptomes in fibrosing interstitial lung diseases with Dr. Marco Mura also at Western."
+  },
+  {
+    "objectID": "about/index.html#more-about-me",
+    "href": "about/index.html#more-about-me",
+    "title": "About",
+    "section": "More about me",
+    "text": "More about me\nDespite being Korean, I have both first and middle names. Something to do with a mistake on my first passport application. ‘Seung’ part is challenging. It’s supposed to be as such: . So I just go with Joon."
+  },
+  {
+    "objectID": "about/index.html#purpose-of-this-blog",
+    "href": "about/index.html#purpose-of-this-blog",
+    "title": "About",
+    "section": "Purpose of this blog",
+    "text": "Purpose of this blog\nI find myself going back to my old code to find some key snippets that I cannot recall. It’s a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a “digital garden”, but I’m anticipating more of a digital yard waste.\nThere are some coding “projects” in planning/dev phase that I wouldn’t be able to digitally document otherwise."
+  },
+  {
+    "objectID": "cv.html",
+    "href": "cv.html",
+    "title": "CV",
+    "section": "",
+    "text": "PhD Biochemistry  Western University 2016-2022\nBSc Honors Specialization in Biochemistry of Infection and Immunity  Western University 2012-2016"
+  },
+  {
+    "objectID": "cv.html#education",
+    "href": "cv.html#education",
+    "title": "CV",
+    "section": "",
+    "text": "PhD Biochemistry  Western University 2016-2022\nBSc Honors Specialization in Biochemistry of Infection and Immunity  Western University 2012-2016"
+  },
+  {
+    "objectID": "cv.html#publications",
+    "href": "cv.html#publications",
+    "title": "CV",
+    "section": "Publications",
+    "text": "Publications\nKim, S. J., Cecchini, M.J., Woo, E., Jayawardena, N., Passos, D. T., Dick, F. A. & Mura, M. Spatially resolved gene expression profiles in fibrosing interstitial lung diseases. Thorax (under review) (2024).\nKim, S. J., Kiser, P. K., Asfaha, S., DeKoter, R. P. & Dick, F. A. EZH2 inhibition stimulates repetitive element expression and viral mimicry in resting splenic B cells. The EMBO Journal 42, e114462 (2023).\nKim, S. J., MacDonald, J. I. & Dick, F. A. Phosphorylation of the RB C-terminus regulates condensin II release from chromatin. Journal of Biological Chemistry 296, (2021).\nKim, S. J., Asfaha, S. & Dick, F. A. CDK4 Inhibitors Thwart Immunity by Inhibiting Phospho-RB-NF-κB Complexes. Mol Cell 73, 1–2 (2019).\nIshak, C. A. et al. An RB-EZH2 Complex Mediates Silencing of Repetitive DNA Sequences. Molecular Cell 64, 1074–1087 (2016)."
+  },
+  {
+    "objectID": "posts/240508-first-blog/index.html",
+    "href": "posts/240508-first-blog/index.html",
+    "title": "First blog",
+    "section": "",
+    "text": "After hemming and hawing on whether to create a blog and which tool to use, here is my first post 😄.\nI’ve been finding the following blogs particularly useful: Aster Hu, Drew Dimmery, and Danielle Navarro.\nI’ve decided to use Quarto because it seems to be more dynamic than Jekyll (as far as my understanding goes). Syntax highlighting for bash, groovy and R in expandable, copy-able code chunks will be nice for various scripts that I want to post eventually.\nI think my first project will be to write my CV using an rmarkdown template and share it as a pdf. This blog + CV will meet the minimum requirement for publication on Github pages.\n\n\\ (•◡•) /"
+  }
+]
