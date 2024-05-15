@@ -3,15 +3,8 @@ title: "CV"
 format:
   html: 
     toc: true
-  pdf:
-    author: Seung J. Kim
-    pdf-engine: weasyprint
-style: cv.css
-format-links: [pdf]
 ---
-::: {.print-only .contact-block}
-seung.kim@lhsc.on.ca
-:::
+
 ### Education
 
 **PhD Biochemistry** <br> *Western University* [*2016-2022*]{.cvdate}
@@ -74,9 +67,3 @@ Cancer Research and Technology Transfer Scholarship [2017]{.cvdate}
 
 ### Academic experiences
 Advanced Sequencing Technologies and Applications. <br> Cold Spring Harbor Laboratory [2018]{.cvdate}
-
-::: {.print-only .contact-block}
-### References
-
-Available upon request
-:::
