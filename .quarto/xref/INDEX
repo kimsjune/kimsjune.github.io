@@ -12,7 +12,9 @@
     "index.html": "5d2394fe"
   },
   "cv.qmd": {
-    "cv.html": "cbde5b95"
+    "cv.html": "cbde5b95",
+    "cv.pdf": "1792f1bc",
+    "cv.tex": "45326e54"
   },
   "posts/240508-nextflow-splitcsv/index.qmd": {
     "index.html": "e5006ee3"
@@ -22,5 +24,8 @@
   },
   "about/index.qmd": {
     "index.html": "1d4ff3d8"
+  },
+  "cv_2.qmd": {
+    "cv_2.tex": "ab25704f"
   }
 }
