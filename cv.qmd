@@ -24,7 +24,7 @@ R (proficient):
   - differential gene expression analysis: `edgeR`, `DESeq2`, `limma`, `voom`, `standR`
   - data wrangling and visualization: `ggplot2`, `ComplexHeatmap`, `tidyverse`
   - interactivity: `shiny`
-
+              
 python (beginner):
 
   - `numpy`, `pandas`, `matplotlib`, `scanpy`, `squidpy`
@@ -67,3 +67,9 @@ Cancer Research and Technology Transfer Scholarship [2017]{.cvdate}
 
 ### Academic experiences
 Advanced Sequencing Technologies and Applications. <br> Cold Spring Harbor Laboratory [2018]{.cvdate}
+
+:::{.column-margin}
+Source for CV style and guide:
+
+Huang, Cynthia. 2023. “Publishing HTML and PDF Versions of a Quarto CV Without LaTex.” August 22, 2023. https://www.cynthiahqy.com/posts/cv-html-pdf. 
+:::

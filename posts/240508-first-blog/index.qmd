@@ -12,8 +12,9 @@ I've been finding the following blogs particularly useful: [Aster Hu](https://ww
 
 I've decided to use Quarto because it seems to be more dynamic than Jekyll (as far as my understanding goes). Syntax highlighting for bash, groovy and R in expandable, copy-able code chunks will be nice for various scripts that I want to post eventually.
 
-I think my first project will be to write my CV using an [rmarkdown template](http://svmiller.com/blog/2016/03/svm-r-markdown-cv/) and share it as a pdf. This blog + CV will meet the minimum requirement for publication on Github pages.
+I think my first project will be to write my CV using an [rmarkdown template](http://svmiller.com/blog/2016/03/svm-r-markdown-cv/) and share it as a pdf. This blog + CV[^1] will meet the minimum requirement for publication on Github pages.
 
-:::{.center}
+::: center
 \\ (•◡•) /
 :::
+
