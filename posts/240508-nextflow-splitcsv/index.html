@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="jk">
+<meta name="dcterms.date" content="2024-05-08">
+<meta name="description" content="a tech tip to future self">
 
-<title>Joon’s blog - blog</title>
+<title>Joon’s blog - Nextflow: using splitCsv() operator</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -20,30 +23,62 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<link href="./quarto_favicon.svg" rel="icon" type="image/svg+xml">
-<script src="site_libs/quarto-listing/list.min.js"></script>
-<script src="site_libs/quarto-listing/quarto-listing.js"></script>
-<script src="site_libs/quarto-html/quarto.js"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../quarto_favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -71,35 +106,6 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
-<script>
-
-  window.document.addEventListener("DOMContentLoaded", function (_event) {
-    const listingTargetEl = window.document.querySelector('#listing-listing .list');
-    if (!listingTargetEl) {
-      // No listing discovered, do not attach.
-      return; 
-    }
-
-    const options = {
-      valueNames: ['listing-date','listing-title','listing-author','listing-image','listing-description','listing-categories',{ data: ['index'] },{ data: ['categories'] },{ data: ['listing-date-sort'] },{ data: ['listing-file-modified-sort'] }],
-      
-      searchColumns: ["listing-date","listing-title","listing-author","listing-image","listing-description","listing-categories"],
-    };
-
-    window['quarto-listings'] = window['quarto-listings'] || {};
-    window['quarto-listings']['listing-listing'] = new List('listing-listing', options);
-
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  });
-
-  window.addEventListener('hashchange',() => {
-    if (window['quarto-listing-loaded']) {
-      window['quarto-listing-loaded']();
-    }
-  })
-  </script>
 <script async="" src="https://www.googletagmanager.com/gtag/js?id=G-LETXD56KZ0"></script>
 
 <script type="text/javascript">
@@ -110,38 +116,10 @@ gtag('js', new Date());
 gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 </script>
 
-  <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
-  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml-full.js" type="text/javascript"></script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN") {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
-
-<link rel="stylesheet" href="styles.css">
-<meta property="og:title" content="Joon’s blog - blog">
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Joon’s blog - Nextflow: using splitCsv() operator">
+<meta property="og:description" content="a tech tip to future self">
 <meta property="og:site_name" content="Joon's blog">
 </head>
 
@@ -152,7 +130,7 @@ window.Quarto = {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../../index.html">
     <span class="navbar-title">🧐</span>
     </a>
   </div>
@@ -163,15 +141,15 @@ window.Quarto = {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll ms-auto">
   <li class="nav-item">
-    <a class="nav-link" href="./about/index.html"> 
+    <a class="nav-link" href="../../about/index.html"> 
 <span class="menu-text">About</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./"> 
+    <a class="nav-link" href="../../"> 
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./cv.html"> 
+    <a class="nav-link" href="../../cv.html"> 
 <span class="menu-text">CV</span></a>
   </li>  
   <li class="nav-item compact">
@@ -190,158 +168,200 @@ window.Quarto = {
 <!-- content -->
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
-    <div class="quarto-title column-page-left">
-      <h1 class="title">blog</h1>
-                      </div>
+    <div class="quarto-title column-body">
+      <h1 class="title">Nextflow: using splitCsv() operator</h1>
+                  <div>
+        <div class="description">
+          a tech tip to future self
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">nextflow</div>
+                <div class="quarto-category">2024</div>
+              </div>
+                  </div>
   </div>
     
   
-  <div class="quarto-title-meta column-page-left">
+  <div class="quarto-title-meta">
 
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>jk </p>
+            </div>
+    </div>
       
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">May 8, 2024</p>
+      </div>
+    </div>
     
       
     </div>
     
   
-  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-full page-navbar">
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        
-    <h5 class="quarto-listing-category-title">Categories</h5><div class="quarto-listing-category category-default"><div class="category" data-category="">All <span class="quarto-category-count">(3)</span></div><div class="category" data-category="2024">2024 <span class="quarto-category-count">(3)</span></div><div class="category" data-category="R">R <span class="quarto-category-count">(1)</span></div><div class="category" data-category="data visualization">data visualization <span class="quarto-category-count">(1)</span></div><div class="category" data-category="news">news <span class="quarto-category-count">(1)</span></div><div class="category" data-category="nextflow">nextflow <span class="quarto-category-count">(1)</span></div><div class="category" data-category="shiny">shiny <span class="quarto-category-count">(1)</span></div></div></div>
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#strategy" id="toc-strategy" class="nav-link" data-scroll-target="#strategy">Strategy</a></li>
+  <li><a href="#nextflow" id="toc-nextflow" class="nav-link" data-scroll-target="#nextflow">Nextflow</a></li>
+  </ul>
+</nav>
+    </div>
 <!-- main -->
-<main class="content quarto-banner-title-block column-page-left" id="quarto-document-content">
+<main class="content quarto-banner-title-block" id="quarto-document-content">
 
 
 
 
 
+<section id="introduction" class="level3">
+<h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
+<p>When I get <code>*.fastq.gz</code> files back for my Visium spatial libraries, <code>spaceranger count</code> command is used to generate various output files for QC metrics and downstream analysis. The command in my slurm job script looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-overflow-wrap code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">spaceranger</span> count <span class="at">--id</span><span class="op">=</span>18_57617_A1 <span class="at">--transcriptome</span><span class="op">=</span>/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A <span class="at">--probe-set</span><span class="op">=</span>/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv <span class="at">--fastqs</span><span class="op">=</span>/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim <span class="at">--sample</span><span class="op">=</span>18_57617_A1_D1 <span class="at">--cytaimage</span><span class="op">=</span>/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_D1_18-57617-A1.tif <span class="at">--image</span><span class="op">=</span>/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/tiff/18-57617-A1.tif <span class="at">--slide</span><span class="op">=</span>V43L25-333 <span class="at">--area</span><span class="op">=</span>D1 <span class="at">--loupe-alignment</span><span class="op">=</span>/scratch/skim823/visium/20240117_LH00244_0047_A22GM27LT3_Mura_Kim/etc/json/18_57617_A1.json</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>With future samples, I want to use <code>Nextflow</code> to automate job submission.</p>
+</section>
+<section id="strategy" class="level3">
+<h3 class="anchored" data-anchor-id="strategy">Strategy</h3>
+<p>My initial thought was to parse <code>params.fastq</code>, but <code>--cytaimage</code>, <code>--image</code>, <code>--area</code>, and <code>--loupe-alignment</code> arguments are no where to be found in these <code>fastq</code> files (unless I submit an ungodly sample name to the genomics core). Instead, I can provide a <code>metadata.csv</code> and use <code>splitCsv()</code> to store and consume all the required arguments.</p>
+<div class="cell">
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 6%">
+<col style="width: 61%">
+<col style="width: 10%">
+<col style="width: 4%">
+<col style="width: 2%">
+<col style="width: 10%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: left;">id</th>
+<th style="text-align: left;">sample</th>
+<th style="text-align: left;">cytaimage</th>
+<th style="text-align: left;">image</th>
+<th style="text-align: left;">slide</th>
+<th style="text-align: left;">area</th>
+<th style="text-align: left;">json</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: left;">18_57617_A1</td>
+<td style="text-align: left;">18_57617_A1_D1</td>
+<td style="text-align: left;">etc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_D1_18-57617-A1.tif</td>
+<td style="text-align: left;">etc/tiff/18-57617-A1.tif</td>
+<td style="text-align: left;">V43L25-333</td>
+<td style="text-align: left;">D1</td>
+<td style="text-align: left;">etc/json/18_57617_A1.json</td>
+</tr>
+<tr class="even">
+<td style="text-align: left;">20_24241_B2</td>
+<td style="text-align: left;">20_24241_B2_A1</td>
+<td style="text-align: left;">etc/assay_CAVG10505_2023-12-06_10-13-34_V43L25-333_1701876913_CytAssist/CAVG10505_2023-12-06_10-35-13_2023-12-06_10-13-34_V43L25-333_A1_20-24241-B2.tif</td>
+<td style="text-align: left;">etc/tiff/20-24241-B2.tif</td>
+<td style="text-align: left;">V43L25-333</td>
+<td style="text-align: left;">A1</td>
+<td style="text-align: left;">etc/json/20_24241_B2.json</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>In the working directory, I have <code>${sample}_{S7,S8}_{L001,L002}_{R1,R2}_001.fastq.gz</code> files. <code>id</code> and <code>sample</code> arguments in the .csv file must follow such format above. I think <code>spaceranger</code> is expecting some pre-determined <code>fastq.gz</code> read pairs across a couple of sequencing lanes.</p>
+<p><code>etc/</code> is a subdirectory with CytAssist images, hi-res images, and alignment json files.</p>
+</section>
+<section id="nextflow" class="level3">
+<h3 class="anchored" data-anchor-id="nextflow">Nextflow</h3>
+<p>The full <code>main.nf</code> looks like this:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource groovy number-lines code-with-copy"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1"></a>nextflow<span class="op">.</span>enable<span class="op">.</span>dsl<span class="op">=</span><span class="dv">2</span></span>
+<span id="cb2-2"><a href="#cb2-2"></a>params<span class="op">.</span>csv <span class="op">=</span> <span class="st">"</span><span class="ss">$projectDir</span><span class="st">/metadata.csv"</span></span>
+<span id="cb2-3"><a href="#cb2-3"></a>params<span class="op">.</span>transcriptome <span class="op">=</span> <span class="st">"/home/skim823/projects/def-fdick/skim823/genomes/spacerange_hg38/refdata-gex-GRCh38-2020-A"</span></span>
+<span id="cb2-4"><a href="#cb2-4"></a>params<span class="op">.</span>probeSet <span class="op">=</span> <span class="st">"/home/skim823/projects/def-fdick/skim823/programs/spaceranger-2.1.1/probe_sets/Visium_Human_Transcriptome_Probe_Set_v2.0_GRCh38-2020-A.csv"</span></span>
+<span id="cb2-5"><a href="#cb2-5"></a></span>
+<span id="cb2-6"><a href="#cb2-6"></a>csv_ch <span class="op">=</span> <span class="bu">Channel</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>            <span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>csv<span class="op">)</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>            <span class="op">.</span><span class="fu">splitCsv</span><span class="op">(</span>header<span class="op">:</span> <span class="kw">true</span><span class="op">)</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>            <span class="op">.</span><span class="fu">map</span><span class="op">(</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a>                row <span class="op">-&gt;</span> </span>
+<span id="cb2-11"><a href="#cb2-11"></a>                <span class="fu">tuple</span><span class="op">(</span>row<span class="op">.</span>id<span class="op">,</span></span>
+<span id="cb2-12"><a href="#cb2-12"></a>                row<span class="op">.</span>sample<span class="op">,</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>                <span class="fu">file</span> <span class="op">(</span>row<span class="op">.</span>cytaimage<span class="op">),</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a>                <span class="fu">file</span> <span class="op">(</span>row<span class="op">.</span>image<span class="op">),</span></span>
+<span id="cb2-15"><a href="#cb2-15"></a>                row<span class="op">.</span>slide<span class="op">,</span></span>
+<span id="cb2-16"><a href="#cb2-16"></a>                row<span class="op">.</span>area<span class="op">,</span></span>
+<span id="cb2-17"><a href="#cb2-17"></a>                <span class="fu">file</span><span class="op">(</span>row<span class="op">.</span>json<span class="op">))</span></span>
+<span id="cb2-18"><a href="#cb2-18"></a>            <span class="op">)</span></span>
+<span id="cb2-19"><a href="#cb2-19"></a></span>
+<span id="cb2-20"><a href="#cb2-20"></a>transcriptome_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>transcriptome<span class="op">)</span></span>
+<span id="cb2-21"><a href="#cb2-21"></a>probeSet_ch <span class="op">=</span> <span class="bu">Channel</span><span class="op">.</span><span class="fu">fromPath</span><span class="op">(</span>params<span class="op">.</span>probeSet<span class="op">)</span></span>
+<span id="cb2-22"><a href="#cb2-22"></a></span>
+<span id="cb2-23"><a href="#cb2-23"></a>process SPACECOUNT <span class="op">{</span></span>
+<span id="cb2-24"><a href="#cb2-24"></a>    publishDir <span class="st">"</span><span class="ss">$projectDir</span><span class="st">/output"</span><span class="op">,</span> mode<span class="op">:</span> <span class="st">"copy"</span></span>
+<span id="cb2-25"><a href="#cb2-25"></a>    cpus <span class="dv">32</span></span>
+<span id="cb2-26"><a href="#cb2-26"></a>    memory <span class="fl">128.</span>GB</span>
+<span id="cb2-27"><a href="#cb2-27"></a>    time <span class="fl">2.</span>h</span>
+<span id="cb2-28"><a href="#cb2-28"></a>    clusterOptions <span class="st">'--account=def-muram'</span></span>
+<span id="cb2-29"><a href="#cb2-29"></a></span>
+<span id="cb2-30"><a href="#cb2-30"></a>    input<span class="op">:</span></span>
+<span id="cb2-31"><a href="#cb2-31"></a>    tuple <span class="fu">val</span><span class="op">(</span>id<span class="op">),</span> <span class="fu">val</span><span class="op">(</span>sample<span class="op">),</span> <span class="fu">file</span> <span class="op">(</span>cytaimage<span class="op">),</span> <span class="fu">file</span> <span class="op">(</span>image<span class="op">),</span> <span class="fu">val</span><span class="op">(</span>slide<span class="op">),</span> <span class="fu">val</span><span class="op">(</span>area<span class="op">),</span> <span class="fu">file</span> <span class="op">(</span>json<span class="op">)</span></span>
+<span id="cb2-32"><a href="#cb2-32"></a>    <span class="co">// setting directories as path() doesn't seem to work. It can't resolve relative paths. If I just use val(), I just have to express parameters as absolute paths in the script. </span></span>
+<span id="cb2-33"><a href="#cb2-33"></a>    <span class="co">// path doesn't work but file does!</span></span>
+<span id="cb2-34"><a href="#cb2-34"></a>    path transcriptome</span>
+<span id="cb2-35"><a href="#cb2-35"></a>    path probeSet</span>
+<span id="cb2-36"><a href="#cb2-36"></a></span>
+<span id="cb2-37"><a href="#cb2-37"></a>    output<span class="op">:</span></span>
+<span id="cb2-38"><a href="#cb2-38"></a>    path <span class="st">"</span><span class="ss">$id</span><span class="st">/"</span></span>
+<span id="cb2-39"><a href="#cb2-39"></a></span>
+<span id="cb2-40"><a href="#cb2-40"></a>    script<span class="op">:</span></span>
+<span id="cb2-41"><a href="#cb2-41"></a>    <span class="st">"""</span></span>
+<span id="cb2-42"><a href="#cb2-42"></a><span class="st">    spaceranger count --id </span><span class="ss">$id</span><span class="st">  --fastqs </span><span class="ss">$baseDir</span><span class="st"> --sample </span><span class="ss">$sample</span><span class="st"> --cytaimage </span><span class="ss">$cytaimage</span><span class="st"> --image </span><span class="ss">$image</span><span class="st"> --slide </span><span class="ss">$slide</span><span class="st"> --area </span><span class="ss">$area</span><span class="st"> --loupe-alignment </span><span class="ss">$json</span><span class="st"> --transcriptome </span><span class="ss">$transcriptome</span><span class="st"> --probe-set </span><span class="ss">$probeSet</span></span>
+<span id="cb2-43"><a href="#cb2-43"></a><span class="st">    """</span></span>
+<span id="cb2-44"><a href="#cb2-44"></a><span class="op">}</span></span>
+<span id="cb2-45"><a href="#cb2-45"></a></span>
+<span id="cb2-46"><a href="#cb2-46"></a>workflow <span class="op">{</span></span>
+<span id="cb2-47"><a href="#cb2-47"></a>    <span class="fu">SPACECOUNT</span><span class="op">(</span>csv_ch<span class="op">,</span> transcriptome_ch<span class="op">.</span><span class="fu">collect</span><span class="op">(),</span> probeSet_ch<span class="op">.</span><span class="fu">collect</span><span class="op">())</span></span>
+<span id="cb2-48"><a href="#cb2-48"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="callout callout-style-default callout-important callout-titled">
+<div class="callout-header d-flex align-content-center">
+<div class="callout-icon-container">
+<i class="callout-icon"></i>
+</div>
+<div class="callout-title-container flex-fill">
+Important
+</div>
+</div>
+<div class="callout-body-container callout-body">
+<ul>
+<li><p>within <code>.map()</code> (lines 9-18), must use <code>file()</code> instead of <code>path()</code> (error otherwise)</p></li>
+<li><p>line 34: must use <code>file()</code> for file paths instead of… <code>path()</code> (no error, but the relative path does not resolve). I thought <code>file()</code> was DSL=1 lingo, but maybe not?</p></li>
+<li><p><a href="https://nextflow-io.github.io/patterns/process-per-csv-record/">reference</a></p></li>
+</ul>
+</div>
+</div>
+<div class="center">
+<p>\ (•◡•) /</p>
+</div>
 
 
+</section>
 
-
-<div class="quarto-listing quarto-listing-container-default" id="listing-listing">
-<div class="list quarto-listing-default">
-<div class="quarto-post image-right" data-index="0" data-categories="R,shiny,data visualization,2024" data-listing-date-sort="1715745600000" data-listing-file-modified-sort="1715791940909" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="4" data-listing-word-count-sort="692">
-<div class="thumbnail">
-<p><a href="./posts/240515-shiny-pt1/index.html" class="no-external"></a></p><a href="./posts/240515-shiny-pt1/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/240515-shiny-pt1/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/240515-shiny-pt1/index.html" class="no-external">Shiny app for data viz part 1</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/240515-shiny-pt1/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('R'); return false;">
-R
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('shiny'); return false;">
-shiny
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('data visualization'); return false;">
-data visualization
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('2024'); return false;">
-2024
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/240515-shiny-pt1/index.html" class="no-external">understanding the flow between inputs, variables and outputs</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/240515-shiny-pt1/index.html" class="no-external">
-<div class="listing-date">
-May 15, 2024
-</div>
-<div class="listing-author">
-jk
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="1" data-categories="nextflow,2024" data-listing-date-sort="1715140800000" data-listing-file-modified-sort="1715791943996" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="3" data-listing-word-count-sort="580">
-<div class="thumbnail">
-<p><a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external"></a></p><a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external">Nextflow: using splitCsv() operator</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('nextflow'); return false;">
-nextflow
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('2024'); return false;">
-2024
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external">a tech tip to future self</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/240508-nextflow-splitcsv/index.html" class="no-external">
-<div class="listing-date">
-May 8, 2024
-</div>
-<div class="listing-author">
-jk
-</div>
-</a>
-</div>
-</div>
-<div class="quarto-post image-right" data-index="2" data-categories="news,2024" data-listing-date-sort="1715054400000" data-listing-file-modified-sort="1715787163858" data-listing-date-modified-sort="NaN" data-listing-reading-time-sort="1" data-listing-word-count-sort="115">
-<div class="thumbnail">
-<p><a href="./posts/240508-first-blog/index.html" class="no-external"></a></p><a href="./posts/240508-first-blog/index.html" class="no-external">
-<div class="listing-item-img-placeholder card-img-top" >&nbsp;</div>
-</a><p><a href="./posts/240508-first-blog/index.html" class="no-external"></a></p>
-</div>
-<div class="body">
-<h3 class="no-anchor listing-title">
-<a href="./posts/240508-first-blog/index.html" class="no-external">First blog</a>
-</h3>
-<div class="listing-subtitle">
-<a href="./posts/240508-first-blog/index.html" class="no-external"></a>
-</div>
-<div class="listing-categories">
-<div class="listing-category" onclick="window.quartoListingCategory('news'); return false;">
-news
-</div>
-<div class="listing-category" onclick="window.quartoListingCategory('2024'); return false;">
-2024
-</div>
-</div>
-<div class="listing-description">
-<a href="./posts/240508-first-blog/index.html" class="no-external">hi there</a>
-</div>
-</div>
-<div class="metadata">
-<a href="./posts/240508-first-blog/index.html" class="no-external">
-<div class="listing-date">
-May 7, 2024
-</div>
-<div class="listing-author">
-jk
-</div>
-</a>
-</div>
-</div>
-</div>
-<div class="listing-no-matching d-none">
-No matching items
-</div>
-</div><a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {
