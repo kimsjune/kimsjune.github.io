@@ -109,6 +109,7 @@ Some takeaways:
 There are many other things that I could document about this app. Hosting it online for free through [the Digital Alliance of Canada's cloud](https://docs.alliancecan.ca/wiki/Cloud)) was a bit of a journey. The how and why might be the topic for a part 2. In a part 3, I might document some cute tricks in `R` to process data with reactivity.
 
 You can find the entire app's code [here](https://github.com/kimsjune/ild-shiny-app). The raw and processed data underpinning the app are under embargo at this time.
+
 ::: center
 \\ (•◡•) /
 :::
