@@ -13,9 +13,9 @@ execute:
   echo: true
 ---
 
-I'm hosting a `shiny` app written in `R` on a [cloud server](https://fibrosingild.com). Its purpose is to allow users to interactively visualize spatial gene expression data from fibrosing interstitial lung disease patients. Such interactivity is useful here because there are too many possible logical comparisons between groups than what can reasonably fit in a manuscript. 
+I'm hosting a `shiny` app written in `R` on a [cloud server](https://fibrosingild.com). Its purpose is to allow users to interactively visualize spatial gene expression data from fibrosing interstitial lung disease patients. Such interactivity is useful here because there are too many possible logical comparisons between groups than what can reasonably fit in a manuscript.
 
-At one point, I was losing track of how inputs were being processed into intermediate/final outputs. I wrote down a pen and paper version before, but it's gotten even more complicated than that. 
+At one point, I was losing track of how inputs were being processed into intermediate/final outputs. I wrote down a pen and paper version before, but it's gotten even more complicated than that.
 
 `Nextflow` introduced me to `mermaid` flowcharts. I wrote down the following on the [live editor](https://mermaid.live):
 
@@ -91,20 +91,24 @@ Nodes represent input, data and/or output variables. Curves represent reactive e
 
 Some takeaways:
 
-  - the whole thing really depends on `input$anno_type_select` and `input$run`, which are user-selected biological groups and pressing run, respectively
-  - mostly straightforward *except* for `toggle::*`
-    - these open customization panels that are not enabled by default
-    - if enabled, they have to take additional input from users
-    - input through `input$toggle_*` activates `toggle::*`
-    - this activates `output$*` through `uiOutput`
-      - since this is an `output`, this is shown to users
-    - `input`s are baked into these `output`s!!
-    - reactive expressions take these `input`s downstream
-    
-    
-You can find the entire app's code [here](https://github.com/kimsjune/ild-shiny-app).
+-   the whole thing really depends on `input$anno_type_select` and `input$run`, which are user-selected biological groups and pressing run, respectively
+-   visual outputs (PCA, table, volcano, or heatmap) are created using `renderUI` while their downloadable counterparts are created using `downloadHandler`
+    -   I don't think whatever has been `renderUI`-ed can be converted into downloadable image files
+-   mostly straightforward *except* for `toggle::*`
+    -   these open customization panels that are not enabled by default
+    -   if enabled, they have to take additional input from users
+    -   input through `input$toggle_*` activates `toggle::*`
+    -   this activates `output$*` through `uiOutput`
+        -   since this is an `output`, this is shown to users
+    -   `input`s are baked into these `output`s!!
+    -   reactive expressions take these `input`s downstream
+-   flowchart is written by hand, so there can be some mistakes and omissions
+    -   but, writing it out could be helpful for really getting down to the nitty-gritty of what is exactly happening
+    -   is there a package that can automatically generate a flowchart?
 
+There are many other things that I could document about this app. Hosting it online for free through [the Digital Alliance of Canada's cloud](https://docs.alliancecan.ca/wiki/Cloud)) was a bit of a journey. The how and why might be the topic for a part 2. In a part 3, I might document some cute tricks in `R` to process data with reactivity.
+
+You can find the entire app's code [here](https://github.com/kimsjune/ild-shiny-app). The raw and processed data underpinning the app are under embargo at this time.
 ::: center
 \\ (•◡•) /
 :::
-  
