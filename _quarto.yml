@@ -19,10 +19,13 @@ website:
       - cv.qmd
       - icon: github
         href: https://github.com/kimsjune
+      - icon: envelope
+        href: mailto:seung.kim@lhsc.on.ca
       # - icon: twitter
       #   href: https://twitter.com
 format:
   html:
+    email-obfuscation: javascript
     theme: 
       light: flatly
       dark: darkly
