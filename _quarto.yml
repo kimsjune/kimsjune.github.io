@@ -16,7 +16,8 @@ website:
         href: about/index.qmd
       - text: Posts
         href: /
-      - cv.qmd
+      - text: CV
+        href: cv/index.qmd
       - icon: github
         href: https://github.com/kimsjune
       - icon: envelope

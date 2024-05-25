@@ -1,0 +1,230 @@
+---
+title: "Shiny app for data viz part 2"
+author: "jk"
+description: hosting a shiny app on the web
+date: "2024-05-22"
+format: html 
+    # mermaid:
+    #   theme: default
+toc: true
+categories: [R, shiny, data visualization, 2024]
+execute:
+  echo: true
+  
+draft: true
+---
+
+### Rationale
+
+Here is the [first part](./../240515-shiny-pt1/index.qmd) to this series.
+
+Once I had a production version of my app (to be discussed in part *3* like a movie prequel), I wanted to make it accessible. What exactly is the point if I'm the only one using it in my bedroom? Close to nada. So, it got me thinking about deployment options. My self-imposed requirement was that it couldn't cost me or the lab any money.
+
+### Option 1
+
+The first option I tried was publishing on [shinyapps.io](https://www.shinyapps.io). This initially failed because their server did not have [some dependency](https://github.com/rstudio/shinyapps-package-dependencies/issues/358) installed. I chimed in on this issue, promptly gave up, and looked for other options. I only recently made my first PR that was able to [fix this](https://github.com/rstudio/shinyapps-package-dependencies/pull/377). Now the app is successfully published, but it crashes as soon as I do anything with it. I think it's due to lack of memory (1GB) with my free tier account. To get a custom URL and more performance, it's going to cost cool *\$349/month* 🙃. On to the next option.
+
+### Option 2
+
+Some institutions like [Waterloo](https://uwaterloo.ca/math-faculty-computing-facility/services/r-shiny-server) and [Toronto](https://cran.utstat.utoronto.ca) seem to host shiny apps for free. Not Western or LHSC 😭. On to the next option.
+
+### Option 3
+
+I could make a docker image that users can download and run locally. But I thought this still might be a barrier to some, so I ruled it out.
+
+### The last resort
+
+[The Digital Alliance of Canada](https://alliancecan.ca/en/services/advanced-research-computing/national-services/cloud) offers free virtual machines to those eager beavers. A VM can run shiny server that persistently hosts my app.
+
+#### 1. Cloud setup
+
+Creating and accessing a new VM is covered thoroughly [here](https://www.youtube.com/watch?v=JFFlkPrGFbM). Through trial and error, I learned that my instance(s) must have at least 4GB of memory and 20GB of volume size.
+
+#### 2. Shiny server
+
+Shiny Server can be installed following this [guide](https://posit.co/download/shiny-server/).
+
+::: callout-important
+All the `R` libraries that the app uses must be installed (`sudo R` to enable write permission).
+
+Those R libraries in turn depend on Linux packages that needs to be installed too.
+
+-   I don't know if there is a way to know what these dependencies are in advance
+
+    -   maybe have to test out the app in a local shiny server running on Linux (through WSL perhaps)
+
+-   I just had to look at the error log (saved to `/var/log/shiny-server/*.log`) and painstakingly install missing packages with `sudo apt-get install`
+:::
+
+
+`/etc/shiny-server/shiny-server.conf` looks like this:
+
+```{.bash code-line-numbers="true"}
+# Instruct Shiny Server to run applications as the user "shiny"
+run_as ubuntu;
+
+# Define a server that listens on port 3838
+server {
+  listen 3838;
+
+  # Define a location at the base URL
+  location / {
+
+    # Host the directory of Shiny Apps stored in this directory
+    # site_dir /srv/shiny-server;
+    site_dir /home/ubuntu/ild-shiny-app;
+    # Log all Shiny output to files in this directory
+    log_dir /var/log/shiny-server;
+
+    # When a user visits the base URL rather than a particular application,
+    # an index of the applications available in this directory will be shown.
+    directory_index on;
+  }
+}
+```
+- My app is hosted on `localhost:3838` (root URL).
+
+- `/home/ubuntu/ild-shiny-app` is where I cloned my git repo of the shiny app. 
+
+#### 3. nginx reverse proxy
+
+While Shiny Sever is hosting the app locally, nginx takes HTTP/HTTPS traffic to the local URL and back. This seems like what a reverse proxy is. More detail [here](https://support.posit.co/hc/en-us/articles/213733868-Running-Shiny-Server-with-a-Proxy) and [here](https://weihanglo.tw/debian-R-setup/doc/other_nginx.html). I also set up two worker nodes downstream of a load balancer.
+
+After the smoke cleared and the dust settled, this is my `/etc/nginx/nginx.conf` file:
+
+```{.bash code-line-numbers="true"}
+user www-data;
+worker_processes auto;
+pid /run/nginx.pid;
+include /etc/nginx/modules-enabled/*.conf;
+
+events {
+        worker_connections 768;
+        # multi_accept on;
+}
+
+http {
+     log_format  main_ext  '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" '
+                      '"$host" sn="$server_name" '
+                      'rt=$request_time '
+                      'ua="$upstream_addr" us="$upstream_status" '
+                      'ut="$upstream_response_time" ul="$upstream_response_length" '
+                      'cs=$upstream_cache_status' ;
+     upstream backend {
+                      ip_hash;
+                      server    172.16.111.219;
+                      server    172.16.111.150;
+                      server    localhost;
+     }
+
+
+     map $http_upgrade $connection_upgrade {
+          default upgrade;
+          ''      close;
+     }
+     include /etc/nginx/mime.types;
+     server {
+            server_name fibrosingild.com;
+            server_name www.fibrosingild.com;
+
+
+            location / {
+                        proxy_pass http://localhost:3838;
+                        proxy_redirect / $scheme://$http_host/;
+                        proxy_http_version 1.1;
+                        proxy_set_header Upgrade $http_upgrade;
+                        proxy_set_header Connection $connection_upgrade;
+                        proxy_set_header Host $http_host;
+                        proxy_read_timeout 20d;
+                        proxy_buffering off;
+            }
+
+
+    listen 443 ssl; # managed by Certbot
+    ssl_certificate /etc/letsencrypt/live/fibrosingild.com/fullchain.pem; # managed by Certbot
+    ssl_certificate_key /etc/letsencrypt/live/fibrosingild.com/privkey.pem; # managed by Certbot
+    include /etc/letsencrypt/options-ssl-nginx.conf; # managed by Certbot
+    ssl_dhparam /etc/letsencrypt/ssl-dhparams.pem; # managed by Certbot
+
+
+}
+
+    ##
+    # Basic Settings
+    ##
+
+    sendfile on;
+    tcp_nopush on;
+    types_hash_max_size 2048;
+    # server_tokens off;
+
+    # server_names_hash_bucket_size 64;
+    # server_name_in_redirect off;
+
+    include /etc/nginx/mime.types;
+    default_type application/octet-stream;
+
+    ##
+    # SSL Settings
+    ##
+
+    ssl_protocols TLSv1 TLSv1.1 TLSv1.2 TLSv1.3; # Dropping SSLv3, ref: POODLE
+    ssl_prefer_server_ciphers on;
+
+    ##
+    # Logging Settings
+    ##
+
+    access_log /var/log/nginx/access.log main_ext;
+    error_log /var/log/nginx/error.log warn;
+
+    ##
+    # Gzip Settings
+    ##
+
+    gzip on;
+
+    # gzip_vary on;
+    # gzip_proxied any;
+    # gzip_comp_level 6;
+    # gzip_buffers 16 8k;
+    # gzip_http_version 1.1;
+    # gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;
+
+    ##
+    # Virtual Host Configs
+    ##
+
+    include /etc/nginx/conf.d/*.conf;
+    include /etc/nginx/sites-enabled/*;
+
+    server {
+            if ($host = www.fibrosingild.com) {
+                return 301 https://$host$request_uri;
+                                          } # managed by Certbot
+    }
+}
+
+
+```
+lines 11-19:
+- collects logging information for NGINX [Amplify](https://docs.nginx.com/nginx-amplify/) (health checks)
+
+lines 20-25:
+- sends HTTP requests to downstream worker nodes at those floating IPs 
+
+line 34:
+- my custom domain name
+
+lines 37-46:
+- reverse proxy
+
+SSL:
+- all lines with `#managed by Certbot` was auto-generated with [Certbot](https://certbot.eff.org/)
+- this enables HTTPS for free
+
+::: center
+\\ (•◡•) /
+:::
