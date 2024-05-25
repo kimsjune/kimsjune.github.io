@@ -16,7 +16,7 @@ about:
 
 I'm Joon.
 
-:::{.gif}
+::: gif
 [![](giphy.gif)](https://media.giphy.com/media/v1.Y2lkPTc5MGI3NjExZHhoOXU0bmdhaHIwMDF4cTJ4YXUzaHF5YnJmY2h2YXNkMmd1NDZxZCZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/Zy7s96dP38MlQe3OjG/giphy.gif)
 :::
 
@@ -24,10 +24,10 @@ I trained under [Dr. Fred Dick](https://publish.uwo.ca/~fdick/Lab_Web_Page/index
 
 ## More about me
 
-Despite being Korean, I have both first and middle names. Something to do with a mistake on my first passport application. 'Seung' part is challenging. It's supposed to be as such: <audio controls src="audio/pronunciation.mp3"></audio>.
+Despite being Korean, I have both first and middle names: Seung and June. It should really be Seungjune, all first name and no middle name. Something to do with a mistake on my first passport application. 'Seung' part is challenging. It's supposed to be as such: <audio controls src="audio/pronunciation.mp3"></audio>. I could have gone with my legal middle name, but my seventh grade self was keen on not being awkwardly misgendered.
 
 ## Purpose of this blog
 
-I find myself going back to my old code to find some key snippets that I cannot recall. It's a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a ["digital garden"](https://maggieappleton.com/garden-history), but I'm anticipating more of a digital yard waste.
+I find myself going back to my old code to find some key snippets that I cannot recall. Or it's some one-off trick that I coudln't possible retain. It's a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a ["digital garden"](https://maggieappleton.com/garden-history). The outlook for this blog does not look good given my experience with gardening. 
 
 There are some coding "projects" in planning/dev phase that I wouldn't be able to digitally document otherwise.
