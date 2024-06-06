@@ -1,0 +1,36 @@
+---
+title: "A primer on RNA-seq analysis"
+author: "jk"
+description: workshop material
+date: "2024-06-05"
+format: 
+  html: 
+    mermaid:
+      theme: default
+toc: true
+categories: [R, RNA-seq, HPC, revealjs, data visualization, 2024]
+execute:
+  echo: true
+bibliography: references.bib
+---
+
+![](triangle.jpg)
+
+Above diagram from @triangle nicely depicts how "data science" takes a combination of three kinds of disciplines. It can be a bit daunting to expand our expertise away from our home vertex. I was fortunate to be in a great training environment: my supervisor and the Howard Hughes Medical Institute sponsored me to attend the [advanced sequencing technolgies/bioinformatics course](https://meetings.cshl.edu/courses.aspx?course=c-seqtec&year=23) at Cold Spring Harbor Labs, and senior graduate students organized bioinformatics workshops. It's not that these two taught me everything I know about bioinformatics now; they got the ball rolling in a really good direction.
+
+So I guess I should pay it forward. To whom? I'm not sure. I threw some stuff on RNA-seq together in 2023 for trainees on the 4th floor VRL---a pilot run, and attendance took a nose dive after the second week. A big problem (among many others) was copying and pasting my code from Powerpoint text boxes. Sometimes there would be a new line character error. Since then, I learned about HTML slides with xaringan or Quarto revealjs that have native code block support 🥳.
+
+Links to my slides are on my [github pages](https://kimsjune.github.io/ccir-rnaseq)[^1]. The goal of this series is to demonstrate a RNA-seq workflow from Illumina reads to plots (PCA, Volcano, heatmap). At the time of writing, there are three weeks (one hour session each) worth of material. Week 1 slides are shown below as a teaser.
+
+{{< revealjs "https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" >}}[^2]
+
+
+
+::: center
+\\ (•◡•) /
+:::
+
+
+[^1]: I think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the `docs` directory in the top directory of my repo, I made a Quarto website (`qmd`) rendered to html. I got rid of the default `index.html` that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a `_quarto.yml` to this index file, but it seemed to destroy the rendering.
+
+[^2]: `embedio` extension used to embed these slides
