@@ -28,13 +28,6 @@
     "text": "Footnotes\n\n\nI think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the docs directory in the top directory of my repo, I made a Quarto website (qmd) rendered to html. I got rid of the default index.html that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a _quarto.yml to this index file, but it seemed to destroy the rendering.↩︎\nembedio extension used to embed these slides↩︎"
   },
   {
-    "objectID": "cv.html",
-    "href": "cv.html",
-    "title": "CV",
-    "section": "",
-    "text": "Education\nPhD Biochemistry  Western University 2016-2022\nBSc Hon. Specialization in Biochemistry of Infection and Immunity  Western University 2012-2016\n\n\nBioinformatics competencies\ncommand line (proficient):\n\ntools: bowtie2, bwa, STAR, salmon, kallisto, fastqc, fastp, featureCounts, htseq-count, deeptools\nworkflow: snakemake, nextflow\nHPC: linux, slurm, globus\n\nR (proficient):\n\ndifferential gene expression analysis: edgeR, DESeq2, limma, voom, standR\ndata wrangling and visualization: ggplot2, ComplexHeatmap, tidyverse\ninteractivity: shiny\n\npython (beginner):\n\nnumpy, pandas, matplotlib, scanpy, squidpy\n\n\n\nPeer reviewed publications\nKim, S. J., Cecchini, M.J., Woo, E., Jayawardena, N., Passos, D. T., Dick, F. A. & Mura, M. Spatially resolved gene expression profiles in fibrosing interstitial lung diseases. Thorax (under review) (2024).\nKim, S. J., Kiser, P. K., Asfaha, S., DeKoter, R. P. & Dick, F. A. EZH2 inhibition stimulates repetitive element expression and viral mimicry in resting splenic B cells. The EMBO Journal 42, e114462 (2023).\nKim, S. J., MacDonald, J. I. & Dick, F. A. Phosphorylation of the RB C-terminus regulates condensin II release from chromatin. Journal of Biological Chemistry 296, (2021).\nKim, S. J., Asfaha, S. & Dick, F. A. CDK4 inhibitors thwart immunity by inhibiting phospho-RB-NF-κB complexes. Mol Cell 73, 1–2 (2019).\nIshak, C. A. et al. An RB-EZH2 complex mediates silencing of repetitive DNA sequences. Mol Cell 64, 1074–1087 (2016).\n\n\nPresentations\nKim, S. J., Kiser, P. K., DeKoter, R. P. & Dick, F. A. Elucidating the mechanism behind EZH2 inhibition and immune activation. Oncology Research & Education Day.  London ON, Canada 2023\nKim, S. J., Kiser, P. K., DeKoter, R. P. & Dick, F. A. Elucidating the mechanism behind EZH2 inhibition and immune activation. Oncology Research & Education Day.  London ON, Canada 2022\nKim, S. J. & Dick, F.A. Elucidating the mechanism behind EZH2 inhibition and anti-viral immune signaling. Oncology Research & Education Day.  London ON, Canada 2021\nKim, S. J., Ishak, C.A. & Dick, F.A. Pharmacological inhibition of EZH2 activates anti-viral immunity. London Immuno-Oncology Symposium  London ON, Canada 2020\nKim, S. J., Ishak, C.A. & Dick, F.A. Pharmacological inhibition of E1A-insensitive pRB-E2F1-EZH2 complex activates anti-viral immunity. ICGEB DNA Tumour Virus Meeting.  Trieste, Italy. 2019\n\n\nAwards\nDr. William Zaharia Award 2024\nOntario Graduate Scholarship 2020\nHoward Hughes Medical Institute Stipend 2018\nCancer Research and Technology Transfer Scholarship 2017\n\n\nAcademic experiences\nAdvanced Sequencing Technologies and Applications.  Cold Spring Harbor Laboratory 2018\n\n\n\n\nSource for CV style and guide:\nHuang, Cynthia. 2023. “Publishing HTML and PDF Versions of a Quarto CV Without LaTex.” August 22, 2023. https://www.cynthiahqy.com/posts/cv-html-pdf.\n\n\n Back to top"
-  },
-  {
     "objectID": "about/index.html",
     "href": "about/index.html",
     "title": "About",
@@ -63,18 +56,11 @@
     "text": "Purpose of this blog\nI find myself going back to my old code to find some key snippets that I cannot recall. Or it’s some one-off trick that I couldn’t possible retain. It’s a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a “digital garden”. The outlook for this blog does not look good given my experience with gardening.\nThere are some coding “projects” in planning/dev phase that I wouldn’t be able to digitally document otherwise."
   },
   {
-    "objectID": "cv/index.html",
-    "href": "cv/index.html",
-    "title": "Curriculum vitae",
-    "section": "",
-    "text": "Download current CV\n  \n\n\n\n  \n\n\n\n\n Back to top"
-  },
-  {
     "objectID": "index.html",
     "href": "index.html",
     "title": "blog",
     "section": "",
-    "text": "Nextflow: using splitCsv() operator\n\n\n\n\n\n\nnextflow\n\n\n2024\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\n\n\n\nR\n\n\nshiny\n\n\ndata visualization\n\n\n2024\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\n\n\n\nR\n\n\nRNA-seq\n\n\nHPC\n\n\nrevealjs\n\n\ndata visualization\n\n\n2024\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\n\n\n\nnews\n\n\n2024\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\n\nNo matching items\n\n Back to top"
+    "text": "Nextflow: using splitCsv() operator\n\n\n\n\n\n\nnextflow\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\n\n\n\nR\n\n\nshiny\n\n\ndata visualization\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\n\n\n\nR\n\n\nRNA-seq\n\n\nHPC\n\n\nrevealjs\n\n\ndata visualization\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\n\n\n\nnews\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\n\nNo matching items\n\n Back to top"
   },
   {
     "objectID": "posts/230508-first-blog/index.html",

@@ -6,7 +6,7 @@ date: "2024-05-08"
 format: 
   html: default
 toc: true
-categories: [nextflow, 2024]
+categories: [nextflow]
 ---
 
 ### Introduction

@@ -3,7 +3,7 @@ title: "First blog"
 author: "jk"
 date: "2023-05-08"
 description: hi there
-categories: [news, 2024]
+categories: [news]
 ---
 
 After hemming and hawing on whether to create a blog and which tool to use, here is my first post 😄.

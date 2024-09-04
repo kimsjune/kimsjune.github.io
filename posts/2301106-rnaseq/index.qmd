@@ -8,7 +8,7 @@ format:
     mermaid:
       theme: default
 toc: true
-categories: [R, RNA-seq, HPC, revealjs, data visualization, 2024]
+categories: [R, RNA-seq, HPC, revealjs, data visualization]
 execute:
   echo: true
 bibliography: references.bib
