@@ -28,6 +28,6 @@ Despite being Korean, I have both first and middle names: Seung and June. It sho
 
 ## Purpose of this blog
 
-I find myself going back to my old code to find some key snippets that I cannot recall. Or it's some one-off trick that I coudln't possible retain. It's a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a ["digital garden"](https://maggieappleton.com/garden-history). The outlook for this blog does not look good given my experience with gardening. 
+I find myself going back to my old code to find some key snippets that I cannot recall. Or it's some one-off trick that I couldn't possible retain. It's a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a ["digital garden"](https://maggieappleton.com/garden-history). The outlook for this blog does not look good given my experience with gardening. 
 
 There are some coding "projects" in planning/dev phase that I wouldn't be able to digitally document otherwise.

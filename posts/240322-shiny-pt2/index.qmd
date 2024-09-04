@@ -2,7 +2,7 @@
 title: "Shiny app for data viz part 2"
 author: "jk"
 description: hosting a shiny app on the web
-date: "2024-05-22"
+date: "2024-03-22"
 format: html 
     # mermaid:
     #   theme: default
@@ -16,7 +16,7 @@ draft: true
 
 ### Rationale
 
-Here is the [first part](./../240515-shiny-pt1/index.qmd) to this series.
+Here is the [first part](./../240115-shiny-pt1/index.qmd) to this series.
 
 Once I had a production version of my app (to be discussed in part *3* like a movie prequel), I wanted to make it accessible. What exactly is the point if I'm the only one using it in my bedroom? Close to nada. So, it got me thinking about deployment options. My self-imposed requirement was that it couldn't cost me or the lab any money.
 
@@ -56,10 +56,9 @@ Those R libraries in turn depend on Linux packages that needs to be installed to
 -   I just had to look at the error log (saved to `/var/log/shiny-server/*.log`) and painstakingly install missing packages with `sudo apt-get install`
 :::
 
-
 `/etc/shiny-server/shiny-server.conf` looks like this:
 
-```{.bash code-line-numbers="true"}
+``` {.bash code-line-numbers="true"}
 # Instruct Shiny Server to run applications as the user "shiny"
 run_as ubuntu;
 
@@ -82,9 +81,10 @@ server {
   }
 }
 ```
-- My app is hosted on `localhost:3838` (root URL).
 
-- `/home/ubuntu/ild-shiny-app` is where I cloned my git repo of the shiny app. 
+-   My app is hosted on `localhost:3838` (root URL).
+
+-   `/home/ubuntu/ild-shiny-app` is where I cloned my git repo of the shiny app.
 
 #### 3. nginx reverse proxy
 
@@ -92,7 +92,7 @@ While Shiny Sever is hosting the app locally, nginx takes HTTP/HTTPS traffic to 
 
 After the smoke cleared and the dust settled, this is my `/etc/nginx/nginx.conf` file:
 
-```{.bash code-line-numbers="true"}
+``` {.bash code-line-numbers="true"}
 user www-data;
 worker_processes auto;
 pid /run/nginx.pid;
@@ -207,23 +207,17 @@ http {
     }
 }
 
-
 ```
-lines 11-19:
-- collects logging information for NGINX [Amplify](https://docs.nginx.com/nginx-amplify/) (health checks)
 
-lines 20-25:
-- sends HTTP requests to downstream worker nodes at those floating IPs 
+lines 11-19: - collects logging information for NGINX [Amplify](https://docs.nginx.com/nginx-amplify/) (health checks)
 
-line 34:
-- my custom domain name
+lines 20-25: - sends HTTP requests to downstream worker nodes at those floating IPs
 
-lines 37-46:
-- reverse proxy
+line 34: - my custom domain name
 
-SSL:
-- all lines with `#managed by Certbot` was auto-generated with [Certbot](https://certbot.eff.org/)
-- this enables HTTPS for free
+lines 37-46: - reverse proxy
+
+SSL: - all lines with `#managed by Certbot` was auto-generated with [Certbot](https://certbot.eff.org/) - this enables HTTPS for free
 
 ::: center
 \\ (•◡•) /

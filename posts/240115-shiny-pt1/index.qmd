@@ -2,7 +2,7 @@
 title: "Shiny app for data viz part 1"
 author: "jk"
 description: understanding the flow between inputs, variables and outputs
-date: "2024-05-15"
+date: "2024-01-15"
 format: 
   html: 
     mermaid:

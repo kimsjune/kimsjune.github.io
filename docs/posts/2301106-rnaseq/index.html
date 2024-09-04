@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="jk">
-<meta name="dcterms.date" content="2024-05-22">
-<meta name="description" content="hosting a shiny app on the web">
+<meta name="dcterms.date" content="2023-11-06">
+<meta name="description" content="workshop material">
 
-<title>Joon’s blog - Shiny app for data viz part 2</title>
+<title>Joon’s blog - A primer on RNA-seq analysis</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,41 +23,27 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for syntax highlighting */
-pre > code.sourceCode { white-space: pre; position: relative; }
-pre > code.sourceCode > span { line-height: 1.25; }
-pre > code.sourceCode > span:empty { height: 1.2em; }
-.sourceCode { overflow: visible; }
-code.sourceCode > span { color: inherit; text-decoration: inherit; }
-div.sourceCode { margin: 1em 0; }
-pre.sourceCode { margin: 0; }
-@media screen {
-div.sourceCode { overflow: auto; }
+/* CSS for citations */
+div.csl-bib-body { }
+div.csl-entry {
+  clear: both;
+  margin-bottom: 0em;
 }
-@media print {
-pre > code.sourceCode { white-space: pre-wrap; }
-pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+.hanging-indent div.csl-entry {
+  margin-left:2em;
+  text-indent:-2em;
 }
-pre.numberSource code
-  { counter-reset: source-line 0; }
-pre.numberSource code > span
-  { position: relative; left: -4em; counter-increment: source-line; }
-pre.numberSource code > span > a:first-child::before
-  { content: counter(source-line);
-    position: relative; left: -1em; text-align: right; vertical-align: baseline;
-    border: none; display: inline-block;
-    -webkit-touch-callout: none; -webkit-user-select: none;
-    -khtml-user-select: none; -moz-user-select: none;
-    -ms-user-select: none; user-select: none;
-    padding: 0 4px; width: 4em;
-  }
-pre.numberSource { margin-left: 3em;  padding-left: 4px; }
-div.sourceCode
-  {   }
-@media screen {
-pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+div.csl-left-margin {
+  min-width:2em;
+  float:left;
 }
-</style>
+div.csl-right-inline {
+  margin-left:2em;
+  padding-left:1em;
+}
+div.csl-indent {
+  margin-left: 2em;
+}</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -115,11 +101,19 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 </script>
+ 
+  <style>
+  .slide-deck {
+      border: 3px solid #dee2e6;
+      width: 100%;
+  }
+  </style>
+  
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Joon’s blog - Shiny app for data viz part 2">
-<meta property="og:description" content="hosting a shiny app on the web">
+<meta property="og:title" content="Joon’s blog - A primer on RNA-seq analysis">
+<meta property="og:description" content="workshop material">
 <meta property="og:site_name" content="Joon's blog">
 </head>
 
@@ -149,8 +143,8 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <span class="menu-text">Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="../../cv/index.html"> 
-<span class="menu-text">CV</span></a>
+    <a class="nav-link" href="https://kimsjune.github.io/ccir-rnaseq"> 
+<span class="menu-text">RNA-seq workshop</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/kimsjune"> <i class="bi bi-github" role="img">
@@ -174,15 +168,17 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Shiny app for data viz part 2</h1>
+      <h1 class="title">A primer on RNA-seq analysis</h1>
                   <div>
         <div class="description">
-          hosting a shiny app on the web
+          workshop material
         </div>
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">R</div>
-                <div class="quarto-category">shiny</div>
+                <div class="quarto-category">RNA-seq</div>
+                <div class="quarto-category">HPC</div>
+                <div class="quarto-category">revealjs</div>
                 <div class="quarto-category">data visualization</div>
                 <div class="quarto-category">2024</div>
               </div>
@@ -202,7 +198,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">May 22, 2024</p>
+        <p class="date">November 6, 2023</p>
       </div>
     </div>
     
@@ -214,17 +210,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <!-- sidebar -->
 <!-- margin-sidebar -->
     <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
-        <nav id="TOC" role="doc-toc" class="toc-active">
-    <h2 id="toc-title">On this page</h2>
-   
-  <ul>
-  <li><a href="#rationale" id="toc-rationale" class="nav-link active" data-scroll-target="#rationale">Rationale</a></li>
-  <li><a href="#option-1" id="toc-option-1" class="nav-link" data-scroll-target="#option-1">Option 1</a></li>
-  <li><a href="#option-2" id="toc-option-2" class="nav-link" data-scroll-target="#option-2">Option 2</a></li>
-  <li><a href="#option-3" id="toc-option-3" class="nav-link" data-scroll-target="#option-3">Option 3</a></li>
-  <li><a href="#the-last-resort" id="toc-the-last-resort" class="nav-link" data-scroll-target="#the-last-resort">The last resort</a></li>
-  </ul>
-</nav>
+        
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -233,213 +219,34 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 
 
 
-<section id="rationale" class="level3">
-<h3 class="anchored" data-anchor-id="rationale">Rationale</h3>
-<p>Here is the <a href="../../posts/240515-shiny-pt1/index.html">first part</a> to this series.</p>
-<p>Once I had a production version of my app (to be discussed in part <em>3</em> like a movie prequel), I wanted to make it accessible. What exactly is the point if I’m the only one using it in my bedroom? Close to nada. So, it got me thinking about deployment options. My self-imposed requirement was that it couldn’t cost me or the lab any money.</p>
-</section>
-<section id="option-1" class="level3">
-<h3 class="anchored" data-anchor-id="option-1">Option 1</h3>
-<p>The first option I tried was publishing on <a href="https://www.shinyapps.io">shinyapps.io</a>. This initially failed because their server did not have <a href="https://github.com/rstudio/shinyapps-package-dependencies/issues/358">some dependency</a> installed. I chimed in on this issue, promptly gave up, and looked for other options. I only recently made my first PR that was able to <a href="https://github.com/rstudio/shinyapps-package-dependencies/pull/377">fix this</a>. Now the app is successfully published, but it crashes as soon as I do anything with it. I think it’s due to lack of memory (1GB) with my free tier account. To get a custom URL and more performance, it’s going to cost cool <em>$349/month</em> 🙃. On to the next option.</p>
-</section>
-<section id="option-2" class="level3">
-<h3 class="anchored" data-anchor-id="option-2">Option 2</h3>
-<p>Some institutions like <a href="https://uwaterloo.ca/math-faculty-computing-facility/services/r-shiny-server">Waterloo</a> and <a href="https://cran.utstat.utoronto.ca">Toronto</a> seem to host shiny apps for free. Not Western or LHSC 😭. On to the next option.</p>
-</section>
-<section id="option-3" class="level3">
-<h3 class="anchored" data-anchor-id="option-3">Option 3</h3>
-<p>I could make a docker image that users can download and run locally. But I thought this still might be a barrier to some, so I ruled it out.</p>
-</section>
-<section id="the-last-resort" class="level3">
-<h3 class="anchored" data-anchor-id="the-last-resort">The last resort</h3>
-<p><a href="https://alliancecan.ca/en/services/advanced-research-computing/national-services/cloud">The Digital Alliance of Canada</a> offers free virtual machines to those eager beavers. A VM can run shiny server that persistently hosts my app.</p>
-<section id="cloud-setup" class="level4">
-<h4 class="anchored" data-anchor-id="cloud-setup">1. Cloud setup</h4>
-<p>Creating and accessing a new VM is covered thoroughly <a href="https://www.youtube.com/watch?v=JFFlkPrGFbM">here</a>. Through trial and error, I learned that my instance(s) must have at least 4GB of memory and 20GB of volume size.</p>
-</section>
-<section id="shiny-server" class="level4">
-<h4 class="anchored" data-anchor-id="shiny-server">2. Shiny server</h4>
-<p>Shiny Server can be installed following this <a href="https://posit.co/download/shiny-server/">guide</a>.</p>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>All the <code>R</code> libraries that the app uses must be installed (<code>sudo R</code> to enable write permission).</p>
-<p>Those R libraries in turn depend on Linux packages that needs to be installed too.</p>
-<ul>
-<li><p>I don’t know if there is a way to know what these dependencies are in advance</p>
-<ul>
-<li>maybe have to test out the app in a local shiny server running on Linux (through WSL perhaps)</li>
-</ul></li>
-<li><p>I just had to look at the error log (saved to <code>/var/log/shiny-server/*.log</code>) and painstakingly install missing packages with <code>sudo apt-get install</code></p></li>
-</ul>
-</div>
-</div>
-<p><code>/etc/shiny-server/shiny-server.conf</code> looks like this:</p>
-<div class="sourceCode" id="cb1"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1"></a><span class="co"># Instruct Shiny Server to run applications as the user "shiny"</span></span>
-<span id="cb1-2"><a href="#cb1-2"></a><span class="ex">run_as</span> ubuntu<span class="kw">;</span></span>
-<span id="cb1-3"><a href="#cb1-3"></a></span>
-<span id="cb1-4"><a href="#cb1-4"></a><span class="co"># Define a server that listens on port 3838</span></span>
-<span id="cb1-5"><a href="#cb1-5"></a><span class="ex">server</span> {</span>
-<span id="cb1-6"><a href="#cb1-6"></a>  <span class="ex">listen</span> 3838<span class="kw">;</span></span>
-<span id="cb1-7"><a href="#cb1-7"></a></span>
-<span id="cb1-8"><a href="#cb1-8"></a>  <span class="co"># Define a location at the base URL</span></span>
-<span id="cb1-9"><a href="#cb1-9"></a>  <span class="ex">location</span> / {</span>
-<span id="cb1-10"><a href="#cb1-10"></a></span>
-<span id="cb1-11"><a href="#cb1-11"></a>    <span class="co"># Host the directory of Shiny Apps stored in this directory</span></span>
-<span id="cb1-12"><a href="#cb1-12"></a>    <span class="co"># site_dir /srv/shiny-server;</span></span>
-<span id="cb1-13"><a href="#cb1-13"></a>    <span class="ex">site_dir</span> /home/ubuntu/ild-shiny-app<span class="kw">;</span></span>
-<span id="cb1-14"><a href="#cb1-14"></a>    <span class="co"># Log all Shiny output to files in this directory</span></span>
-<span id="cb1-15"><a href="#cb1-15"></a>    <span class="ex">log_dir</span> /var/log/shiny-server<span class="kw">;</span></span>
-<span id="cb1-16"><a href="#cb1-16"></a></span>
-<span id="cb1-17"><a href="#cb1-17"></a>    <span class="co"># When a user visits the base URL rather than a particular application,</span></span>
-<span id="cb1-18"><a href="#cb1-18"></a>    <span class="co"># an index of the applications available in this directory will be shown.</span></span>
-<span id="cb1-19"><a href="#cb1-19"></a>    <span class="ex">directory_index</span> on<span class="kw">;</span></span>
-<span id="cb1-20"><a href="#cb1-20"></a>  <span class="er">}</span></span>
-<span id="cb1-21"><a href="#cb1-21"></a><span class="er">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<ul>
-<li><p>My app is hosted on <code>localhost:3838</code> (root URL).</p></li>
-<li><p><code>/home/ubuntu/ild-shiny-app</code> is where I cloned my git repo of the shiny app.</p></li>
-</ul>
-</section>
-<section id="nginx-reverse-proxy" class="level4">
-<h4 class="anchored" data-anchor-id="nginx-reverse-proxy">3. nginx reverse proxy</h4>
-<p>While Shiny Sever is hosting the app locally, nginx takes HTTP/HTTPS traffic to the local URL and back. This seems like what a reverse proxy is. More detail <a href="https://support.posit.co/hc/en-us/articles/213733868-Running-Shiny-Server-with-a-Proxy">here</a> and <a href="https://weihanglo.tw/debian-R-setup/doc/other_nginx.html">here</a>. I also set up two worker nodes downstream of a load balancer.</p>
-<p>After the smoke cleared and the dust settled, this is my <code>/etc/nginx/nginx.conf</code> file:</p>
-<div class="sourceCode" id="cb2"><pre class="sourceCode numberSource bash number-lines code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1"></a><span class="ex">user</span> www-data<span class="kw">;</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a><span class="ex">worker_processes</span> auto<span class="kw">;</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="ex">pid</span> /run/nginx.pid<span class="kw">;</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a><span class="ex">include</span> /etc/nginx/modules-enabled/<span class="pp">*</span>.conf<span class="kw">;</span></span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a><span class="ex">events</span> {</span>
-<span id="cb2-7"><a href="#cb2-7"></a>        <span class="ex">worker_connections</span> 768<span class="kw">;</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>        <span class="co"># multi_accept on;</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a><span class="er">}</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="ex">http</span> {</span>
-<span id="cb2-12"><a href="#cb2-12"></a>     <span class="ex">log_format</span>  main_ext  <span class="st">'$remote_addr - $remote_user [$time_local] "$request" '</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>                      <span class="st">'$status $body_bytes_sent "$http_referer" '</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a>                      <span class="st">'"$http_user_agent" "$http_x_forwarded_for" '</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a>                      <span class="st">'"$host" sn="$server_name" '</span></span>
-<span id="cb2-16"><a href="#cb2-16"></a>                      <span class="st">'rt=$request_time '</span></span>
-<span id="cb2-17"><a href="#cb2-17"></a>                      <span class="st">'ua="$upstream_addr" us="$upstream_status" '</span></span>
-<span id="cb2-18"><a href="#cb2-18"></a>                      <span class="st">'ut="$upstream_response_time" ul="$upstream_response_length" '</span></span>
-<span id="cb2-19"><a href="#cb2-19"></a>                      <span class="st">'cs=$upstream_cache_status'</span> <span class="kw">;</span></span>
-<span id="cb2-20"><a href="#cb2-20"></a>     <span class="ex">upstream</span> backend {</span>
-<span id="cb2-21"><a href="#cb2-21"></a>                      <span class="ex">ip_hash</span><span class="kw">;</span></span>
-<span id="cb2-22"><a href="#cb2-22"></a>                      <span class="ex">server</span>    172.16.111.219<span class="kw">;</span></span>
-<span id="cb2-23"><a href="#cb2-23"></a>                      <span class="ex">server</span>    172.16.111.150<span class="kw">;</span></span>
-<span id="cb2-24"><a href="#cb2-24"></a>                      <span class="ex">server</span>    localhost<span class="kw">;</span></span>
-<span id="cb2-25"><a href="#cb2-25"></a>     <span class="er">}</span></span>
-<span id="cb2-26"><a href="#cb2-26"></a></span>
-<span id="cb2-27"><a href="#cb2-27"></a></span>
-<span id="cb2-28"><a href="#cb2-28"></a>     <span class="ex">map</span> <span class="va">$http_upgrade</span> <span class="va">$connection_upgrade</span> {</span>
-<span id="cb2-29"><a href="#cb2-29"></a>          <span class="ex">default</span> upgrade<span class="kw">;</span></span>
-<span id="cb2-30"><a href="#cb2-30"></a>          <span class="st">''</span>      close<span class="kw">;</span></span>
-<span id="cb2-31"><a href="#cb2-31"></a>     <span class="er">}</span></span>
-<span id="cb2-32"><a href="#cb2-32"></a>     <span class="ex">include</span> /etc/nginx/mime.types<span class="kw">;</span></span>
-<span id="cb2-33"><a href="#cb2-33"></a>     <span class="ex">server</span> {</span>
-<span id="cb2-34"><a href="#cb2-34"></a>            <span class="ex">server_name</span> fibrosingild.com<span class="kw">;</span></span>
-<span id="cb2-35"><a href="#cb2-35"></a>            <span class="ex">server_name</span> www.fibrosingild.com<span class="kw">;</span></span>
-<span id="cb2-36"><a href="#cb2-36"></a></span>
-<span id="cb2-37"><a href="#cb2-37"></a></span>
-<span id="cb2-38"><a href="#cb2-38"></a>            <span class="ex">location</span> / {</span>
-<span id="cb2-39"><a href="#cb2-39"></a>                        <span class="ex">proxy_pass</span> http://localhost:3838<span class="kw">;</span></span>
-<span id="cb2-40"><a href="#cb2-40"></a>                        <span class="ex">proxy_redirect</span> / <span class="va">$scheme</span>://<span class="va">$http_host</span>/<span class="kw">;</span></span>
-<span id="cb2-41"><a href="#cb2-41"></a>                        <span class="ex">proxy_http_version</span> 1.1<span class="kw">;</span></span>
-<span id="cb2-42"><a href="#cb2-42"></a>                        <span class="ex">proxy_set_header</span> Upgrade <span class="va">$http_upgrade</span><span class="kw">;</span></span>
-<span id="cb2-43"><a href="#cb2-43"></a>                        <span class="ex">proxy_set_header</span> Connection <span class="va">$connection_upgrade</span><span class="kw">;</span></span>
-<span id="cb2-44"><a href="#cb2-44"></a>                        <span class="ex">proxy_set_header</span> Host <span class="va">$http_host</span><span class="kw">;</span></span>
-<span id="cb2-45"><a href="#cb2-45"></a>                        <span class="ex">proxy_read_timeout</span> 20d<span class="kw">;</span></span>
-<span id="cb2-46"><a href="#cb2-46"></a>                        <span class="ex">proxy_buffering</span> off<span class="kw">;</span></span>
-<span id="cb2-47"><a href="#cb2-47"></a>            <span class="er">}</span></span>
-<span id="cb2-48"><a href="#cb2-48"></a></span>
-<span id="cb2-49"><a href="#cb2-49"></a></span>
-<span id="cb2-50"><a href="#cb2-50"></a>    <span class="ex">listen</span> 443 ssl<span class="kw">;</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-51"><a href="#cb2-51"></a>    <span class="ex">ssl_certificate</span> /etc/letsencrypt/live/fibrosingild.com/fullchain.pem<span class="kw">;</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-52"><a href="#cb2-52"></a>    <span class="ex">ssl_certificate_key</span> /etc/letsencrypt/live/fibrosingild.com/privkey.pem<span class="kw">;</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-53"><a href="#cb2-53"></a>    <span class="ex">include</span> /etc/letsencrypt/options-ssl-nginx.conf<span class="kw">;</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-54"><a href="#cb2-54"></a>    <span class="ex">ssl_dhparam</span> /etc/letsencrypt/ssl-dhparams.pem<span class="kw">;</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-55"><a href="#cb2-55"></a></span>
-<span id="cb2-56"><a href="#cb2-56"></a></span>
-<span id="cb2-57"><a href="#cb2-57"></a><span class="er">}</span></span>
-<span id="cb2-58"><a href="#cb2-58"></a></span>
-<span id="cb2-59"><a href="#cb2-59"></a>    <span class="co">##</span></span>
-<span id="cb2-60"><a href="#cb2-60"></a>    <span class="co"># Basic Settings</span></span>
-<span id="cb2-61"><a href="#cb2-61"></a>    <span class="co">##</span></span>
-<span id="cb2-62"><a href="#cb2-62"></a></span>
-<span id="cb2-63"><a href="#cb2-63"></a>    <span class="ex">sendfile</span> on<span class="kw">;</span></span>
-<span id="cb2-64"><a href="#cb2-64"></a>    <span class="ex">tcp_nopush</span> on<span class="kw">;</span></span>
-<span id="cb2-65"><a href="#cb2-65"></a>    <span class="ex">types_hash_max_size</span> 2048<span class="kw">;</span></span>
-<span id="cb2-66"><a href="#cb2-66"></a>    <span class="co"># server_tokens off;</span></span>
-<span id="cb2-67"><a href="#cb2-67"></a></span>
-<span id="cb2-68"><a href="#cb2-68"></a>    <span class="co"># server_names_hash_bucket_size 64;</span></span>
-<span id="cb2-69"><a href="#cb2-69"></a>    <span class="co"># server_name_in_redirect off;</span></span>
-<span id="cb2-70"><a href="#cb2-70"></a></span>
-<span id="cb2-71"><a href="#cb2-71"></a>    <span class="ex">include</span> /etc/nginx/mime.types<span class="kw">;</span></span>
-<span id="cb2-72"><a href="#cb2-72"></a>    <span class="ex">default_type</span> application/octet-stream<span class="kw">;</span></span>
-<span id="cb2-73"><a href="#cb2-73"></a></span>
-<span id="cb2-74"><a href="#cb2-74"></a>    <span class="co">##</span></span>
-<span id="cb2-75"><a href="#cb2-75"></a>    <span class="co"># SSL Settings</span></span>
-<span id="cb2-76"><a href="#cb2-76"></a>    <span class="co">##</span></span>
-<span id="cb2-77"><a href="#cb2-77"></a></span>
-<span id="cb2-78"><a href="#cb2-78"></a>    <span class="ex">ssl_protocols</span> TLSv1 TLSv1.1 TLSv1.2 TLSv1.3<span class="kw">;</span> <span class="co"># Dropping SSLv3, ref: POODLE</span></span>
-<span id="cb2-79"><a href="#cb2-79"></a>    <span class="ex">ssl_prefer_server_ciphers</span> on<span class="kw">;</span></span>
-<span id="cb2-80"><a href="#cb2-80"></a></span>
-<span id="cb2-81"><a href="#cb2-81"></a>    <span class="co">##</span></span>
-<span id="cb2-82"><a href="#cb2-82"></a>    <span class="co"># Logging Settings</span></span>
-<span id="cb2-83"><a href="#cb2-83"></a>    <span class="co">##</span></span>
-<span id="cb2-84"><a href="#cb2-84"></a></span>
-<span id="cb2-85"><a href="#cb2-85"></a>    <span class="ex">access_log</span> /var/log/nginx/access.log main_ext<span class="kw">;</span></span>
-<span id="cb2-86"><a href="#cb2-86"></a>    <span class="ex">error_log</span> /var/log/nginx/error.log warn<span class="kw">;</span></span>
-<span id="cb2-87"><a href="#cb2-87"></a></span>
-<span id="cb2-88"><a href="#cb2-88"></a>    <span class="co">##</span></span>
-<span id="cb2-89"><a href="#cb2-89"></a>    <span class="co"># Gzip Settings</span></span>
-<span id="cb2-90"><a href="#cb2-90"></a>    <span class="co">##</span></span>
-<span id="cb2-91"><a href="#cb2-91"></a></span>
-<span id="cb2-92"><a href="#cb2-92"></a>    <span class="fu">gzip</span> on<span class="kw">;</span></span>
-<span id="cb2-93"><a href="#cb2-93"></a></span>
-<span id="cb2-94"><a href="#cb2-94"></a>    <span class="co"># gzip_vary on;</span></span>
-<span id="cb2-95"><a href="#cb2-95"></a>    <span class="co"># gzip_proxied any;</span></span>
-<span id="cb2-96"><a href="#cb2-96"></a>    <span class="co"># gzip_comp_level 6;</span></span>
-<span id="cb2-97"><a href="#cb2-97"></a>    <span class="co"># gzip_buffers 16 8k;</span></span>
-<span id="cb2-98"><a href="#cb2-98"></a>    <span class="co"># gzip_http_version 1.1;</span></span>
-<span id="cb2-99"><a href="#cb2-99"></a>    <span class="co"># gzip_types text/plain text/css application/json application/javascript text/xml application/xml application/xml+rss text/javascript;</span></span>
-<span id="cb2-100"><a href="#cb2-100"></a></span>
-<span id="cb2-101"><a href="#cb2-101"></a>    <span class="co">##</span></span>
-<span id="cb2-102"><a href="#cb2-102"></a>    <span class="co"># Virtual Host Configs</span></span>
-<span id="cb2-103"><a href="#cb2-103"></a>    <span class="co">##</span></span>
-<span id="cb2-104"><a href="#cb2-104"></a></span>
-<span id="cb2-105"><a href="#cb2-105"></a>    <span class="ex">include</span> /etc/nginx/conf.d/<span class="pp">*</span>.conf<span class="kw">;</span></span>
-<span id="cb2-106"><a href="#cb2-106"></a>    <span class="ex">include</span> /etc/nginx/sites-enabled/<span class="pp">*</span><span class="kw">;</span></span>
-<span id="cb2-107"><a href="#cb2-107"></a></span>
-<span id="cb2-108"><a href="#cb2-108"></a>    <span class="ex">server</span> {</span>
-<span id="cb2-109"><a href="#cb2-109"></a>            <span class="cf">if</span> <span class="kw">(</span><span class="va">$host</span> = www.fibrosingild.com<span class="kw">)</span> <span class="kw">{</span></span>
-<span id="cb2-110"><a href="#cb2-110"></a>                <span class="cf">return</span> <span class="dv">301</span> <span class="ex">https://</span><span class="va">$host$request_uri</span><span class="kw">;</span></span>
-<span id="cb2-111"><a href="#cb2-111"></a>                                          <span class="kw">}</span> <span class="co"># managed by Certbot</span></span>
-<span id="cb2-112"><a href="#cb2-112"></a>    <span class="er">}</span></span>
-<span id="cb2-113"><a href="#cb2-113"></a><span class="er">}</span></span>
-<span id="cb2-114"><a href="#cb2-114"></a></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<p>lines 11-19: - collects logging information for NGINX <a href="https://docs.nginx.com/nginx-amplify/">Amplify</a> (health checks)</p>
-<p>lines 20-25: - sends HTTP requests to downstream worker nodes at those floating IPs</p>
-<p>line 34: - my custom domain name</p>
-<p>lines 37-46: - reverse proxy</p>
-<p>SSL: - all lines with <code>#managed by Certbot</code> was auto-generated with <a href="https://certbot.eff.org/">Certbot</a> - this enables HTTPS for free</p>
+<p><img src="triangle.jpg" class="img-fluid"></p>
+<p>Above diagram from <span class="citation" data-cites="triangle">Emmert-Streib, Moutari, and Dehmer (<a href="#ref-triangle" role="doc-biblioref">2016</a>)</span> nicely depicts how “data science” takes a combination of three kinds of disciplines. It can be a bit daunting to expand our expertise away from our home vertex. I was fortunate to be in a great training environment: my supervisor and the Howard Hughes Medical Institute sponsored me to attend the <a href="https://meetings.cshl.edu/courses.aspx?course=c-seqtec&amp;year=23">advanced sequencing technolgies/bioinformatics course</a> at Cold Spring Harbor Labs, and senior graduate students organized bioinformatics workshops. It’s not that these two taught me everything I know about bioinformatics now; they got the ball rolling in a really good direction.</p>
+<p>So I guess I should pay it forward. To whom? I’m not sure. I threw some stuff on RNA-seq together in 2023 for trainees on the 4th floor VRL—a pilot run, and attendance took a nose dive after the second week. A big problem (among many others) was copying and pasting my code from Powerpoint text boxes. Sometimes there would be a new line character error. Since then, I learned about HTML slides with xaringan or Quarto revealjs that have native code block support 🥳.</p>
+<p>Links to my slides are on my <a href="https://kimsjune.github.io/ccir-rnaseq">github pages</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The goal of this series is to demonstrate a RNA-seq workflow from Illumina reads to plots (PCA, Volcano, heatmap). At the time of writing, there are three weeks (one hour session each) worth of material. Week 1 slides are shown below as a teaser.</p>
+<p>    </p><p><a href="https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" target="_blank">View slides in full screen</a></p>
+       <div>
+      <iframe class="slide-deck" src="https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" height="475px"></iframe>
+    </div>
+  <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a><p></p>
 <div class="center">
 <p>\ (•◡•) /</p>
 </div>
 
 
-</section>
-</section>
 
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
+<div id="ref-triangle" class="csl-entry" role="listitem">
+Emmert-Streib, Frank, Salissou Moutari, and Matthias Dehmer. 2016. <span>“The Process of Analyzing Data Is the Emergent Feature of Data Science.”</span> <em>Frontiers in Genetics</em> 7 (February). <a href="https://doi.org/10.3389/fgene.2016.00012">https://doi.org/10.3389/fgene.2016.00012</a>.
+</div>
+</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
+
+<ol>
+<li id="fn1"><p>I think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the <code>docs</code> directory in the top directory of my repo, I made a Quarto website (<code>qmd</code>) rendered to html. I got rid of the default <code>index.html</code> that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a <code>_quarto.yml</code> to this index file, but it seemed to destroy the rendering.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p><code>embedio</code> extension used to embed these slides<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section></div></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

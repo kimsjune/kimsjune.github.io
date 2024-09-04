@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="jk">
-<meta name="dcterms.date" content="2024-06-05">
-<meta name="description" content="workshop material">
+<meta name="dcterms.date" content="2024-01-15">
+<meta name="description" content="understanding the flow between inputs, variables and outputs">
 
-<title>Joon’s blog - A primer on RNA-seq analysis</title>
+<title>Joon’s blog - Shiny app for data viz part 1</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,27 +23,41 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
-/* CSS for citations */
-div.csl-bib-body { }
-div.csl-entry {
-  clear: both;
-  margin-bottom: 0em;
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
 }
-.hanging-indent div.csl-entry {
-  margin-left:2em;
-  text-indent:-2em;
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
 }
-div.csl-left-margin {
-  min-width:2em;
-  float:left;
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
-div.csl-right-inline {
-  margin-left:2em;
-  padding-left:1em;
-}
-div.csl-indent {
-  margin-left: 2em;
-}</style>
+</style>
 
 
 <script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
@@ -101,19 +115,15 @@ function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
 gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 </script>
- 
-  <style>
-  .slide-deck {
-      border: 3px solid #dee2e6;
-      width: 100%;
-  }
-  </style>
-  
+<meta name="mermaid-theme" content="default">
+<script src="../../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Joon’s blog - A primer on RNA-seq analysis">
-<meta property="og:description" content="workshop material">
+<meta property="og:title" content="Joon’s blog - Shiny app for data viz part 1">
+<meta property="og:description" content="understanding the flow between inputs, variables and outputs">
 <meta property="og:site_name" content="Joon's blog">
 </head>
 
@@ -144,7 +154,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
   </li>  
   <li class="nav-item">
     <a class="nav-link" href="https://kimsjune.github.io/ccir-rnaseq"> 
-<span class="menu-text">RNA-seq</span></a>
+<span class="menu-text">RNA-seq workshop</span></a>
   </li>  
   <li class="nav-item compact">
     <a class="nav-link" href="https://github.com/kimsjune"> <i class="bi bi-github" role="img">
@@ -168,17 +178,15 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">A primer on RNA-seq analysis</h1>
+      <h1 class="title">Shiny app for data viz part 1</h1>
                   <div>
         <div class="description">
-          workshop material
+          understanding the flow between inputs, variables and outputs
         </div>
       </div>
                           <div class="quarto-categories">
                 <div class="quarto-category">R</div>
-                <div class="quarto-category">RNA-seq</div>
-                <div class="quarto-category">HPC</div>
-                <div class="quarto-category">revealjs</div>
+                <div class="quarto-category">shiny</div>
                 <div class="quarto-category">data visualization</div>
                 <div class="quarto-category">2024</div>
               </div>
@@ -198,7 +206,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">June 5, 2024</p>
+        <p class="date">January 15, 2024</p>
       </div>
     </div>
     
@@ -213,40 +221,189 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
         
     </div>
 <!-- main -->
-<main class="content quarto-banner-title-block" id="quarto-document-content">
+<main class="content quarto-banner-title-block page-columns page-full" id="quarto-document-content">
 
 
 
 
 
-<p><img src="triangle.jpg" class="img-fluid"></p>
-<p>Above diagram from <span class="citation" data-cites="triangle">Emmert-Streib, Moutari, and Dehmer (<a href="#ref-triangle" role="doc-biblioref">2016</a>)</span> nicely depicts how “data science” takes a combination of three kinds of disciplines. It can be a bit daunting to expand our expertise away from our home vertex. I was fortunate to be in a great training environment: my supervisor and the Howard Hughes Medical Institute sponsored me to attend the <a href="https://meetings.cshl.edu/courses.aspx?course=c-seqtec&amp;year=23">advanced sequencing technolgies/bioinformatics course</a> at Cold Spring Harbor Labs, and senior graduate students organized bioinformatics workshops. It’s not that these two taught me everything I know about bioinformatics now; they got the ball rolling in a really good direction.</p>
-<p>So I guess I should pay it forward. To whom? I’m not sure. I threw some stuff on RNA-seq together in 2023 for trainees on the 4th floor VRL—a pilot run, and attendance took a nose dive after the second week. A big problem (among many others) was copying and pasting my code from Powerpoint text boxes. Sometimes there would be a new line character error. Since then, I learned about HTML slides with xaringan or Quarto revealjs that have native code block support 🥳.</p>
-<p>Links to my slides are on my <a href="https://kimsjune.github.io/ccir-rnaseq">github pages</a><a href="#fn1" class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a>. The goal of this series is to demonstrate a RNA-seq workflow from Illumina reads to plots (PCA, Volcano, heatmap). At the time of writing, there are three weeks (one hour session each) worth of material. Week 1 slides are shown below as a teaser.</p>
-<p>    </p><p><a href="https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" target="_blank">View slides in full screen</a></p>
-       <div>
-      <iframe class="slide-deck" src="https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" height="475px"></iframe>
-    </div>
-  <a href="#fn2" class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a><p></p>
+<p>I’m hosting a <code>shiny</code> app written in <code>R</code> on a <a href="https://fibrosingild.com">cloud server</a>. Its purpose is to allow users to interactively visualize spatial gene expression data from fibrosing interstitial lung disease patients. Such interactivity is useful here because there are too many possible logical comparisons between groups than what can reasonably fit in a manuscript.</p>
+<p>At one point, I was losing track of how inputs were being processed into intermediate/final outputs. I wrote down a pen and paper version before, but it’s gotten even more complicated than that.</p>
+<p><code>Nextflow</code> introduced me to <code>mermaid</code> flowcharts. I wrote down the following on the <a href="https://mermaid.live">live editor</a>:</p>
+<div class="cell page-columns page-full" data-layout-align="default">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode default code-with-copy"><code class="sourceCode default"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>flowchart</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>    input$anno_type_select --&gt;|reactive| ROIs</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>    ROIs --&gt; reactiveRun</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>    input$run --&gt; |eventReactive| reactiveRun</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    reactiveRun --&gt; |renderUI| output$customization</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    output$customization --&gt; |reactive| pcaPlot</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    reactiveRun --&gt; |eventReactive| contrast</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>    contrast --&gt; |reactive| efit</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    input$lfc --&gt; |reactive| lfc</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    lfc --&gt; |reactive| topTableDF</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>    efit --&gt; |reactive| topTableDF</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>    contrast --&gt; |reactive| topTableDF</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>    topTableDF --&gt; |downloadHandler| output$downloadTable</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    topTableDF --&gt; |renderUI| output$table</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    efit --&gt; |reactive| volcano</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    contrast --&gt; |reactive| plotHeight</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    plotHeight --&gt; |reactive| volcano</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    contrast --&gt; |reactive| volcano</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>    reactiveRun --&gt; |eventReactive| spe_ruv_subset</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    spe_ruv_subset --&gt; |eventReactive| pca_ruv_results_subset</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>    spe_ruv_subset --&gt; |reactive| pcaPlot</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>    input$shapes_n --&gt; |reactive| pcaPlot</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>    input$colours_n --&gt; |reactive| pcaPlot</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>    pca_ruv_results_subset --&gt; |reactive| pcaPlot</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>    pcaPlot --&gt; |renderUI| output$pca</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>    pcaPlot --&gt; |downloadHandler| output$downloadPCA </span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>    input$toggle_PCAcustom --&gt; |observeEvent| toggle::PCAcustom</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>    toggle::PCAcustom --&gt; |uiOutput| output$customization</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>    input$shapes_n --&gt; |renderUI| output$customization</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>    input$colours_n --&gt; |renderUI| output$customization</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>    input$toggle_customRange --&gt; |observeEvent| toggle::show_customRange</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>    toggle::show_customRange --&gt; |uiOutput| output$customRange</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>    input$customX --&gt; |renderUI| output$customRange </span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>    input$customY --&gt; |renderUI| output$customRange</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    input$customX --&gt; |reactive| customX</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>    input$customY --&gt; |reactive| customY</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>    customY --&gt; |reactive| volcano</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    customX --&gt; |reactive| volcano</span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>    input$maxOverlap --&gt; |reactive| maxOverlap</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    maxOverlap --&gt; |reactive| volcano</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    volcano --&gt; |reactive| volcanoPlots</span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>    volcano --&gt; |renderUI| output$volcanoUI</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    volcanoPlots --&gt; |downloadHandler| output$downloadVolcano</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>    input$top_n_genes --&gt; |reactive| top_n_genes</span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>    input$heatmap_col --&gt; |reactive| heatmap_col</span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>    input$heatmap_range --&gt; |reactive| heatmap_range</span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>    input$heatmap_size --&gt; |reactive| heatmap_size</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    input$heatmap_fontsize --&gt; |reactive| heatmap_fontsize </span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    reactiveRun --&gt; |reactive| lcpm_subset_scale</span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    spe_ruv_subset --&gt; |reactive| lcpm_subset_scale</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    reactiveRun --&gt; |reactive| colnames4heatmap</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    spe_ruv_subset --&gt; |reactive| colnames4heatmap</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    colnames4heatmap --&gt; |reactive| heatmap</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a>    lcpm_subset_scale --&gt; |reactive| lcpm_subset_scale_topGenes</span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    topTableDF --&gt; |reactive| lcpm_subset_scale_topGenes</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    top_n_genes --&gt; |reactive| lcpm_subset_scale_topGenes</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a>    heatmap_range --&gt; |reactive| heatmap</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    heatmap_col --&gt;  |reactive| heatmap</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a>    heatmap_fontsize --&gt;  |reactive| heatmap</span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    heatmap_size --&gt; |reactive| heatmap</span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    lcpm_subset_scale_topGenes --&gt;  |reactive| heatmap</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    heatmap --&gt; |renderUI| output$heatmapUI</span>
+<span id="cb1-63"><a href="#cb1-63" aria-hidden="true" tabindex="-1"></a>    lcpm_subset_scale_topGenes --&gt; |downloadHandler| output$downloadHeatmap</span>
+<span id="cb1-64"><a href="#cb1-64" aria-hidden="true" tabindex="-1"></a>    heatmap --&gt; |downloadHandler| output$downloadHeatmap</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display column-screen">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart
+    input$anno_type_select --&gt;|reactive| ROIs
+    ROIs --&gt; reactiveRun
+    input$run --&gt; |eventReactive| reactiveRun
+    reactiveRun --&gt; |renderUI| output$customization
+    output$customization --&gt; |reactive| pcaPlot
+    reactiveRun --&gt; |eventReactive| contrast
+    contrast --&gt; |reactive| efit
+    input$lfc --&gt; |reactive| lfc
+    lfc --&gt; |reactive| topTableDF
+    efit --&gt; |reactive| topTableDF
+    contrast --&gt; |reactive| topTableDF
+    topTableDF --&gt; |downloadHandler| output$downloadTable
+    topTableDF --&gt; |renderUI| output$table
+    efit --&gt; |reactive| volcano
+    contrast --&gt; |reactive| plotHeight
+    plotHeight --&gt; |reactive| volcano
+    contrast --&gt; |reactive| volcano
+    reactiveRun --&gt; |eventReactive| spe_ruv_subset
+    spe_ruv_subset --&gt; |eventReactive| pca_ruv_results_subset
+    spe_ruv_subset --&gt; |reactive| pcaPlot
+    input$shapes_n --&gt; |reactive| pcaPlot
+    input$colours_n --&gt; |reactive| pcaPlot
+    pca_ruv_results_subset --&gt; |reactive| pcaPlot
+    pcaPlot --&gt; |renderUI| output$pca
+    pcaPlot --&gt; |downloadHandler| output$downloadPCA 
+    input$toggle_PCAcustom --&gt; |observeEvent| toggle::PCAcustom
+    toggle::PCAcustom --&gt; |uiOutput| output$customization
+    input$shapes_n --&gt; |renderUI| output$customization
+    input$colours_n --&gt; |renderUI| output$customization
+    input$toggle_customRange --&gt; |observeEvent| toggle::show_customRange
+    toggle::show_customRange --&gt; |uiOutput| output$customRange
+    input$customX --&gt; |renderUI| output$customRange 
+    input$customY --&gt; |renderUI| output$customRange
+    input$customX --&gt; |reactive| customX
+    input$customY --&gt; |reactive| customY
+    customY --&gt; |reactive| volcano
+    customX --&gt; |reactive| volcano
+    input$maxOverlap --&gt; |reactive| maxOverlap
+    maxOverlap --&gt; |reactive| volcano
+    volcano --&gt; |reactive| volcanoPlots
+    volcano --&gt; |renderUI| output$volcanoUI
+    volcanoPlots --&gt; |downloadHandler| output$downloadVolcano
+    input$top_n_genes --&gt; |reactive| top_n_genes
+    input$heatmap_col --&gt; |reactive| heatmap_col
+    input$heatmap_range --&gt; |reactive| heatmap_range
+    input$heatmap_size --&gt; |reactive| heatmap_size
+    input$heatmap_fontsize --&gt; |reactive| heatmap_fontsize 
+    reactiveRun --&gt; |reactive| lcpm_subset_scale
+    spe_ruv_subset --&gt; |reactive| lcpm_subset_scale
+    reactiveRun --&gt; |reactive| colnames4heatmap
+    spe_ruv_subset --&gt; |reactive| colnames4heatmap
+    colnames4heatmap --&gt; |reactive| heatmap
+    lcpm_subset_scale --&gt; |reactive| lcpm_subset_scale_topGenes
+    topTableDF --&gt; |reactive| lcpm_subset_scale_topGenes
+    top_n_genes --&gt; |reactive| lcpm_subset_scale_topGenes
+    heatmap_range --&gt; |reactive| heatmap
+    heatmap_col --&gt;  |reactive| heatmap
+    heatmap_fontsize --&gt;  |reactive| heatmap
+    heatmap_size --&gt; |reactive| heatmap
+    lcpm_subset_scale_topGenes --&gt;  |reactive| heatmap
+    heatmap --&gt; |renderUI| output$heatmapUI
+    lcpm_subset_scale_topGenes --&gt; |downloadHandler| output$downloadHeatmap
+    heatmap --&gt; |downloadHandler| output$downloadHeatmap
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>Nodes represent input, data and/or output variables. Curves represent reactive expressions or rendering functions.</p>
+<p>Some takeaways:</p>
+<ul>
+<li>the whole thing really depends on <code>input$anno_type_select</code> and <code>input$run</code>, which are user-selected biological groups and pressing run, respectively</li>
+<li>visual outputs (PCA, table, volcano, or heatmap) are created using <code>renderUI</code> while their downloadable counterparts are created using <code>downloadHandler</code>
+<ul>
+<li>I don’t think whatever has been <code>renderUI</code>-ed can be converted into downloadable image files</li>
+</ul></li>
+<li>mostly straightforward <em>except</em> for <code>toggle::*</code>
+<ul>
+<li>these open customization panels that are not enabled by default</li>
+<li>if enabled, they have to take additional input from users</li>
+<li>input through <code>input$toggle_*</code> activates <code>toggle::*</code></li>
+<li>this activates <code>output$*</code> through <code>uiOutput</code>
+<ul>
+<li>since this is an <code>output</code>, this is shown to users</li>
+</ul></li>
+<li><code>input</code>s are baked into these <code>output</code>s!!</li>
+<li>reactive expressions take these <code>input</code>s downstream</li>
+</ul></li>
+<li>flowchart is written by hand, so there can be some mistakes and omissions
+<ul>
+<li>but, writing it out could be helpful for really getting down to the nitty-gritty of what is exactly happening</li>
+<li>is there a package that can automatically generate a flowchart?</li>
+</ul></li>
+</ul>
+<p>There are many other things that I could document about this app. Hosting it online for free through <a href="https://docs.alliancecan.ca/wiki/Cloud">the Digital Alliance of Canada’s cloud</a> was a bit of a journey. The how and why might be the topic for a part 2. In a part 3, I might document some cute tricks in <code>R</code> to process data with reactivity.</p>
+<p>You can find the entire app’s code <a href="https://github.com/kimsjune/ild-shiny-app">here</a>. The raw and processed data underpinning the app are under embargo at this time.</p>
 <div class="center">
 <p>\ (•◡•) /</p>
 </div>
 
 
 
-
-
-<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a><div id="quarto-appendix" class="default"><section class="quarto-appendix-contents" role="doc-bibliography" id="quarto-bibliography"><h2 class="anchored quarto-appendix-heading">References</h2><div id="refs" class="references csl-bib-body hanging-indent" data-entry-spacing="0" role="list">
-<div id="ref-triangle" class="csl-entry" role="listitem">
-Emmert-Streib, Frank, Salissou Moutari, and Matthias Dehmer. 2016. <span>“The Process of Analyzing Data Is the Emergent Feature of Data Science.”</span> <em>Frontiers in Genetics</em> 7 (February). <a href="https://doi.org/10.3389/fgene.2016.00012">https://doi.org/10.3389/fgene.2016.00012</a>.
-</div>
-</div></section><section id="footnotes" class="footnotes footnotes-end-of-document" role="doc-endnotes"><h2 class="anchored quarto-appendix-heading">Footnotes</h2>
-
-<ol>
-<li id="fn1"><p>I think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the <code>docs</code> directory in the top directory of my repo, I made a Quarto website (<code>qmd</code>) rendered to html. I got rid of the default <code>index.html</code> that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a <code>_quarto.yml</code> to this index file, but it seemed to destroy the rendering.<a href="#fnref1" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-<li id="fn2"><p><code>embedio</code> extension used to embed these slides<a href="#fnref2" class="footnote-back" role="doc-backlink">↩︎</a></p></li>
-</ol>
-</section></div></main> <!-- /main -->
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
 window.document.addEventListener("DOMContentLoaded", function (event) {
   const toggleBodyColorMode = (bsSheetEl) => {

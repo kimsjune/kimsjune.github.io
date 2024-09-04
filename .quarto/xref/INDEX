@@ -39,5 +39,17 @@
   },
   "posts/20240605-rnaseq/index.qmd": {
     "index.html": "1686c935"
+  },
+  "posts/2301106-rnaseq/index.qmd": {
+    "index.html": "fb2d118b"
+  },
+  "posts/230508-first-blog/index.qmd": {
+    "index.html": "9d19cc30"
+  },
+  "posts/240115-shiny-pt1/index.qmd": {
+    "index.html": "ea2ad16a"
+  },
+  "posts/240322-shiny-pt2/index.qmd": {
+    "index.html": "79dcf001"
   }
 }

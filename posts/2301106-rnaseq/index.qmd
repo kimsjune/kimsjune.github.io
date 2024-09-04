@@ -2,7 +2,7 @@
 title: "A primer on RNA-seq analysis"
 author: "jk"
 description: workshop material
-date: "2024-06-05"
+date: "2023-11-06"
 format: 
   html: 
     mermaid:
@@ -22,15 +22,12 @@ So I guess I should pay it forward. To whom? I'm not sure. I threw some stuff on
 
 Links to my slides are on my [github pages](https://kimsjune.github.io/ccir-rnaseq)[^1]. The goal of this series is to demonstrate a RNA-seq workflow from Illumina reads to plots (PCA, Volcano, heatmap). At the time of writing, there are three weeks (one hour session each) worth of material. Week 1 slides are shown below as a teaser.
 
+[^1]: I think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the `docs` directory in the top directory of my repo, I made a Quarto website (`qmd`) rendered to html. I got rid of the default `index.html` that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a `_quarto.yml` to this index file, but it seemed to destroy the rendering.
+
 {{< revealjs "https://kimsjune.github.io/ccir-rnaseq/week1/intro.html#/title-slide" >}}[^2]
 
-
+[^2]: `embedio` extension used to embed these slides
 
 ::: center
 \\ (•◡•) /
 :::
-
-
-[^1]: I think this is a cute hack because a repo is meant to host just one presentation. But I wanted to have all slides in one repo. In the `docs` directory in the top directory of my repo, I made a Quarto website (`qmd`) rendered to html. I got rid of the default `index.html` that just redirects to the slides. Github pages serves this html instead of redirecting. I tried to add a `_quarto.yml` to this index file, but it seemed to destroy the rendering.
-
-[^2]: `embedio` extension used to embed these slides
