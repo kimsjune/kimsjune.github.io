@@ -17,7 +17,7 @@ website:
       - text: Posts
         href: /
       - text: RNA-seq workshop
-        href: https://kimsjune.github.io/ccir-rnaseq
+        href: https://kimsjune.github.io/ccir-rnaseq/docs/index.html
       # - text: CV
       #   href: cv/index.qmd
      # - icon: github
