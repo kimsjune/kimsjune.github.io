@@ -240,14 +240,17 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
 <p>I’m migrating my <code>Nextflow</code> execution to AWS from HPC. AWS setup is the main challenge here. There are several great guides that I’ve referenced <a href="https://t-neumann.github.io/pipelines/AWS-pipeline/">here</a> and <a href="https://staphb.org/resources/2020-04-29-nextflow_batch.html">here</a>. The problem (if there is one) is that there is no apparent way to programmatically set up AWS for Nextflow, and the web UI changes over time, which renders those guides slightly harder to follow. The irony is that this very guide I’m writing will also end up outdated, but maybe someone will find it useful in the meantime.</p>
-<p>The referenced guides already</p>
+<p>The referenced guides already provide great step-by-step instructions. This guide is meant to be complementary.</p>
 </section>
 <section id="main-idea" class="level3">
 <h3 class="anchored" data-anchor-id="main-idea">Main idea</h3>
 <p><img src="overview.png" class="img-fluid"> Stolen from <a href="https://seqera.io/blog/nextflow-and-aws-batch-inside-the-integration-part-1-of-3/">seqera labs</a></p>
-<p>A couple of tweaks:<br>
-- I’m using a local Nextflow script saved in an EC2 instance running the pipeline instead of pulling it from a Github repo<br>
-- I’m picking EC2 instances that will perform just one task per instance</p>
+<p>A couple of tweaks:</p>
+<ul>
+<li>I’m using a local Nextflow script saved in an EC2 instance running the pipeline instead of pulling it from a Github repo<br>
+</li>
+<li>I’m picking EC2 instances that will perform just one task per instance</li>
+</ul>
 </section>
 <section id="creating-an-iam" class="level3">
 <h3 class="anchored" data-anchor-id="creating-an-iam">Creating an IAM</h3>
@@ -335,7 +338,7 @@ Important
 <p>I added <code>pattern</code> to <code>publishDir</code> directive to avoid duplicating files from <code>work</code> that I don’t need to save. One case in point are processed <code>fastq.gz</code> output files form <code>fastp</code> that are consumed by <code>STAR</code>. I only copy logs as such:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>process FASTP <span class="op">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  publishDir s3<span class="op">:</span><span class="co">//{my_bucket}/out/fastp, mode: "copy", pattern: "*{html,json}"</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  publishDir s3<span class="op">:</span><span class="co">//my_bucket/out/fastp, mode: "copy", pattern: "*{html,json}"</span></span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
@@ -351,17 +354,16 @@ Important
 <span id="cb2-2"><a href="#cb2-2"></a>    id <span class="st">'nf-amazon'</span></span>
 <span id="cb2-3"><a href="#cb2-3"></a><span class="op">}</span></span>
 <span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a></span>
-<span id="cb2-6"><a href="#cb2-6"></a>aws <span class="op">{</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>    region <span class="op">=</span> <span class="st">'us-east-1'</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>    batch <span class="op">{</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>        cliPath <span class="op">=</span> <span class="st">'/home/ec2-user/miniconda/bin/aws'</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a>    <span class="op">}</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a><span class="op">}</span></span>
-<span id="cb2-12"><a href="#cb2-12"></a></span>
-<span id="cb2-13"><a href="#cb2-13"></a>process <span class="op">{</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a>    executor <span class="op">=</span> <span class="st">'awsbatch'</span></span>
-<span id="cb2-15"><a href="#cb2-15"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb2-5"><a href="#cb2-5"></a>aws <span class="op">{</span></span>
+<span id="cb2-6"><a href="#cb2-6"></a>    region <span class="op">=</span> <span class="st">'us-east-1'</span></span>
+<span id="cb2-7"><a href="#cb2-7"></a>    batch <span class="op">{</span></span>
+<span id="cb2-8"><a href="#cb2-8"></a>        cliPath <span class="op">=</span> <span class="st">'/home/ec2-user/miniconda/bin/aws'</span></span>
+<span id="cb2-9"><a href="#cb2-9"></a>    <span class="op">}</span></span>
+<span id="cb2-10"><a href="#cb2-10"></a><span class="op">}</span></span>
+<span id="cb2-11"><a href="#cb2-11"></a></span>
+<span id="cb2-12"><a href="#cb2-12"></a>process <span class="op">{</span></span>
+<span id="cb2-13"><a href="#cb2-13"></a>    executor <span class="op">=</span> <span class="st">'awsbatch'</span></span>
+<span id="cb2-14"><a href="#cb2-14"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="running-a-pipeline" class="level3">
@@ -385,13 +387,16 @@ Warning
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>To quote the late Uncle Ben, with great [vCPU quota], comes great responsibility (think cost management and security).</p>
+<p>“With great power (such as increased vCPU quota), comes great responsibility.”</p>
+<ul>
+<li>the late Uncle Ben</li>
+</ul>
 </div>
 </div>
 </section>
 <section id="aftermath" class="level3">
 <h3 class="anchored" data-anchor-id="aftermath">Aftermath</h3>
-<p>Once the smoke clears and dust settles, I’m left with precious output files in my <code>s3</code> bucket ready to be downloaded. I use credentials <code>configure</code>’d AWS CLI on my laptop.</p>
+<p>Once the smoke clears and dust settles, I’m left with precious output files in my <code>s3</code> bucket ready to be downloaded. I use credentials <code>configure</code>’d with AWS CLI on my laptop.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-overflow-wrap code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://my_bucket/out . <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>

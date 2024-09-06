@@ -13,15 +13,16 @@ categories: [nextflow, AWS]
 
 I'm migrating my `Nextflow` execution to AWS from HPC. AWS setup is the main challenge here. There are several great guides that I've referenced [here](https://t-neumann.github.io/pipelines/AWS-pipeline/) and [here](https://staphb.org/resources/2020-04-29-nextflow_batch.html). The problem (if there is one) is that there is no apparent way to programmatically set up AWS for Nextflow, and the web UI changes over time, which renders those guides slightly harder to follow. The irony is that this very guide I'm writing will also end up outdated, but maybe someone will find it useful in the meantime.
 
-The referenced guides already 
+The referenced guides already provide great step-by-step instructions. This guide is meant to be complementary.  
 
 ### Main idea
 
 ![](overview.png) Stolen from [seqera labs](https://seqera.io/blog/nextflow-and-aws-batch-inside-the-integration-part-1-of-3/)
 
 A couple of tweaks:  
--  I'm using a local Nextflow script saved in an EC2 instance running the pipeline instead of pulling it from a Github repo  
--  I'm picking EC2 instances that will perform just one task per instance  
+
+-   I'm using a local Nextflow script saved in an EC2 instance running the pipeline instead of pulling it from a Github repo  
+-   I'm picking EC2 instances that will perform just one task per instance  
 
 ### Creating an IAM
 
@@ -87,7 +88,7 @@ I added `pattern` to `publishDir` directive to avoid duplicating files from `wor
 #| eval: false
 
 process FASTP {
-  publishDir s3://{my_bucket}/out/fastp, mode: "copy", pattern: "*{html,json}"
+  publishDir s3://my_bucket/out/fastp, mode: "copy", pattern: "*{html,json}"
 }
 
 ```
@@ -107,7 +108,6 @@ This is my `nextflow.config` file.
 plugins {
     id 'nf-amazon'
 }
-
 
 aws {
     region = 'us-east-1'
@@ -141,13 +141,15 @@ From the AWS Batch dashboard under 'job queue overview', tasks should go from su
 
 ::: callout-warning
 
-To quote the late Uncle Ben, with great [vCPU quota], comes great responsibility (think cost management and security).  
+"With great power (such as increased vCPU quota), comes great responsibility."
+
+- the late Uncle Ben
 
 :::
 
 ### Aftermath
 
-Once the smoke clears and dust settles, I'm left with precious output files in my `s3` bucket ready to be downloaded. I use credentials `configure`'d AWS CLI on my laptop.
+Once the smoke clears and dust settles, I'm left with precious output files in my `s3` bucket ready to be downloaded. I use credentials `configure`'d with AWS CLI on my laptop.
 
 ```{r, engine='bash'}
 #| eval: false
@@ -156,6 +158,11 @@ Once the smoke clears and dust settles, I'm left with precious output files in m
 aws s3 cp s3://my_bucket/out . --recursive
 
 ```
+
+
+
+
+
 
 ::: center
 \\ (•◡•) /
