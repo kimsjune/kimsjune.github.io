@@ -376,23 +376,7 @@ Important
 </section>
 <section id="monitoring-progress-or-lack-thereof" class="level3">
 <h3 class="anchored" data-anchor-id="monitoring-progress-or-lack-thereof">Monitoring progress (or lack thereof)</h3>
-<p>From the AWS Batch dashboard under ‘job queue overview’, tasks should go from submitted, runnable, starting, running to succeeded. The crux is going from runnable to running. If something is not set up properly (CE, job queue, Nextflow directives), runnable jobs will never actually run. For me, only a couple of jobs would run simultaneously even when my CE was set to use beefy EC2 instances on-demand. This was due to the default EC2 quota of a few dozen vCPUs. From the root AWS account, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Service Quota</a> can be accessed and a request to increase this # can be put in (I requested 500 vCPUs and got 300 approved).</p>
-<div class="callout callout-style-default callout-warning callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Warning
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<p>“With great power (such as increased vCPU quota), comes great responsibility.”</p>
-<ul>
-<li>the late Uncle Ben</li>
-</ul>
-</div>
-</div>
+<p>From the AWS Batch dashboard under ‘job queue overview’, tasks should go from submitted, runnable, starting, running to succeeded. The crux is going from runnable to running. If something is not set up properly (CE, job queue, Nextflow directives), runnable jobs will never actually run. For me, only a couple of jobs would run simultaneously even when my CE was set to use beefy EC2 instances on-demand. This was due to the default EC2 quota of a few dozen vCPUs. From the root AWS account, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Service Quota</a> can be accessed and a request to increase this # can be put in (I requested 500 vCPUs and got 300 approved). This would be a good time to make sure 2-FA is enabled.</p>
 </section>
 <section id="aftermath" class="level3">
 <h3 class="anchored" data-anchor-id="aftermath">Aftermath</h3>

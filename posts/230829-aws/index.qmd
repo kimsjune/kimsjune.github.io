@@ -137,15 +137,7 @@ nextflow run main.nf -w s3://{your_bucket}/work --outputDir s3://{your_bucket}/o
 
 ### Monitoring progress (or lack thereof)
 
-From the AWS Batch dashboard under 'job queue overview', tasks should go from submitted, runnable, starting, running to succeeded. The crux is going from runnable to running. If something is not set up properly (CE, job queue, Nextflow directives), runnable jobs will never actually run. For me, only a couple of jobs would run simultaneously even when my CE was set to use beefy EC2 instances on-demand. This was due to the default EC2 quota of a few dozen vCPUs. From the root AWS account, [Service Quota](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) can be accessed and a request to increase this # can be put in (I requested 500 vCPUs and got 300 approved). 
-
-::: callout-warning
-
-"With great power (such as increased vCPU quota), comes great responsibility."
-
-- the late Uncle Ben
-
-:::
+From the AWS Batch dashboard under 'job queue overview', tasks should go from submitted, runnable, starting, running to succeeded. The crux is going from runnable to running. If something is not set up properly (CE, job queue, Nextflow directives), runnable jobs will never actually run. For me, only a couple of jobs would run simultaneously even when my CE was set to use beefy EC2 instances on-demand. This was due to the default EC2 quota of a few dozen vCPUs. From the root AWS account, [Service Quota](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html) can be accessed and a request to increase this # can be put in (I requested 500 vCPUs and got 300 approved). This would be a good time to make sure 2-FA is enabled.
 
 ### Aftermath
 
