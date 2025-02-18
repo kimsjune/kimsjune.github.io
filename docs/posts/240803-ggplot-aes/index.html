@@ -7,10 +7,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 <meta name="author" content="jk">
-<meta name="dcterms.date" content="2023-08-29">
-<meta name="description" content="a short complementary guide with videos">
+<meta name="dcterms.date" content="2024-08-03">
+<meta name="description" content="ggplot2 settings I like">
 
-<title>Migrating to Nextflow on AWS – Joon’s blog</title>
+<title>ggplot2 aesthetics: scatter plot – Joon’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -79,8 +79,6 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
 <link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
 <link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<script src="../../site_libs/quarto-contrib/videojs/video.min.js"></script>
-<link href="../../site_libs/quarto-contrib/videojs/video-js.css" rel="stylesheet">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -120,8 +118,8 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Migrating to Nextflow on AWS – Joon’s blog">
-<meta property="og:description" content="a short complementary guide with videos">
+<meta property="og:title" content="ggplot2 aesthetics: scatter plot – Joon’s blog">
+<meta property="og:description" content="ggplot2 settings I like">
 <meta property="og:site_name" content="Joon's blog">
 </head>
 
@@ -171,15 +169,14 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Migrating to Nextflow on AWS</h1>
+      <h1 class="title">ggplot2 aesthetics: scatter plot</h1>
                   <div>
         <div class="description">
-          a short complementary guide with videos
+          ggplot2 settings I like
         </div>
       </div>
                           <div class="quarto-categories">
-                <div class="quarto-category">nextflow</div>
-                <div class="quarto-category">AWS</div>
+                <div class="quarto-category">R</div>
               </div>
                   </div>
   </div>
@@ -197,7 +194,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
       <div>
       <div class="quarto-title-meta-heading">Published</div>
       <div class="quarto-title-meta-contents">
-        <p class="date">August 29, 2023</p>
+        <p class="date">August 3, 2024</p>
       </div>
     </div>
     
@@ -214,19 +211,10 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
-  <li><a href="#main-idea" id="toc-main-idea" class="nav-link" data-scroll-target="#main-idea">Main idea</a></li>
-  <li><a href="#creating-an-iam" id="toc-creating-an-iam" class="nav-link" data-scroll-target="#creating-an-iam">Creating an IAM</a></li>
-  <li><a href="#creating-a-role" id="toc-creating-a-role" class="nav-link" data-scroll-target="#creating-a-role">Creating a role</a></li>
-  <li><a href="#creating-an-ec2-instance-to-create-an-ami" id="toc-creating-an-ec2-instance-to-create-an-ami" class="nav-link" data-scroll-target="#creating-an-ec2-instance-to-create-an-ami">Creating an EC2 instance to create an AMI</a></li>
-  <li><a href="#ami-setup" id="toc-ami-setup" class="nav-link" data-scroll-target="#ami-setup">AMI setup</a></li>
-  <li><a href="#aws-batch-setup" id="toc-aws-batch-setup" class="nav-link" data-scroll-target="#aws-batch-setup">AWS batch setup</a></li>
-  <li><a href="#add-permission-to-ec2instancerole" id="toc-add-permission-to-ec2instancerole" class="nav-link" data-scroll-target="#add-permission-to-ec2instancerole">Add permission to ec2InstanceRole</a></li>
-  <li><a href="#process-directives" id="toc-process-directives" class="nav-link" data-scroll-target="#process-directives">Process directives</a></li>
-  <li><a href="#create-an-ec2-instance-for-running-nextflow-through-aws-batch" id="toc-create-an-ec2-instance-for-running-nextflow-through-aws-batch" class="nav-link" data-scroll-target="#create-an-ec2-instance-for-running-nextflow-through-aws-batch">Create an EC2 instance for running Nextflow through AWS Batch</a></li>
-  <li><a href="#nextflow-config-file" id="toc-nextflow-config-file" class="nav-link" data-scroll-target="#nextflow-config-file">Nextflow config file</a></li>
-  <li><a href="#running-a-pipeline" id="toc-running-a-pipeline" class="nav-link" data-scroll-target="#running-a-pipeline">Running a pipeline</a></li>
-  <li><a href="#monitoring-progress-or-lack-thereof" id="toc-monitoring-progress-or-lack-thereof" class="nav-link" data-scroll-target="#monitoring-progress-or-lack-thereof">Monitoring progress (or lack thereof)</a></li>
-  <li><a href="#aftermath" id="toc-aftermath" class="nav-link" data-scroll-target="#aftermath">Aftermath</a></li>
+  <li><a href="#shape-and-fill" id="toc-shape-and-fill" class="nav-link" data-scroll-target="#shape-and-fill">Shape and fill</a></li>
+  <li><a href="#x-and-y-axis-labels" id="toc-x-and-y-axis-labels" class="nav-link" data-scroll-target="#x-and-y-axis-labels">X and y axis labels</a></li>
+  <li><a href="#theme-options" id="toc-theme-options" class="nav-link" data-scroll-target="#theme-options">Theme options</a></li>
+  <li><a href="#font-size" id="toc-font-size" class="nav-link" data-scroll-target="#font-size">Font size</a></li>
   </ul>
 </nav>
     </div>
@@ -239,151 +227,116 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 
 <section id="introduction" class="level3">
 <h3 class="anchored" data-anchor-id="introduction">Introduction</h3>
-<p>I’m migrating my <code>Nextflow</code> execution to AWS from HPC. AWS setup is the main challenge here. There are several great guides that I’ve referenced <a href="https://t-neumann.github.io/pipelines/AWS-pipeline/">here</a> and <a href="https://staphb.org/resources/2020-04-29-nextflow_batch.html">here</a>. The problem (if there is one) is that there is no apparent way to programmatically set up AWS for Nextflow, and the web UI changes over time, which renders those guides slightly harder to follow. The irony is that this very guide I’m writing will also end up outdated, but maybe someone will find it useful in the meantime.</p>
-<p>The referenced guides already provide great step-by-step instructions. This guide is meant to be complementary.</p>
-</section>
-<section id="main-idea" class="level3">
-<h3 class="anchored" data-anchor-id="main-idea">Main idea</h3>
-<p><img src="overview.png" class="img-fluid"> Stolen from <a href="https://seqera.io/blog/nextflow-and-aws-batch-inside-the-integration-part-1-of-3/">seqera labs</a></p>
-<p>A couple of tweaks:</p>
-<ul>
-<li>I’m using a local Nextflow script saved in an EC2 instance running the pipeline instead of pulling it from a Github repo<br>
-</li>
-<li>I’m picking EC2 instances that will perform just one task per instance</li>
-</ul>
-</section>
-<section id="creating-an-iam" class="level3">
-<h3 class="anchored" data-anchor-id="creating-an-iam">Creating an IAM</h3>
-<ul>
-<li>create a user group with the necessary policies<br>
-</li>
-<li>create a user and add it to the user group</li>
-<li>create and download the access key<br>
-</li>
-<li>this user’s credentials are needed by the node Nextflow is run from</li>
-</ul>
-<div class="quarto-video"><video id="video_shortcode_videojs_video1" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="creating-IAM.mp4"></video></div>
-</section>
-<section id="creating-a-role" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-role">Creating a role</h3>
-<ul>
-<li>this role needs to be assigned to any SPOT compute environment (CE)</li>
-</ul>
-<div class="quarto-video"><video id="video_shortcode_videojs_video2" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="creating-role.mp4"></video></div>
-</section>
-<section id="creating-an-ec2-instance-to-create-an-ami" class="level3">
-<h3 class="anchored" data-anchor-id="creating-an-ec2-instance-to-create-an-ami">Creating an EC2 instance to create an AMI</h3>
-<ul>
-<li>An AMI is an image from which EC2 instances (within an ECS cluster as defined by a CE) are created. A custom one with AWS CLI pre-installed needs to be created. Its ID needs to be referenced later.</li>
-</ul>
-<div class="quarto-video"><video id="video_shortcode_videojs_video3" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="creating-ec2-to-make-ami.mp4"></video></div>
-<div class="callout callout-style-default callout-important callout-titled">
-<div class="callout-header d-flex align-content-center">
-<div class="callout-icon-container">
-<i class="callout-icon"></i>
-</div>
-<div class="callout-title-container flex-fill">
-Important
-</div>
-</div>
-<div class="callout-body-container callout-body">
-<ul>
-<li>should create a <code>t2.medium</code> instance instead of <code>t2.micro</code> or else you’d run out of memory while installing</li>
-</ul>
-</div>
-</div>
-</section>
-<section id="ami-setup" class="level3">
-<h3 class="anchored" data-anchor-id="ami-setup">AMI setup</h3>
-<ul>
-<li><code>ssh</code> into the EC2 instance with <code>.pem</code> file saved earlier
-<ul>
-<li><code>chmod 400</code> needs to be run to set the right kind of permissions<br>
-</li>
-</ul></li>
-<li>I <em>think</em> <code>docker</code> automatically extends its base size to include the additional 500GB EBS volume on top of the boot volume<br>
-</li>
-<li>This EC2 instance and any associated EBS volumes should be promptly deleted after its AMI is saved</li>
-</ul>
-<div class="quarto-video"><video id="video_shortcode_videojs_video4" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="ami-setup.mp4"></video></div>
-</section>
-<section id="aws-batch-setup" class="level3">
-<h3 class="anchored" data-anchor-id="aws-batch-setup">AWS batch setup</h3>
-<ul>
-<li>I don’t touch job definition because this is set in the nextflow script<br>
-</li>
-<li>Pick instance types that match the computational demands of each process
-<ul>
-<li>t-neumann’s guide suggests each CE should have one type of instance to be homogeneous<br>
-</li>
-<li>personally I grouped similar families of instances (ex. C4, C5, C5n) together to let AWS pick the optimal one<br>
-</li>
-<li>I have one CE each for compute, memory and general purpose workloads</li>
-</ul></li>
-<li>I’m using matching names for CE and job queue
-<ul>
-<li>feels a bit redundant, but the idea is that many job queues of different priorities can be assigned to each CE</li>
-</ul></li>
-</ul>
-<div class="quarto-video"><video id="video_shortcode_videojs_video5" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="compute-env-setup.mp4"></video></div>
-</section>
-<section id="add-permission-to-ec2instancerole" class="level3">
-<h3 class="anchored" data-anchor-id="add-permission-to-ec2instancerole">Add permission to ec2InstanceRole</h3>
-<div class="quarto-video"><video id="video_shortcode_videojs_video6" class="video-js vjs-default-skin vjs-fluid" controls="" preload="auto" data-setup="{}" title=""><source src="ec2instancerole.mp4"></video></div>
-</section>
-<section id="process-directives" class="level3">
-<h3 class="anchored" data-anchor-id="process-directives">Process directives</h3>
-<p><code>cpus</code>, <code>memory</code> and <code>time</code> directives will define the job definition on AWS batch. Need to account for ECS overhead in these directives to ensure that tasks will actually run (more on that in “Monitoring” section below). Two additional directives relevant for execution on AWS are <code>queue</code> and <code>container</code>. <code>queue</code> should match the name of the job queue we created (in turn associated with a compute environment). <code>container</code> should point to an appropriate docker container hosted online. I used <a href="https://biocontainers.pro/">biocontainers</a> hosted on <a href="https://quay.io">quay.io</a>.</p>
-<p>I think <code>profiles</code> in the config file can be used to really separate the execution from workflow logic, but I don’t see myself going back to HPC or other cloud platforms.</p>
-<p>I added <code>pattern</code> to <code>publishDir</code> directive to avoid duplicating files from <code>work</code> that I don’t need to save. One case in point are processed <code>fastq.gz</code> output files form <code>fastp</code> that are consumed by <code>STAR</code>. I only copy logs as such:</p>
+<p>In R, I use <code>ggplot2</code> for most of my plotting needs, but I’m not exactly in love with its default plotting aesthetics. Over time I developed a particular taste for how I like my plots for presentations or publications. It requires a bit of tinkering around to take creative control over gg-plots. Check out the two scatter plots below.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode groovy code-with-copy"><code class="sourceCode groovy"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>process FASTP <span class="op">{</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  publishDir s3<span class="op">:</span><span class="co">//my_bucket/out/fastp, mode: "copy", pattern: "*{html,json}"</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-1-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>One of these plots is better than the other one, and it’s not the first one.</p>
+<p><a href="https://clauswilke.com/dataviz/">This book</a> has guided me through the logic of what makes a plot “good” vs.&nbsp;“bad”. In this blog, I’ll break down the second plot into three parts. This could be adapted to a PCA plot for instance.</p>
 </section>
-<section id="create-an-ec2-instance-for-running-nextflow-through-aws-batch" class="level3">
-<h3 class="anchored" data-anchor-id="create-an-ec2-instance-for-running-nextflow-through-aws-batch">Create an EC2 instance for running Nextflow through AWS Batch</h3>
-<p>I use a <code>t2.medium</code> instance and install AWS CLI as before (creating an AMI). In this instance (not literally, referring to EC2), I’m running <code>aws configure</code> using the credentials copied/saved earlier (creating an IAM). Official instructions and security recommendations <a href="https://docs.aws.amazon.com/cli/latest/userguide/getting-started-quickstart.html">here</a>. My Nextflow script is saved in the home directory of this instance.</p>
-</section>
-<section id="nextflow-config-file" class="level3">
-<h3 class="anchored" data-anchor-id="nextflow-config-file">Nextflow config file</h3>
-<p>This is my <code>nextflow.config</code> file.</p>
+<section id="shape-and-fill" class="level3">
+<h3 class="anchored" data-anchor-id="shape-and-fill">Shape and fill</h3>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource groovy number-lines code-with-copy"><code class="sourceCode groovy"><span id="cb2-1"><a href="#cb2-1"></a>plugins <span class="op">{</span></span>
-<span id="cb2-2"><a href="#cb2-2"></a>    id <span class="st">'nf-amazon'</span></span>
-<span id="cb2-3"><a href="#cb2-3"></a><span class="op">}</span></span>
-<span id="cb2-4"><a href="#cb2-4"></a></span>
-<span id="cb2-5"><a href="#cb2-5"></a>aws <span class="op">{</span></span>
-<span id="cb2-6"><a href="#cb2-6"></a>    region <span class="op">=</span> <span class="st">'us-east-1'</span></span>
-<span id="cb2-7"><a href="#cb2-7"></a>    batch <span class="op">{</span></span>
-<span id="cb2-8"><a href="#cb2-8"></a>        cliPath <span class="op">=</span> <span class="st">'/home/ec2-user/miniconda/bin/aws'</span></span>
-<span id="cb2-9"><a href="#cb2-9"></a>    <span class="op">}</span></span>
-<span id="cb2-10"><a href="#cb2-10"></a><span class="op">}</span></span>
-<span id="cb2-11"><a href="#cb2-11"></a></span>
-<span id="cb2-12"><a href="#cb2-12"></a>process <span class="op">{</span></span>
-<span id="cb2-13"><a href="#cb2-13"></a>    executor <span class="op">=</span> <span class="st">'awsbatch'</span></span>
-<span id="cb2-14"><a href="#cb2-14"></a><span class="op">}</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(mpg[mpg<span class="sc">$</span>class <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"compact"</span>,<span class="st">"2seater"</span>,<span class="st">"midsize"</span>,<span class="st">"minivan"</span>),], <span class="fu">aes</span>(displ, hwy))<span class="sc">+</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">fill=</span>class, <span class="at">shape=</span>class), <span class="at">size=</span><span class="dv">3</span>, <span class="at">color =</span> <span class="st">"black"</span>)<span class="sc">+</span></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"Class"</span>,</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> <span class="fu">kelly</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>])<span class="sc">+</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="st">"Class"</span>,</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-</section>
-<section id="running-a-pipeline" class="level3">
-<h3 class="anchored" data-anchor-id="running-a-pipeline">Running a pipeline</h3>
-<p>Nextflow job submission to AWS Batch is <strong>not</strong> interrupted even if my <code>ssh</code> connection to the EC2 instance is lost.</p>
-<p>I think the <code>work</code> and <code>out</code> sub directories should already exist in the <code>s3</code> bucket.</p>
+</div>
+</div>
+<p>I’m a big fan of using both shape and colour. This could be considered redundant, but I like the extra layer of separation between groups. <code>aes(fill=class, shape=class)</code> tells <code>ggplot2</code> that “class” should be used as a variable to fill and shape points differently. Their respective <code>scale_*_manual()</code> specify which shapes or fill colours are available. Values 21 to 25 are available as empty <code>shapes</code> that can be filled with… <code>fill</code>. <code>labels</code> and <code>breaks</code> can be used to map different labels to each item (in this case under “class”) on the fly without changing the underlying data. These options should be identical across both <code>scale_*_manual()</code> or else two different legends could be shown.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">nextflow</span> run main.nf <span class="at">-w</span> s3://{your_bucket}/work <span class="at">--outputDir</span> s3://{your_bucket}/out <span class="at">-resume</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-3-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
 </div>
-</section>
-<section id="monitoring-progress-or-lack-thereof" class="level3">
-<h3 class="anchored" data-anchor-id="monitoring-progress-or-lack-thereof">Monitoring progress (or lack thereof)</h3>
-<p>From the AWS Batch dashboard under ‘job queue overview’, tasks should go from submitted, runnable, starting, running to succeeded. The crux is going from runnable to running. If something is not set up properly (CE, job queue, Nextflow directives), runnable jobs will never actually run. For me, only a couple of jobs would run simultaneously even when my CE was set to use beefy EC2 instances on-demand. This was due to the default EC2 quota of a few dozen vCPUs. From the root AWS account, <a href="https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-resource-limits.html">Service Quota</a> can be accessed and a request to increase this # can be put in (I requested 500 vCPUs and got 300 approved). This would be a good time to make sure 2-FA is enabled.</p>
-</section>
-<section id="aftermath" class="level3">
-<h3 class="anchored" data-anchor-id="aftermath">Aftermath</h3>
-<p>Once the smoke clears and dust settles, I’m left with precious output files in my <code>s3</code> bucket ready to be downloaded. I use credentials <code>configure</code>’d with AWS CLI on my laptop.</p>
+</div>
+</div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-overflow-wrap code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">aws</span> s3 cp s3://my_bucket/out . <span class="at">--recursive</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_fill_manual</span>(<span class="st">"Class"</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>                    <span class="at">values =</span> <span class="fu">kelly</span>()[<span class="dv">1</span><span class="sc">:</span><span class="dv">4</span>],</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Two seater"</span>, <span class="st">"Compact"</span>, <span class="st">"Midsize"</span>, <span class="st">"Minivan"</span>),</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"2seater"</span>, <span class="st">"compact"</span>, <span class="st">"midsize"</span>, <span class="st">"minivan"</span>))<span class="sc">+</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_shape_manual</span>(<span class="st">"Class"</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>                     <span class="at">values =</span> <span class="fu">c</span>(<span class="dv">21</span><span class="sc">:</span><span class="dv">24</span>),</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>                    <span class="at">labels =</span> <span class="fu">c</span>(<span class="st">"Two seater"</span>, <span class="st">"Compact"</span>, <span class="st">"Midsize"</span>, <span class="st">"Minivan"</span>),</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>                    <span class="at">breaks =</span> <span class="fu">c</span>(<span class="st">"2seater"</span>, <span class="st">"compact"</span>, <span class="st">"midsize"</span>, <span class="st">"minivan"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
+<p>I picked the first four colours in <code>kelly</code> under <code>pals</code>. This is a nice discrete scale with a good range of choices.</p>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-5-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="x-and-y-axis-labels" class="level3">
+<h3 class="anchored" data-anchor-id="x-and-y-axis-labels">X and y axis labels</h3>
+<p>These labels can be changed on the fly with <code>xlab</code> and <code>ylab</code>.</p>
+</section>
+<section id="theme-options" class="level3">
+<h3 class="anchored" data-anchor-id="theme-options">Theme options</h3>
+<p>The rest comes from <code>theme()</code>. There are a ton of <a href="https://ggplot2.tidyverse.org/reference/theme.html">options</a>, but only a few are relevant to me.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">theme_bw</span>()<span class="sc">+</span> <span class="co"># gets rid of grey background in the plot area</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">theme</span>(</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>      <span class="co"># grid lines can be controversial, in my field it's not seen often</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.minor=</span><span class="fu">element_blank</span>(), </span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.grid.major=</span><span class="fu">element_blank</span>(),</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.text =</span> <span class="fu">element_text</span>(<span class="at">color=</span><span class="st">"black"</span>,<span class="at">size=</span><span class="dv">14</span>), <span class="co"># default font size is too small</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.ticks =</span> <span class="fu">element_line</span>(<span class="at">colour=</span><span class="st">"black"</span>), <span class="co"># just plain old black please</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>      <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>), <span class="co"># default font size is too small</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.title=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="fl">0.5</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.text=</span><span class="fu">element_text</span>(<span class="at">size=</span><span class="dv">14</span>, <span class="at">vjust=</span><span class="fl">0.5</span>, <span class="at">hjust=</span><span class="dv">0</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.margin=</span><span class="fu">unit</span>(<span class="fu">c</span>(<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>,<span class="dv">1</span>),<span class="st">"cm"</span>),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>      <span class="at">plot.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"transparent"</span>, <span class="at">colour=</span><span class="cn">NA</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.border =</span> <span class="fu">element_rect</span>(<span class="at">colour=</span><span class="st">"black"</span>), <span class="co"># I like to draw a crisp border</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="at">panel.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"transparent"</span>, <span class="at">colour=</span><span class="cn">NA</span>),</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"transparent"</span>, <span class="at">colour=</span><span class="cn">NA</span>),</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.box.background=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"transparent"</span>, <span class="at">colour=</span><span class="cn">NA</span>),</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.key=</span><span class="fu">element_rect</span>(<span class="at">fill=</span><span class="st">"transparent"</span>, <span class="at">colour=</span><span class="cn">NA</span>),</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="at">legend.position =</span> <span class="st">'right'</span>,</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>      <span class="at">aspect.ratio=</span><span class="dv">1</span>) <span class="co"># I like it to be square</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>One thing I’m not certain about is the role of <code>fill="transparent", colour=NA</code>. Those are meant to disable bakground colour, but it can depend on how the plot is saved <em>I think</em> (ex. <code>ggsave()</code>, <code>pdf()</code>, <code>png()</code>, etc). So those could be redundant/pointless.</p>
+</section>
+<section id="font-size" class="level3">
+<h3 class="anchored" data-anchor-id="font-size">Font size</h3>
+<div class="cell">
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-7-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>I see this “problem” often where the text is too <em>damn</em> small. The final output size of the plot is also crucial. If this plot was saved as a 6’ by 6’ wall mural, point 14 font will not help with the cause. Instead, saving as a few inches tall/wide then scaling up (as a vector graphics hopefully) would preserve the relative sizes between text, lines and points.</p>
 <div class="center">
 <p>\ (•◡•) /</p>
 </div>
@@ -970,12 +923,6 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
     </div>
   </div>
 </footer>
-<script>videojs(video_shortcode_videojs_video1);</script>
-<script>videojs(video_shortcode_videojs_video2);</script>
-<script>videojs(video_shortcode_videojs_video3);</script>
-<script>videojs(video_shortcode_videojs_video4);</script>
-<script>videojs(video_shortcode_videojs_video5);</script>
-<script>videojs(video_shortcode_videojs_video6);</script>
 
 
 

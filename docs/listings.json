@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/240803-ggplot-aes/index.html",
       "/posts/240508-nextflow-splitcsv/index.html",
       "/posts/240322-shiny-pt2/index.html",
       "/posts/240115-shiny-pt1/index.html",
