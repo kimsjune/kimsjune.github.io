@@ -6,7 +6,7 @@ date: "2024-08-03"
 format: 
   html: default
 toc: true
-categories: [R]
+categories: [R, data visualization]
 ---
 
 ### Introduction
@@ -178,7 +178,7 @@ ggplot(mpg[mpg$class %in% c("compact","2seater","midsize","minivan"),], aes(disp
 
 ```
 
-I see this "problem" often where the text is too *damn* small. The final output size of the plot is also crucial. If this plot was saved as a 6' by 6' wall mural, point 14 font will not help with the cause. Instead, saving as a few inches tall/wide then scaling up (as a vector graphics hopefully) would preserve the relative sizes between text, lines and points.
+I see this "problem" often where the text is too *damn* small. The final output size of the plot is also crucial. If this plot was saved as a 6' by 6' wall mural, point 14 font will not help with the cause. Instead, saving as a few inches tall/wide then scaling up (as vector graphics hopefully) would preserve the relative sizes between text, lines and points.
 
 ::: center
 \\ (•◡•) /
