@@ -57,5 +57,11 @@
   },
   "posts/240803-ggplot-aes/index.qmd": {
     "index.html": "54edecda"
+  },
+  "posts/241117-sequencing-cost/index.qmd": {
+    "index.html": "296f7a4d"
+  },
+  "posts/241117-sequencing-cost/barplot.ipynb": {
+    "barplot.html": "b11b6535"
   }
 }

@@ -1,0 +1,75 @@
+---
+title: "Affordable short read sequencing"
+author: "jk"
+description: "In praise of Illumina's NovaSeq"
+date: "2024-11-17"
+format: 
+  html: default
+toc: true
+categories: [other]
+---
+
+If there is one thing that has gotten *cheaper* in this economy, it would be short read next generation sequencing. During my grad research, I did a few bulk RNA-seq and ChIP-seq experiments and I remember holding my breath before seeing each quote in the mid four figures[^1].
+In recent years, Illumina's NovaSeq has made this type of sequencing much more affordable[^2]. See the plot below comparing cost (in CAD) per million reads between NextSeq550 and NovaSeq X Plus. 
+
+
+```{r}
+#| code-fold: true
+
+df <- data.frame(
+  Machine = c("NextSeq500","NextSeq500", "NovaSeqX"),
+  DollarsPerMillion = c(20.96, 9.01, 1.51),
+  Flow = c("Mid","High", "10B")
+)
+
+df$Flow <- factor(df$Flow, levels = c("Mid","High", "10B"))
+
+library(ggplot2)
+
+ggplot(df, aes(x = Flow, y = DollarsPerMillion, fill = Machine)) +
+  geom_bar(stat = "identity", position = position_dodge()) +
+  geom_text(aes(label = DollarsPerMillion),
+          position = position_dodge(width = 0.9),
+          vjust = -0.5,
+          size = 5) +
+  labs(
+    y = "$ per 1M reads (CAD)",
+    x = "Flow Cell",
+    title = ""
+  ) +
+  scale_fill_manual(
+    values= c("NextSeq500" = "grey75",
+              "NovaSeqX" = "blue3")
+  )+
+  ylim(0,23)+
+  theme_bw()+ # gets rid of grey background in the plot area
+  theme(
+      # grid lines can be controversial, in my field it's not seen often
+      panel.grid.minor=element_blank(), 
+      panel.grid.major=element_blank(),
+      axis.text = element_text(color="black",size=14), # default font size is too small
+      axis.ticks = element_line(colour="black"), # just plain old black please
+      axis.title = element_text(size=14), # default font size is too small
+      legend.title=element_text(size=14, vjust=0.5, hjust=0.5),
+      legend.text=element_text(size=14, vjust=0.5, hjust=0),
+      plot.margin=unit(c(1,1,1,1),"cm"),
+      plot.background=element_rect(fill="transparent", colour=NA),
+      panel.border = element_rect(colour="black"), # I like to draw a crisp border
+      panel.background=element_rect(fill="transparent", colour=NA),
+      legend.background=element_rect(fill="transparent", colour=NA),
+      legend.box.background=element_rect(fill="transparent", colour=NA),
+      legend.key=element_rect(fill="transparent", colour=NA),
+      legend.position = 'right',
+      aspect.ratio=1)
+
+
+```
+
+These prices are from two genomics cores in Ontario. Cycle numbers are 150, 75, and 100 bp in total, respectively. This is not meant to be a comprehensive breakdown of every Illumina machine/flow cell vs. cost, cycle, etc, but the general cost advantage is clear. This could also help with the back-of-the-envelope-math while budgeting; nowadays you can get a million reads for buck five. 
+
+[^1]: Those numbers included library prep kit cost, too, so they ran a bit higher.
+[^2]: Assuming you already bought one for [$1.2M](https://genohub.com/ngs-sequencer/3/illumina-novaseq-x-plus/), or have access to it through a local genomics core. The latter being the more likely scenario.  
+
+::: center
+\\ (•◡•) /
+:::

@@ -18,12 +18,14 @@ website:
         href: /
       - text: RNA-seq workshop
         href: https://kimsjune.github.io/ccir-rnaseq/docs/index.html
+      - text: shinyDSP
+        href: https://kimsjune.github.io/shinyDSP
       # - text: CV
       #   href: cv/index.qmd
      # - icon: github
     #    href: https://github.com/kimsjune
       - icon: envelope
-        href: mailto:seung.kim@lhsc.on.ca
+        href: mailto:skim823@uwo.ca
       # - icon: twitter
       #   href: https://twitter.com
 format:

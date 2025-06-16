@@ -2,6 +2,8 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/241117-sequencing-cost/barplot.html",
+      "/posts/241117-sequencing-cost/index.html",
       "/posts/240803-ggplot-aes/index.html",
       "/posts/240508-nextflow-splitcsv/index.html",
       "/posts/240322-shiny-pt2/index.html",
