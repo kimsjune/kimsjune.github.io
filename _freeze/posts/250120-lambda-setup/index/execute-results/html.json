@@ -1,0 +1,15 @@
+{
+  "hash": "e27fcdff987aab20ce4f450c8f87b636",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"Setting up pytorch on Lambda cloud\"\nauthor: \"jk\"\ndescription: \"Unfortunately a recurring theme\"\ndate: \"2025-01-20\"\nformat: \n  html: default\ntoc: true\ncategories: [HPC, cloud]\n---\n\n\n\n## Introduction\n\nTo perform cell type inference on Visium spatial transcriptomics data with [cell2location](https://www.nature.com/articles/s41587-021-01139-4), one needs a GPU. Since I have a large dataset of ~160k spots, I need a *large* GPU with a ton of VRAM. This is [well documented](https://github.com/BayraktarLab/cell2location/issues/356). Finding the right GPU provider was a bit tricky. cell2location can only use one GPU, but many cloud providers like AWS bundle a handful of \"smaller\" GPUs together into one. For example, `p5.48xlarge` comes with eight NVIDIA H100, each with 80GB HBM3 VRAM, but it costs a cool \\$55 USD/hr on-demand. Thankfully, [Lambda cloud](https://lambda.ai/) offers just one NVIDIA GH200 with 96GB VRAM for \\$1.49 USD/hr. \n\n## The catch\n\nThe catch is that the boot volumn is not persistent on Lambda cloud. Once you shutdown, poof. On top of that, the GH200 is set up to run on ARM64, not x86, so pytorch does not run out of the box. This means that every time I want to run cell2location on some new data or with a different scRNA-seq reference annotation, I have to runs some setup. \n\n## The setup\n\n\n\n::: {.cell}\n\n```{.bash .cell-code}\n# Download miniconda and install\nwget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh\nbash ~/Miniconda3-latest-Linux-aarch64.sh\n\nconda create -n scvi-tools -c bioconda python=3.12\nconda activate scvi-tools\n\n# Specifying the URL seems CRITICAL\npip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124 \n```\n:::\n\n\n\nThen, in a python console run:\n\n\n\n::: {.cell}\n\n```{.python .cell-code}\nimport python\ntorch.cuda.is_available() # should return true\n```\n:::\n\n\n\nLastly,\n\n\n\n::: {.cell}\n\n```{.bash .cell-code}\npip install cell2location[tutorials] ipykernel\n\n# To use a Jupyter notebook\npython -m ipykernel install --user --name=scvi-tools --display-name='scvi-tools'\n\n# Fixes some missing font error in Jupyter notebooks\nsudo apt install msttcorefonts -qq\nrm ~/.cache/matplotlib -rf\n\n```\n:::\n\n\n\n\n::: center\n\\\\ (•◡•) /\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}

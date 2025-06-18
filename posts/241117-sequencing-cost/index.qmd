@@ -9,9 +9,11 @@ toc: true
 categories: [other]
 ---
 
-If there is one thing that has gotten *cheaper* in this economy, it would be short read next generation sequencing. During my grad research, I did a few bulk RNA-seq and ChIP-seq experiments and I remember holding my breath before seeing each quote in the mid four figures[^1].
-In recent years, Illumina's NovaSeq has made this type of sequencing much more affordable[^2]. See the plot below comparing cost (in CAD) per million reads between NextSeq550 and NovaSeq X Plus. 
+If there is one thing that has gotten *cheaper* in this economy, it would be short read next generation sequencing. During my grad research, I did a few bulk RNA-seq and ChIP-seq experiments and I remember holding my breath before seeing each quote in the mid four figures[^1]. In recent years, Illumina's NovaSeq has made this type of sequencing much more affordable[^2]. See the plot below comparing cost (in CAD) per million reads between NextSeq550 and NovaSeq X Plus.
 
+[^1]: Those numbers included library prep kit cost, too, so they ran a bit higher.
+
+[^2]: Assuming you already bought one for [\$1.2M](https://genohub.com/ngs-sequencer/3/illumina-novaseq-x-plus/), or have access to it through a local genomics core. The latter being the more likely scenario.
 
 ```{r}
 #| code-fold: true
@@ -65,10 +67,7 @@ ggplot(df, aes(x = Flow, y = DollarsPerMillion, fill = Machine)) +
 
 ```
 
-These prices are from two genomics cores in Ontario. Cycle numbers are 150, 75, and 100 bp in total, respectively. This is not meant to be a comprehensive breakdown of every Illumina machine/flow cell vs. cost, cycle, etc, but the general cost advantage is clear. This could also help with the back-of-the-envelope-math while budgeting; nowadays you can get a million reads for buck five. 
-
-[^1]: Those numbers included library prep kit cost, too, so they ran a bit higher.
-[^2]: Assuming you already bought one for [$1.2M](https://genohub.com/ngs-sequencer/3/illumina-novaseq-x-plus/), or have access to it through a local genomics core. The latter being the more likely scenario.  
+These prices are from two genomics cores in Ontario. Cycle numbers are 150, 75, and 100 bp in total, respectively. This is not meant to be a comprehensive breakdown of every Illumina machine/flow cell vs. cost, cycle, etc, but the general cost advantage is clear. This could also help with the back-of-the-envelope-math while budgeting; nowadays you can get a million reads for buck five.
 
 ::: center
 \\ (•◡•) /

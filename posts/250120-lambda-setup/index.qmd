@@ -1,0 +1,64 @@
+---
+title: "Setting up pytorch on Lambda cloud"
+author: "jk"
+description: "Unfortunately a recurring theme"
+date: "2025-01-20"
+format: 
+  html: default
+toc: true
+categories: [HPC, cloud]
+---
+
+## Introduction
+
+To perform cell type inference on Visium spatial transcriptomics data with [cell2location](https://www.nature.com/articles/s41587-021-01139-4), one needs a GPU. Since I have a large dataset of ~160k spots, I need a *large* GPU with a ton of VRAM. This is [well documented](https://github.com/BayraktarLab/cell2location/issues/356). Finding the right GPU provider was a bit tricky. cell2location can only use one GPU, but many cloud providers like AWS bundle a handful of "smaller" GPUs together into one. For example, `p5.48xlarge` comes with eight NVIDIA H100, each with 80GB HBM3 VRAM, but it costs a cool \$55 USD/hr on-demand. Thankfully, [Lambda cloud](https://lambda.ai/) offers just one NVIDIA GH200 with 96GB VRAM for \$1.49 USD/hr. 
+
+## The catch
+
+The catch is that the boot volumn is not persistent on Lambda cloud. Once you shutdown, poof. On top of that, the GH200 is set up to run on ARM64, not x86, so pytorch does not run out of the box. This means that every time I want to run cell2location on some new data or with a different scRNA-seq reference annotation, I have to runs some setup. 
+
+## The setup
+
+```{r, engine='bash'}
+#| eval: false
+
+# Download miniconda and install
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh
+bash ~/Miniconda3-latest-Linux-aarch64.sh
+
+conda create -n scvi-tools -c bioconda python=3.12
+conda activate scvi-tools
+
+# Specifying the URL seems CRITICAL
+pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu124 
+```
+
+Then, in a python console run:
+
+```{python}
+#| eval: false
+
+import python
+torch.cuda.is_available() # should return true
+```
+
+Lastly,
+
+```{r, engine='bash'}
+#| eval: false
+
+pip install cell2location[tutorials] ipykernel
+
+# To use a Jupyter notebook
+python -m ipykernel install --user --name=scvi-tools --display-name='scvi-tools'
+
+# Fixes some missing font error in Jupyter notebooks
+sudo apt install msttcorefonts -qq
+rm ~/.cache/matplotlib -rf
+
+```
+
+
+::: center
+\\ (•◡•) /
+:::

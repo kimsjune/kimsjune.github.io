@@ -6,8 +6,11 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="jk">
+<meta name="dcterms.date" content="2025-01-20">
+<meta name="description" content="Unfortunately a recurring theme">
 
-<title>barplot – Joon's blog</title>
+<title>Setting up pytorch on Lambda cloud – Joon’s blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -19,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   width: 0.8em;
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
 }
 </style>
 
@@ -81,7 +118,8 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 
 
 <link rel="stylesheet" href="../../styles.css">
-<meta property="og:title" content="Joon’s blog">
+<meta property="og:title" content="Setting up pytorch on Lambda cloud – Joon’s blog">
+<meta property="og:description" content="Unfortunately a recurring theme">
 <meta property="og:site_name" content="Joon's blog">
 </head>
 
@@ -132,11 +170,56 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
     </nav>
 </header>
 <!-- content -->
-<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Setting up pytorch on Lambda cloud</h1>
+                  <div>
+        <div class="description">
+          Unfortunately a recurring theme
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">HPC</div>
+                <div class="quarto-category">cloud</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>jk </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">January 20, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
 <!-- sidebar -->
 <!-- margin-sidebar -->
-    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
-        
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#the-catch" id="toc-the-catch" class="nav-link" data-scroll-target="#the-catch">The catch</a></li>
+  <li><a href="#the-setup" id="toc-the-setup" class="nav-link" data-scroll-target="#the-setup">The setup</a></li>
+  </ul>
+</nav>
     </div>
 <!-- main -->
 <main class="content quarto-banner-title-block" id="quarto-document-content">
@@ -145,7 +228,49 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 
 
 
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>To perform cell type inference on Visium spatial transcriptomics data with <a href="https://www.nature.com/articles/s41587-021-01139-4">cell2location</a>, one needs a GPU. Since I have a large dataset of ~160k spots, I need a <em>large</em> GPU with a ton of VRAM. This is <a href="https://github.com/BayraktarLab/cell2location/issues/356">well documented</a>. Finding the right GPU provider was a bit tricky. cell2location can only use one GPU, but many cloud providers like AWS bundle a handful of “smaller” GPUs together into one. For example, <code>p5.48xlarge</code> comes with eight NVIDIA H100, each with 80GB HBM3 VRAM, but it costs a cool $55 USD/hr on-demand. Thankfully, <a href="https://lambda.ai/">Lambda cloud</a> offers just one NVIDIA GH200 with 96GB VRAM for $1.49 USD/hr.</p>
+</section>
+<section id="the-catch" class="level2">
+<h2 class="anchored" data-anchor-id="the-catch">The catch</h2>
+<p>The catch is that the boot volumn is not persistent on Lambda cloud. Once you shutdown, poof. On top of that, the GH200 is set up to run on ARM64, not x86, so pytorch does not run out of the box. This means that every time I want to run cell2location on some new data or with a different scRNA-seq reference annotation, I have to runs some setup.</p>
+</section>
+<section id="the-setup" class="level2">
+<h2 class="anchored" data-anchor-id="the-setup">The setup</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Download miniconda and install</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">wget</span> https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">bash</span> ~/Miniconda3-latest-Linux-aarch64.sh</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> create <span class="at">-n</span> scvi-tools <span class="at">-c</span> bioconda python=3.12</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> activate scvi-tools</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Specifying the URL seems CRITICAL</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install torch torchvision torchaudio <span class="at">--index-url</span> https://download.pytorch.org/whl/cu124 </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Then, in a python console run:</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> python</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>torch.cuda.is_available() <span class="co"># should return true</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p>Lastly,</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install cell2location<span class="pp">[</span><span class="ss">tutorials</span><span class="pp">]</span> ipykernel</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="co"># To use a Jupyter notebook</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> <span class="at">-m</span> ipykernel install <span class="at">--user</span> <span class="at">--name</span><span class="op">=</span>scvi-tools <span class="at">--display-name</span><span class="op">=</span><span class="st">'scvi-tools'</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Fixes some missing font error in Jupyter notebooks</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="fu">sudo</span> apt install msttcorefonts <span class="at">-qq</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> ~/.cache/matplotlib <span class="at">-rf</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="center">
+<p>\ (•◡•) /</p>
+</div>
 
+
+</section>
 
 <a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
 <script id="quarto-html-after-body" type="application/javascript">
