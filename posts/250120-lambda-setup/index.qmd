@@ -38,7 +38,7 @@ Then, in a python console run:
 ```{python}
 #| eval: false
 
-import python
+import torch
 torch.cuda.is_available() # should return true
 ```
 
