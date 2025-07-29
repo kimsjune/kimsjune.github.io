@@ -1,0 +1,1840 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.5.57">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="jk">
+<meta name="dcterms.date" content="2025-07-28">
+<meta name="description" content="when my working conda env is no longer">
+
+<title>Resisting python package updates – Joon’s blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { display: inline-block; text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../">
+<link href="../../quarto_favicon.svg" rel="icon" type="image/svg+xml">
+<script src="../../site_libs/quarto-html/quarto.js"></script>
+<script src="../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../site_libs/quarto-html/quarto-syntax-highlighting-dark.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<script src="../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../site_libs/bootstrap/bootstrap.min.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../site_libs/bootstrap/bootstrap-dark.min.css" rel="prefetch" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script async="" src="https://www.googletagmanager.com/gtag/js?id=G-LETXD56KZ0"></script>
+
+<script type="text/javascript">
+
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
+</script>
+
+
+<link rel="stylesheet" href="../../styles.css">
+<meta property="og:title" content="Resisting python package updates – Joon’s blog">
+<meta property="og:description" content="when my working conda env is no longer">
+<meta property="og:site_name" content="Joon's blog">
+</head>
+
+<body class="nav-fixed">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top quarto-banner">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../../index.html">
+    <span class="navbar-title">🧐 Joon’s bioinformatics blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll ms-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../../about/index.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../../"> 
+<span class="menu-text">Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://kimsjune.github.io/ccir-rnaseq/docs/index.html"> 
+<span class="menu-text">RNA-seq workshop</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="https://kimsjune.github.io/shinyDSP"> 
+<span class="menu-text">shinyDSP</span></a>
+  </li>  
+  <li class="nav-item compact">
+    <a class="nav-link" href="mailto:skim823@uwo.ca"> <i class="bi bi-envelope" role="img">
+</i> 
+<span class="menu-text"></span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<header id="title-block-header" class="quarto-title-block default page-columns page-full">
+  <div class="quarto-title-banner page-columns page-full">
+    <div class="quarto-title column-body">
+      <h1 class="title">Resisting python package updates</h1>
+                  <div>
+        <div class="description">
+          when my working conda env is no longer
+        </div>
+      </div>
+                          <div class="quarto-categories">
+                <div class="quarto-category">Python</div>
+              </div>
+                  </div>
+  </div>
+    
+  
+  <div class="quarto-title-meta">
+
+      <div>
+      <div class="quarto-title-meta-heading">Author</div>
+      <div class="quarto-title-meta-contents">
+               <p>jk </p>
+            </div>
+    </div>
+      
+      <div>
+      <div class="quarto-title-meta-heading">Published</div>
+      <div class="quarto-title-meta-contents">
+        <p class="date">July 28, 2025</p>
+      </div>
+    </div>
+    
+      
+    </div>
+    
+  
+  </header><div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#the-problem-in-a-nutshell" id="toc-the-problem-in-a-nutshell" class="nav-link active" data-scroll-target="#the-problem-in-a-nutshell">The “problem” in a nutshell</a></li>
+  <li><a href="#the-problem-in-detail" id="toc-the-problem-in-detail" class="nav-link" data-scroll-target="#the-problem-in-detail">The problem in detail</a></li>
+  <li><a href="#the-solution" id="toc-the-solution" class="nav-link" data-scroll-target="#the-solution">The solution</a></li>
+  <li><a href="#aftermath" id="toc-aftermath" class="nav-link" data-scroll-target="#aftermath">Aftermath</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content quarto-banner-title-block" id="quarto-document-content">
+
+
+
+
+
+<section id="the-problem-in-a-nutshell" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-in-a-nutshell">The “problem” in a nutshell</h2>
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="https://imgs.xkcd.com/comics/workflow.png" class="img-fluid quarto-figure quarto-figure-center figure-img"></p>
+</figure>
+</div>
+</section>
+<section id="the-problem-in-detail" class="level2">
+<h2 class="anchored" data-anchor-id="the-problem-in-detail">The problem in detail</h2>
+<p>I ran into a funny error while trying to save a Visium spatial data to disk. <code>adata_vis.write("adata_vis.h5ad")</code> would return <code>ValueError: Forward slashes are not allowed in keys</code>. This is funny because I previously saved plenty of other files with forward slashes in <code>adata_vis.obs</code> column names. <em>Why now?</em> After faffing around I vaguely remembered I messed around with re-installing some packages in my <code>conda</code> environment earlier. Finally found a breaking change in <code>anndata</code> version 0.12.1 released on July 23rd, 2025, <a href="https://github.com/scverse/anndata/pull/1940">disallowing forward slashes in keys for writing</a>. I’m sure it’s been done for good reasons, but I’m not keen on updating all slashes into dashes in my figures… To revert my conda environment back to its working state, I also had to complete two side quests: re-installing <code>numpy</code> and <code>numcodecs</code> to 1.26.4 and 0.15.1, respectively. A part of the problem could be that I’m using <code>pip</code> to install packages in a <code>conda</code> environment. I’m just used to <code>conda</code>, but some packages only ship with <code>pip</code>.</p>
+</section>
+<section id="the-solution" class="level2">
+<h2 class="anchored" data-anchor-id="the-solution">The solution</h2>
+<p>None of this is a problem as long as I save package versions (both conda and pip).</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="ex">conda</span> env export <span class="op">&gt;</span> ./scvi-tools.yml</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> freeze <span class="op">&gt;</span> ./scvi-tools.txt</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>scvi-tools.yml</summary>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="ex">name:</span> scvi-tools</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="ex">channels:</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> defaults</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> conda-forge</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> https://repo.anaconda.com/pkgs/main</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> https://repo.anaconda.com/pkgs/r</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="ex">dependencies:</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> anyio=4.8.0=pyhd8ed1ab_0</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aom=3.9.1=h7bae524_0</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> appnope=0.1.4=pyhd8ed1ab_1</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> argon2-cffi=23.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> argon2-cffi-bindings=21.2.0=py312h024a12e_5</span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> arpack=3.9.1=nompi_h593882a_101</span>
+<span id="cb2-15"><a href="#cb2-15" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> arrow=1.3.0=pyhd8ed1ab_1</span>
+<span id="cb2-16"><a href="#cb2-16" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> asttokens=3.0.0=pyhd8ed1ab_1</span>
+<span id="cb2-17"><a href="#cb2-17" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> async-lru=2.0.4=pyhd8ed1ab_1</span>
+<span id="cb2-18"><a href="#cb2-18" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-auth=0.8.1=hfc2798a_0</span>
+<span id="cb2-19"><a href="#cb2-19" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-cal=0.8.1=hc8a0bd2_3</span>
+<span id="cb2-20"><a href="#cb2-20" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-common=0.10.6=h5505292_0</span>
+<span id="cb2-21"><a href="#cb2-21" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-compression=0.3.0=hc8a0bd2_5</span>
+<span id="cb2-22"><a href="#cb2-22" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-event-stream=0.5.0=h54f970a_11</span>
+<span id="cb2-23"><a href="#cb2-23" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-http=0.9.2=h96aa502_4</span>
+<span id="cb2-24"><a href="#cb2-24" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-io=0.15.3=haba67d1_6</span>
+<span id="cb2-25"><a href="#cb2-25" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-mqtt=0.11.0=h24f418c_12</span>
+<span id="cb2-26"><a href="#cb2-26" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-s3=0.7.9=hf37e03c_1</span>
+<span id="cb2-27"><a href="#cb2-27" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-c-sdkutils=0.2.2=hc8a0bd2_0</span>
+<span id="cb2-28"><a href="#cb2-28" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-checksums=0.2.2=hc8a0bd2_4</span>
+<span id="cb2-29"><a href="#cb2-29" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-crt-cpp=0.29.9=ha81f72f_2</span>
+<span id="cb2-30"><a href="#cb2-30" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> aws-sdk-cpp=1.11.489=h0e5014b_0</span>
+<span id="cb2-31"><a href="#cb2-31" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> azure-core-cpp=1.14.0=hd50102c_0</span>
+<span id="cb2-32"><a href="#cb2-32" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> azure-identity-cpp=1.10.0=hc602bab_0</span>
+<span id="cb2-33"><a href="#cb2-33" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> azure-storage-blobs-cpp=12.13.0=h7585a09_1</span>
+<span id="cb2-34"><a href="#cb2-34" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> azure-storage-common-cpp=12.8.0=h9ca1f76_1</span>
+<span id="cb2-35"><a href="#cb2-35" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> azure-storage-files-datalake-cpp=12.12.0=hcdd55da_1</span>
+<span id="cb2-36"><a href="#cb2-36" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> babel=2.16.0=pyhd8ed1ab_1</span>
+<span id="cb2-37"><a href="#cb2-37" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> beautifulsoup4=4.12.3=pyha770c72_1</span>
+<span id="cb2-38"><a href="#cb2-38" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> bleach=6.2.0=pyh29332c3_4</span>
+<span id="cb2-39"><a href="#cb2-39" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> bleach-with-css=6.2.0=h82add2a_4</span>
+<span id="cb2-40"><a href="#cb2-40" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> blosc=1.21.6=h7dd00d9_1</span>
+<span id="cb2-41"><a href="#cb2-41" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> bokeh=3.6.2=pyhd8ed1ab_1</span>
+<span id="cb2-42"><a href="#cb2-42" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> branca=0.8.1=pyhd8ed1ab_0</span>
+<span id="cb2-43"><a href="#cb2-43" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> brotli=1.1.0=hd74edd7_2</span>
+<span id="cb2-44"><a href="#cb2-44" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> brotli-bin=1.1.0=hd74edd7_2</span>
+<span id="cb2-45"><a href="#cb2-45" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> brotli-python=1.0.9=py312h313beb8_9</span>
+<span id="cb2-46"><a href="#cb2-46" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> bzip2=1.0.8=h99b78c6_7</span>
+<span id="cb2-47"><a href="#cb2-47" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> c-ares=1.34.4=h5505292_0</span>
+<span id="cb2-48"><a href="#cb2-48" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> ca-certificates=2025.2.25=hca03da5_0</span>
+<span id="cb2-49"><a href="#cb2-49" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cached-property=1.5.2=hd8ed1ab_1</span>
+<span id="cb2-50"><a href="#cb2-50" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cached_property=1.5.2=pyha770c72_1</span>
+<span id="cb2-51"><a href="#cb2-51" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cffi=1.17.1=py312h0fad829_0</span>
+<span id="cb2-52"><a href="#cb2-52" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cloudpickle=3.1.1=pyhd8ed1ab_0</span>
+<span id="cb2-53"><a href="#cb2-53" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> colorama=0.4.6=pyhd8ed1ab_1</span>
+<span id="cb2-54"><a href="#cb2-54" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> colorcet=3.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-55"><a href="#cb2-55" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> comm=0.2.2=pyhd8ed1ab_1</span>
+<span id="cb2-56"><a href="#cb2-56" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cpython=3.12.8=py312hd8ed1ab_1</span>
+<span id="cb2-57"><a href="#cb2-57" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cycler=0.12.1=pyhd8ed1ab_1</span>
+<span id="cb2-58"><a href="#cb2-58" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> cytoolz=1.0.1=py312hea69d52_0</span>
+<span id="cb2-59"><a href="#cb2-59" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> dask=2024.11.2=pyhff2d567_1</span>
+<span id="cb2-60"><a href="#cb2-60" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> dask-core=2024.11.2=pyhff2d567_1</span>
+<span id="cb2-61"><a href="#cb2-61" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> dask-expr=1.1.19=pyhd8ed1ab_0</span>
+<span id="cb2-62"><a href="#cb2-62" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> dask-image=2024.5.3=pyhd8ed1ab_0</span>
+<span id="cb2-63"><a href="#cb2-63" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> dav1d=1.2.1=hb547adb_0</span>
+<span id="cb2-64"><a href="#cb2-64" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> debugpy=1.8.12=py312hd8f9ff3_0</span>
+<span id="cb2-65"><a href="#cb2-65" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> defusedxml=0.7.1=pyhd8ed1ab_0</span>
+<span id="cb2-66"><a href="#cb2-66" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> deprecated=1.2.18=pyhd8ed1ab_0</span>
+<span id="cb2-67"><a href="#cb2-67" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> distributed=2024.11.2=pyhff2d567_1</span>
+<span id="cb2-68"><a href="#cb2-68" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> entrypoints=0.4=pyhd8ed1ab_1</span>
+<span id="cb2-69"><a href="#cb2-69" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> et_xmlfile=2.0.0=pyhd8ed1ab_1</span>
+<span id="cb2-70"><a href="#cb2-70" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> exceptiongroup=1.2.2=pyhd8ed1ab_1</span>
+<span id="cb2-71"><a href="#cb2-71" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> executing=2.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-72"><a href="#cb2-72" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> fasteners=0.19=pyhd8ed1ab_1</span>
+<span id="cb2-73"><a href="#cb2-73" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> folium=0.19.4=pyhd8ed1ab_0</span>
+<span id="cb2-74"><a href="#cb2-74" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> fqdn=1.5.1=pyhd8ed1ab_1</span>
+<span id="cb2-75"><a href="#cb2-75" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> freetype=2.12.1=hadb7bae_2</span>
+<span id="cb2-76"><a href="#cb2-76" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> freexl=2.0.0=h3ab3353_2</span>
+<span id="cb2-77"><a href="#cb2-77" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> geos=3.13.0=hf9b8971_0</span>
+<span id="cb2-78"><a href="#cb2-78" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> geotiff=1.7.3=h82bf549_3</span>
+<span id="cb2-79"><a href="#cb2-79" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> gflags=2.2.2=hf9b8971_1005</span>
+<span id="cb2-80"><a href="#cb2-80" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> giflib=5.2.2=h80987f9_0</span>
+<span id="cb2-81"><a href="#cb2-81" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> glog=0.7.1=heb240a5_0</span>
+<span id="cb2-82"><a href="#cb2-82" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> glpk=5.0=h6d7a090_0</span>
+<span id="cb2-83"><a href="#cb2-83" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> gmp=6.3.0=h7bae524_2</span>
+<span id="cb2-84"><a href="#cb2-84" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> gmpy2=2.1.5=py312h524cf62_3</span>
+<span id="cb2-85"><a href="#cb2-85" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> h11=0.14.0=pyhd8ed1ab_1</span>
+<span id="cb2-86"><a href="#cb2-86" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> h2=4.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-87"><a href="#cb2-87" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> hdf5=1.14.4=nompi_ha698983_104</span>
+<span id="cb2-88"><a href="#cb2-88" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> hpack=4.1.0=pyhd8ed1ab_0</span>
+<span id="cb2-89"><a href="#cb2-89" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> httpcore=1.0.7=pyh29332c3_1</span>
+<span id="cb2-90"><a href="#cb2-90" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> httpx=0.28.1=pyhd8ed1ab_0</span>
+<span id="cb2-91"><a href="#cb2-91" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> hyperframe=6.1.0=pyhd8ed1ab_0</span>
+<span id="cb2-92"><a href="#cb2-92" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> icu=75.1=hfee45f7_0</span>
+<span id="cb2-93"><a href="#cb2-93" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> importlib-metadata=8.6.1=pyha770c72_0</span>
+<span id="cb2-94"><a href="#cb2-94" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> importlib_resources=6.5.2=pyhd8ed1ab_0</span>
+<span id="cb2-95"><a href="#cb2-95" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> inflect=7.5.0=pyhd8ed1ab_0</span>
+<span id="cb2-96"><a href="#cb2-96" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> ipykernel=6.29.5=pyh57ce528_0</span>
+<span id="cb2-97"><a href="#cb2-97" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> ipython=8.31.0=pyh707e725_0</span>
+<span id="cb2-98"><a href="#cb2-98" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> isoduration=20.11.0=pyhd8ed1ab_1</span>
+<span id="cb2-99"><a href="#cb2-99" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jedi=0.19.2=pyhd8ed1ab_1</span>
+<span id="cb2-100"><a href="#cb2-100" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> json-c=0.18=he4178ee_0</span>
+<span id="cb2-101"><a href="#cb2-101" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> json5=0.10.0=pyhd8ed1ab_1</span>
+<span id="cb2-102"><a href="#cb2-102" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jsonpointer=3.0.0=py312h81bd7bf_1</span>
+<span id="cb2-103"><a href="#cb2-103" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jsonschema=4.23.0=pyhd8ed1ab_1</span>
+<span id="cb2-104"><a href="#cb2-104" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jsonschema-specifications=2024.10.1=pyhd8ed1ab_1</span>
+<span id="cb2-105"><a href="#cb2-105" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jsonschema-with-format-nongpl=4.23.0=hd8ed1ab_1</span>
+<span id="cb2-106"><a href="#cb2-106" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter-lsp=2.2.5=pyhd8ed1ab_1</span>
+<span id="cb2-107"><a href="#cb2-107" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter_client=7.4.9=pyhd8ed1ab_0</span>
+<span id="cb2-108"><a href="#cb2-108" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter_core=5.7.2=pyh31011fe_1</span>
+<span id="cb2-109"><a href="#cb2-109" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter_events=0.11.0=pyhd8ed1ab_0</span>
+<span id="cb2-110"><a href="#cb2-110" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter_server=2.15.0=pyhd8ed1ab_0</span>
+<span id="cb2-111"><a href="#cb2-111" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyter_server_terminals=0.5.3=pyhd8ed1ab_1</span>
+<span id="cb2-112"><a href="#cb2-112" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyterlab=4.3.5=pyhd8ed1ab_0</span>
+<span id="cb2-113"><a href="#cb2-113" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyterlab_pygments=0.3.0=pyhd8ed1ab_2</span>
+<span id="cb2-114"><a href="#cb2-114" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> jupyterlab_server=2.27.3=pyhd8ed1ab_1</span>
+<span id="cb2-115"><a href="#cb2-115" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> kaldi=5.5.1112=cpu_h175306b_7</span>
+<span id="cb2-116"><a href="#cb2-116" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> kiwisolver=1.4.8=py312h2c4a281_0</span>
+<span id="cb2-117"><a href="#cb2-117" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> krb5=1.21.3=h237132a_0</span>
+<span id="cb2-118"><a href="#cb2-118" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lazy-loader=0.4=pyhd8ed1ab_2</span>
+<span id="cb2-119"><a href="#cb2-119" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lazy_loader=0.4=pyhd8ed1ab_2</span>
+<span id="cb2-120"><a href="#cb2-120" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lcms2=2.16=ha0e7c42_0</span>
+<span id="cb2-121"><a href="#cb2-121" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> legacy-api-wrap=1.4.1=pyhd8ed1ab_0</span>
+<span id="cb2-122"><a href="#cb2-122" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> leidenalg=0.10.2=py312h20a0b95_0</span>
+<span id="cb2-123"><a href="#cb2-123" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lerc=4.0.0=h9a09cb3_0</span>
+<span id="cb2-124"><a href="#cb2-124" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libabseil=20240722.0=cxx17_h07bc746_4</span>
+<span id="cb2-125"><a href="#cb2-125" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libaec=1.1.3=hebf3989_0</span>
+<span id="cb2-126"><a href="#cb2-126" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libarchive=3.7.7=h3b16cec_3</span>
+<span id="cb2-127"><a href="#cb2-127" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libarrow=19.0.0=h819e3af_8_cpu</span>
+<span id="cb2-128"><a href="#cb2-128" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libarrow-acero=19.0.0=hf07054f_8_cpu</span>
+<span id="cb2-129"><a href="#cb2-129" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libarrow-dataset=19.0.0=hf07054f_8_cpu</span>
+<span id="cb2-130"><a href="#cb2-130" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libarrow-substrait=19.0.0=h4239455_8_cpu</span>
+<span id="cb2-131"><a href="#cb2-131" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libavif16=1.1.1=h45b7238_2</span>
+<span id="cb2-132"><a href="#cb2-132" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libblas=3.9.0=31_h10e41b3_openblas</span>
+<span id="cb2-133"><a href="#cb2-133" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libbrotlicommon=1.1.0=hd74edd7_2</span>
+<span id="cb2-134"><a href="#cb2-134" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libbrotlidec=1.1.0=hd74edd7_2</span>
+<span id="cb2-135"><a href="#cb2-135" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libbrotlienc=1.1.0=hd74edd7_2</span>
+<span id="cb2-136"><a href="#cb2-136" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libcblas=3.9.0=31_hb3479ef_openblas</span>
+<span id="cb2-137"><a href="#cb2-137" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libclang=19.1.7=default_hf90f093_1</span>
+<span id="cb2-138"><a href="#cb2-138" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libclang-cpp17=17.0.6=default_hf90f093_8</span>
+<span id="cb2-139"><a href="#cb2-139" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libclang13=19.1.7=default_h81d93ff_1</span>
+<span id="cb2-140"><a href="#cb2-140" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libcrc32c=1.1.2=hbdafb3b_0</span>
+<span id="cb2-141"><a href="#cb2-141" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libcurl=8.11.1=h73640d1_0</span>
+<span id="cb2-142"><a href="#cb2-142" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libcxx=19.1.7=ha82da77_0</span>
+<span id="cb2-143"><a href="#cb2-143" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libde265=1.0.15=h2ffa867_0</span>
+<span id="cb2-144"><a href="#cb2-144" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libdeflate=1.23=hec38601_0</span>
+<span id="cb2-145"><a href="#cb2-145" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libedit=3.1.20240808=pl5321hafb1f1b_0</span>
+<span id="cb2-146"><a href="#cb2-146" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libev=4.33=h93a5062_2</span>
+<span id="cb2-147"><a href="#cb2-147" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libevent=2.1.12=h2757513_1</span>
+<span id="cb2-148"><a href="#cb2-148" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libexpat=2.6.4=h286801f_0</span>
+<span id="cb2-149"><a href="#cb2-149" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libffi=3.4.2=h3422bc3_5</span>
+<span id="cb2-150"><a href="#cb2-150" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgdal-core=3.10.1=h9ef0d2d_2</span>
+<span id="cb2-151"><a href="#cb2-151" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgfortran=15.1.0=hfdf1602_0</span>
+<span id="cb2-152"><a href="#cb2-152" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgfortran5=15.1.0=hb74de2c_0</span>
+<span id="cb2-153"><a href="#cb2-153" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgoogle-cloud=2.34.0=hdbe95d5_0</span>
+<span id="cb2-154"><a href="#cb2-154" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgoogle-cloud-storage=2.34.0=h7081f7f_0</span>
+<span id="cb2-155"><a href="#cb2-155" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libgrpc=1.67.1=h0a426d6_1</span>
+<span id="cb2-156"><a href="#cb2-156" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libheif=1.19.5=gpl_h297b2c4_100</span>
+<span id="cb2-157"><a href="#cb2-157" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libhwloc=2.11.2=default_hbce5d74_1001</span>
+<span id="cb2-158"><a href="#cb2-158" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libiconv=1.17=h0d3ecfb_2</span>
+<span id="cb2-159"><a href="#cb2-159" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libjpeg-turbo=3.0.0=hb547adb_1</span>
+<span id="cb2-160"><a href="#cb2-160" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libkml=1.3.0=he250239_1021</span>
+<span id="cb2-161"><a href="#cb2-161" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> liblapack=3.9.0=31_hc9a63f6_openblas</span>
+<span id="cb2-162"><a href="#cb2-162" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> liblapacke=3.9.0=31_hbb7bcf8_openblas</span>
+<span id="cb2-163"><a href="#cb2-163" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libleidenalg=0.11.1=h1995070_0</span>
+<span id="cb2-164"><a href="#cb2-164" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libllvm14=14.0.6=hd1a9a77_4</span>
+<span id="cb2-165"><a href="#cb2-165" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libllvm17=17.0.6=hc4b4ae8_3</span>
+<span id="cb2-166"><a href="#cb2-166" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libllvm19=19.1.7=hc4b4ae8_1</span>
+<span id="cb2-167"><a href="#cb2-167" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> liblzma=5.6.3=h39f12f2_1</span>
+<span id="cb2-168"><a href="#cb2-168" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libnghttp2=1.64.0=h6d7220d_0</span>
+<span id="cb2-169"><a href="#cb2-169" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libopenblas=0.3.29=openmp_hf332438_0</span>
+<span id="cb2-170"><a href="#cb2-170" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libopentelemetry-cpp=1.18.0=h0c05b2d_1</span>
+<span id="cb2-171"><a href="#cb2-171" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libopentelemetry-cpp-headers=1.18.0=hce30654_1</span>
+<span id="cb2-172"><a href="#cb2-172" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libparquet=19.0.0=h636d7b7_8_cpu</span>
+<span id="cb2-173"><a href="#cb2-173" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libpng=1.6.46=h3783ad8_0</span>
+<span id="cb2-174"><a href="#cb2-174" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libprotobuf=5.28.3=h3bd63a1_1</span>
+<span id="cb2-175"><a href="#cb2-175" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libre2-11=2024.07.02=h07bc746_2</span>
+<span id="cb2-176"><a href="#cb2-176" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> librttopo=1.1.0=ha2cf0f4_17</span>
+<span id="cb2-177"><a href="#cb2-177" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libsodium=1.0.20=h99b78c6_0</span>
+<span id="cb2-178"><a href="#cb2-178" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libspatialite=5.1.0=hf92fc0a_12</span>
+<span id="cb2-179"><a href="#cb2-179" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libsqlite=3.48.0=h3f77e49_1</span>
+<span id="cb2-180"><a href="#cb2-180" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libssh2=1.11.1=h9cc3647_0</span>
+<span id="cb2-181"><a href="#cb2-181" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libthrift=0.21.0=h64651cc_0</span>
+<span id="cb2-182"><a href="#cb2-182" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libtiff=4.7.0=h551f018_3</span>
+<span id="cb2-183"><a href="#cb2-183" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libtorch=2.5.1=cpu_generic_he9b55c7_11</span>
+<span id="cb2-184"><a href="#cb2-184" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libutf8proc=2.10.0=hda25de7_0</span>
+<span id="cb2-185"><a href="#cb2-185" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libuv=1.50.0=h5505292_0</span>
+<span id="cb2-186"><a href="#cb2-186" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libwebp=1.5.0=h1618228_0</span>
+<span id="cb2-187"><a href="#cb2-187" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libwebp-base=1.5.0=h2471fea_0</span>
+<span id="cb2-188"><a href="#cb2-188" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libxcb=1.17.0=hdb1d25a_0</span>
+<span id="cb2-189"><a href="#cb2-189" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libxml2=2.13.5=h178c5d8_1</span>
+<span id="cb2-190"><a href="#cb2-190" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> libzlib=1.3.1=h8359307_2</span>
+<span id="cb2-191"><a href="#cb2-191" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> llvm-openmp=19.1.7=hdb05f8b_0</span>
+<span id="cb2-192"><a href="#cb2-192" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> locket=1.0.0=pyhd8ed1ab_0</span>
+<span id="cb2-193"><a href="#cb2-193" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lz4=4.3.3=py312hf263c89_2</span>
+<span id="cb2-194"><a href="#cb2-194" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lz4-c=1.10.0=h286801f_1</span>
+<span id="cb2-195"><a href="#cb2-195" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> lzo=2.10=h93a5062_1001</span>
+<span id="cb2-196"><a href="#cb2-196" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> mapclassify=2.8.1=pyhd8ed1ab_1</span>
+<span id="cb2-197"><a href="#cb2-197" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> matplotlib-inline=0.1.7=pyhd8ed1ab_1</span>
+<span id="cb2-198"><a href="#cb2-198" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> matplotlib-scalebar=0.9.0=pyhd8ed1ab_0</span>
+<span id="cb2-199"><a href="#cb2-199" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> minizip=4.0.7=hff1a8ea_3</span>
+<span id="cb2-200"><a href="#cb2-200" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> mistune=2.0.5=pyhd8ed1ab_0</span>
+<span id="cb2-201"><a href="#cb2-201" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> mpc=1.3.1=h8f1351a_1</span>
+<span id="cb2-202"><a href="#cb2-202" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> mpfr=4.2.1=hb693164_3</span>
+<span id="cb2-203"><a href="#cb2-203" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> mpmath=1.3.0=py312hca03da5_0</span>
+<span id="cb2-204"><a href="#cb2-204" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> msgpack-python=1.1.0=py312h6142ec9_0</span>
+<span id="cb2-205"><a href="#cb2-205" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> munkres=1.1.4=pyh9f0ad1d_0</span>
+<span id="cb2-206"><a href="#cb2-206" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> natsort=8.4.0=pyh29332c3_1</span>
+<span id="cb2-207"><a href="#cb2-207" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nb_conda_kernels=2.5.2=py312hca03da5_1</span>
+<span id="cb2-208"><a href="#cb2-208" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nbclient=0.10.2=pyhd8ed1ab_0</span>
+<span id="cb2-209"><a href="#cb2-209" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nbconvert-core=7.16.6=pyh29332c3_0</span>
+<span id="cb2-210"><a href="#cb2-210" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nbformat=5.10.4=pyhd8ed1ab_1</span>
+<span id="cb2-211"><a href="#cb2-211" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> ncurses=6.5=h5e97a16_2</span>
+<span id="cb2-212"><a href="#cb2-212" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nest-asyncio=1.6.0=pyhd8ed1ab_1</span>
+<span id="cb2-213"><a href="#cb2-213" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nlohmann_json=3.11.3=h00cdb27_1</span>
+<span id="cb2-214"><a href="#cb2-214" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> nomkl=1.0=h5ca1d4c_0</span>
+<span id="cb2-215"><a href="#cb2-215" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> notebook=7.3.2=pyhd8ed1ab_0</span>
+<span id="cb2-216"><a href="#cb2-216" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> notebook-shim=0.2.4=pyhd8ed1ab_1</span>
+<span id="cb2-217"><a href="#cb2-217" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> openfst=1.8.3=h950e60b_3</span>
+<span id="cb2-218"><a href="#cb2-218" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> openjpeg=2.5.3=h8a3d83b_0</span>
+<span id="cb2-219"><a href="#cb2-219" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> openpyxl=3.1.5=py312hf6e0af7_1</span>
+<span id="cb2-220"><a href="#cb2-220" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> openssl=3.4.1=h81ee809_0</span>
+<span id="cb2-221"><a href="#cb2-221" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> orc=2.0.3=h0ff2369_2</span>
+<span id="cb2-222"><a href="#cb2-222" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> overrides=7.7.0=pyhd8ed1ab_1</span>
+<span id="cb2-223"><a href="#cb2-223" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pandocfilters=1.5.0=pyhd8ed1ab_0</span>
+<span id="cb2-224"><a href="#cb2-224" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> parso=0.8.4=pyhd8ed1ab_1</span>
+<span id="cb2-225"><a href="#cb2-225" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> partd=1.4.2=pyhd8ed1ab_0</span>
+<span id="cb2-226"><a href="#cb2-226" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> patsy=1.0.1=pyhd8ed1ab_1</span>
+<span id="cb2-227"><a href="#cb2-227" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pcre2=10.44=h297a79d_2</span>
+<span id="cb2-228"><a href="#cb2-228" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pexpect=4.9.0=pyhd8ed1ab_1</span>
+<span id="cb2-229"><a href="#cb2-229" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pickleshare=0.7.5=pyhd8ed1ab_1004</span>
+<span id="cb2-230"><a href="#cb2-230" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pip=25.0=pyh8b19718_0</span>
+<span id="cb2-231"><a href="#cb2-231" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pkgutil-resolve-name=1.3.10=pyhd8ed1ab_2</span>
+<span id="cb2-232"><a href="#cb2-232" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pooch=1.8.2=pyhd8ed1ab_1</span>
+<span id="cb2-233"><a href="#cb2-233" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> proj=9.5.1=h1318a7e_0</span>
+<span id="cb2-234"><a href="#cb2-234" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> prometheus-cpp=1.3.0=h0967b3e_0</span>
+<span id="cb2-235"><a href="#cb2-235" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> prometheus_client=0.21.1=pyhd8ed1ab_0</span>
+<span id="cb2-236"><a href="#cb2-236" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> prompt-toolkit=3.0.50=pyha770c72_0</span>
+<span id="cb2-237"><a href="#cb2-237" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pthread-stubs=0.4=hd74edd7_1002</span>
+<span id="cb2-238"><a href="#cb2-238" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> ptyprocess=0.7.0=pyhd8ed1ab_1</span>
+<span id="cb2-239"><a href="#cb2-239" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pure_eval=0.2.3=pyhd8ed1ab_1</span>
+<span id="cb2-240"><a href="#cb2-240" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pybind11=2.13.6=pyh1ec8472_2</span>
+<span id="cb2-241"><a href="#cb2-241" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pybind11-global=2.13.6=pyh415d2e4_2</span>
+<span id="cb2-242"><a href="#cb2-242" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pycparser=2.22=pyh29332c3_1</span>
+<span id="cb2-243"><a href="#cb2-243" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pyct=0.5.0=pyhd8ed1ab_1</span>
+<span id="cb2-244"><a href="#cb2-244" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pynndescent=0.5.13=pyhd8ed1ab_1</span>
+<span id="cb2-245"><a href="#cb2-245" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pyobjc-core=11.0=py312hb9d441b_0</span>
+<span id="cb2-246"><a href="#cb2-246" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pyobjc-framework-cocoa=11.0=py312hb9d441b_0</span>
+<span id="cb2-247"><a href="#cb2-247" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pysocks=1.7.1=py312hca03da5_0</span>
+<span id="cb2-248"><a href="#cb2-248" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> python=3.12.8=hc22306f_1_cpython</span>
+<span id="cb2-249"><a href="#cb2-249" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> python-dateutil=2.9.0.post0=pyhff2d567_1</span>
+<span id="cb2-250"><a href="#cb2-250" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> python-fastjsonschema=2.21.1=pyhd8ed1ab_0</span>
+<span id="cb2-251"><a href="#cb2-251" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> python-json-logger=2.0.7=pyhd8ed1ab_0</span>
+<span id="cb2-252"><a href="#cb2-252" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> python_abi=3.12=5_cp312</span>
+<span id="cb2-253"><a href="#cb2-253" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pytorch=2.5.1=cpu_generic_py312_h49ed405_11</span>
+<span id="cb2-254"><a href="#cb2-254" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pywavelets=1.8.0=py312he0011b7_0</span>
+<span id="cb2-255"><a href="#cb2-255" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pyyaml=6.0.2=py312h80987f9_0</span>
+<span id="cb2-256"><a href="#cb2-256" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pyzmq=24.0.1=py312h80987f9_0</span>
+<span id="cb2-257"><a href="#cb2-257" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> qhull=2020.2=h420ef59_5</span>
+<span id="cb2-258"><a href="#cb2-258" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> rav1e=0.6.6=h69fbcac_2</span>
+<span id="cb2-259"><a href="#cb2-259" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> re2=2024.07.02=h6589ca4_2</span>
+<span id="cb2-260"><a href="#cb2-260" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> readline=8.2=h92ec313_1</span>
+<span id="cb2-261"><a href="#cb2-261" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> referencing=0.36.2=pyh29332c3_0</span>
+<span id="cb2-262"><a href="#cb2-262" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> rfc3339-validator=0.1.4=pyhd8ed1ab_1</span>
+<span id="cb2-263"><a href="#cb2-263" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> rfc3986-validator=0.1.1=pyh9f0ad1d_0</span>
+<span id="cb2-264"><a href="#cb2-264" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> rpds-py=0.22.3=py312hcd83bfe_0</span>
+<span id="cb2-265"><a href="#cb2-265" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> scvi-tools=1.2.2.post2=pyhd8ed1ab_2</span>
+<span id="cb2-266"><a href="#cb2-266" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> seaborn=0.13.2=hd8ed1ab_3</span>
+<span id="cb2-267"><a href="#cb2-267" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> seaborn-base=0.13.2=pyhd8ed1ab_3</span>
+<span id="cb2-268"><a href="#cb2-268" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> send2trash=1.8.3=pyh31c8845_1</span>
+<span id="cb2-269"><a href="#cb2-269" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> six=1.17.0=pyhd8ed1ab_0</span>
+<span id="cb2-270"><a href="#cb2-270" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> sleef=3.8=h8391f65_0</span>
+<span id="cb2-271"><a href="#cb2-271" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> slicerator=1.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-272"><a href="#cb2-272" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> snappy=1.2.1=h98b9ce2_1</span>
+<span id="cb2-273"><a href="#cb2-273" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> sniffio=1.3.1=pyhd8ed1ab_1</span>
+<span id="cb2-274"><a href="#cb2-274" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> sortedcontainers=2.4.0=pyhd8ed1ab_0</span>
+<span id="cb2-275"><a href="#cb2-275" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> soupsieve=2.5=pyhd8ed1ab_1</span>
+<span id="cb2-276"><a href="#cb2-276" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> sqlite=3.48.0=hd7222ec_1</span>
+<span id="cb2-277"><a href="#cb2-277" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> stack_data=0.6.3=pyhd8ed1ab_1</span>
+<span id="cb2-278"><a href="#cb2-278" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> svt-av1=2.3.0=hf24288c_0</span>
+<span id="cb2-279"><a href="#cb2-279" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tbb=2021.8.0=h48ca7d4_0</span>
+<span id="cb2-280"><a href="#cb2-280" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> terminado=0.18.1=pyh31c8845_0</span>
+<span id="cb2-281"><a href="#cb2-281" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> texttable=1.7.0=pyhd8ed1ab_1</span>
+<span id="cb2-282"><a href="#cb2-282" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tinycss2=1.4.0=pyhd8ed1ab_0</span>
+<span id="cb2-283"><a href="#cb2-283" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tk=8.6.13=h5083fa2_1</span>
+<span id="cb2-284"><a href="#cb2-284" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tomli=2.2.1=pyhd8ed1ab_1</span>
+<span id="cb2-285"><a href="#cb2-285" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> toolz=1.0.0=pyhd8ed1ab_1</span>
+<span id="cb2-286"><a href="#cb2-286" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tornado=6.4.2=py312hea69d52_0</span>
+<span id="cb2-287"><a href="#cb2-287" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> tqdm=4.67.1=pyhd8ed1ab_1</span>
+<span id="cb2-288"><a href="#cb2-288" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> traitlets=5.14.3=pyhd8ed1ab_1</span>
+<span id="cb2-289"><a href="#cb2-289" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> types-python-dateutil=2.9.0.20241206=pyhd8ed1ab_0</span>
+<span id="cb2-290"><a href="#cb2-290" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> typing_utils=0.1.0=pyhd8ed1ab_1</span>
+<span id="cb2-291"><a href="#cb2-291" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> unicodedata2=16.0.0=py312hea69d52_0</span>
+<span id="cb2-292"><a href="#cb2-292" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> uri-template=1.3.0=pyhd8ed1ab_1</span>
+<span id="cb2-293"><a href="#cb2-293" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> uriparser=0.9.8=h00cdb27_0</span>
+<span id="cb2-294"><a href="#cb2-294" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> wcwidth=0.2.13=pyhd8ed1ab_1</span>
+<span id="cb2-295"><a href="#cb2-295" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> webcolors=24.11.1=pyhd8ed1ab_0</span>
+<span id="cb2-296"><a href="#cb2-296" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> webencodings=0.5.1=pyhd8ed1ab_3</span>
+<span id="cb2-297"><a href="#cb2-297" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> websocket-client=1.8.0=pyhd8ed1ab_1</span>
+<span id="cb2-298"><a href="#cb2-298" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> wheel=0.45.1=pyhd8ed1ab_1</span>
+<span id="cb2-299"><a href="#cb2-299" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> wrapt=1.17.2=py312hea69d52_0</span>
+<span id="cb2-300"><a href="#cb2-300" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> x265=3.5=hbc6ce65_3</span>
+<span id="cb2-301"><a href="#cb2-301" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xarray-datatree=0.0.14=pyhd8ed1ab_0</span>
+<span id="cb2-302"><a href="#cb2-302" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xarray-schema=0.0.3=pyhd8ed1ab_0</span>
+<span id="cb2-303"><a href="#cb2-303" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xarray-spatial=0.4.0=pyhd8ed1ab_1</span>
+<span id="cb2-304"><a href="#cb2-304" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xerces-c=3.2.5=h92fc2f4_2</span>
+<span id="cb2-305"><a href="#cb2-305" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xorg-libxau=1.0.12=h5505292_0</span>
+<span id="cb2-306"><a href="#cb2-306" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xorg-libxdmcp=1.1.5=hd74edd7_0</span>
+<span id="cb2-307"><a href="#cb2-307" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> xyzservices=2025.1.0=pyhd8ed1ab_0</span>
+<span id="cb2-308"><a href="#cb2-308" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> yaml=0.2.5=h1a28f6b_0</span>
+<span id="cb2-309"><a href="#cb2-309" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> zeromq=4.3.5=hc1bb282_7</span>
+<span id="cb2-310"><a href="#cb2-310" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> zict=3.0.0=pyhd8ed1ab_1</span>
+<span id="cb2-311"><a href="#cb2-311" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> zipp=3.21.0=pyhd8ed1ab_1</span>
+<span id="cb2-312"><a href="#cb2-312" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> zlib=1.3.1=h8359307_2</span>
+<span id="cb2-313"><a href="#cb2-313" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> zstd=1.5.6=hb46c0d2_0</span>
+<span id="cb2-314"><a href="#cb2-314" aria-hidden="true" tabindex="-1"></a>  <span class="ex">-</span> pip:</span>
+<span id="cb2-315"><a href="#cb2-315" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> absl-py==2.1.0</span>
+<span id="cb2-316"><a href="#cb2-316" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> access==1.1.9</span>
+<span id="cb2-317"><a href="#cb2-317" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> adjusttext==1.3.0</span>
+<span id="cb2-318"><a href="#cb2-318" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> affine==2.4.0</span>
+<span id="cb2-319"><a href="#cb2-319" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> aiobotocore==2.23.2</span>
+<span id="cb2-320"><a href="#cb2-320" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> aiohappyeyeballs==2.6.1</span>
+<span id="cb2-321"><a href="#cb2-321" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> aiohttp==3.12.14</span>
+<span id="cb2-322"><a href="#cb2-322" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> aioitertools==0.12.0</span>
+<span id="cb2-323"><a href="#cb2-323" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> aiosignal==1.4.0</span>
+<span id="cb2-324"><a href="#cb2-324" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> alabaster==1.0.0</span>
+<span id="cb2-325"><a href="#cb2-325" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> anndata==0.11.0</span>
+<span id="cb2-326"><a href="#cb2-326" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> anndata2ri==1.3.2</span>
+<span id="cb2-327"><a href="#cb2-327" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> annotated-types==0.7.0</span>
+<span id="cb2-328"><a href="#cb2-328" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> app-model==0.3.1</span>
+<span id="cb2-329"><a href="#cb2-329" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> appdirs==1.4.4</span>
+<span id="cb2-330"><a href="#cb2-330" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> array-api-compat==1.12.0</span>
+<span id="cb2-331"><a href="#cb2-331" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> asciitree==0.3.3</span>
+<span id="cb2-332"><a href="#cb2-332" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> attrs==25.3.0</span>
+<span id="cb2-333"><a href="#cb2-333" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> biopython==1.85</span>
+<span id="cb2-334"><a href="#cb2-334" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> blitzgsea==1.3.47</span>
+<span id="cb2-335"><a href="#cb2-335" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> botocore==1.39.8</span>
+<span id="cb2-336"><a href="#cb2-336" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> build==1.2.2.post1</span>
+<span id="cb2-337"><a href="#cb2-337" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> cachey==0.2.1</span>
+<span id="cb2-338"><a href="#cb2-338" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> cell2location==0.1.4</span>
+<span id="cb2-339"><a href="#cb2-339" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> certifi==2025.7.14</span>
+<span id="cb2-340"><a href="#cb2-340" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> charset-normalizer==3.4.2</span>
+<span id="cb2-341"><a href="#cb2-341" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> chex==0.1.88</span>
+<span id="cb2-342"><a href="#cb2-342" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> click==8.2.1</span>
+<span id="cb2-343"><a href="#cb2-343" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> click-plugins==1.1.1.2</span>
+<span id="cb2-344"><a href="#cb2-344" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> cligj==0.7.2</span>
+<span id="cb2-345"><a href="#cb2-345" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> commot==0.0.3</span>
+<span id="cb2-346"><a href="#cb2-346" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> contourpy==1.3.3</span>
+<span id="cb2-347"><a href="#cb2-347" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> crc32c==2.7.1</span>
+<span id="cb2-348"><a href="#cb2-348" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> datashader==0.18.1</span>
+<span id="cb2-349"><a href="#cb2-349" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> decorator==4.4.2</span>
+<span id="cb2-350"><a href="#cb2-350" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> decoupler==2.1.1</span>
+<span id="cb2-351"><a href="#cb2-351" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> deprecation==2.1.0</span>
+<span id="cb2-352"><a href="#cb2-352" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> docrep==0.3.2</span>
+<span id="cb2-353"><a href="#cb2-353" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> docstring-parser==0.16</span>
+<span id="cb2-354"><a href="#cb2-354" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> docutils==0.21.2</span>
+<span id="cb2-355"><a href="#cb2-355" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> donfig==0.8.1.post1</span>
+<span id="cb2-356"><a href="#cb2-356" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> equinox==0.11.11</span>
+<span id="cb2-357"><a href="#cb2-357" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> esda==2.7.1</span>
+<span id="cb2-358"><a href="#cb2-358" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> etils==1.11.0</span>
+<span id="cb2-359"><a href="#cb2-359" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> fbpca==1.0</span>
+<span id="cb2-360"><a href="#cb2-360" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> filelock==3.18.0</span>
+<span id="cb2-361"><a href="#cb2-361" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> fiona==1.10.1</span>
+<span id="cb2-362"><a href="#cb2-362" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> flax==0.10.2</span>
+<span id="cb2-363"><a href="#cb2-363" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> flexcache==0.3</span>
+<span id="cb2-364"><a href="#cb2-364" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> flexparser==0.4</span>
+<span id="cb2-365"><a href="#cb2-365" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> flowio==1.3.0</span>
+<span id="cb2-366"><a href="#cb2-366" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> fonttools==4.59.0</span>
+<span id="cb2-367"><a href="#cb2-367" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> formulaic==1.1.1</span>
+<span id="cb2-368"><a href="#cb2-368" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> formulaic-contrasts==1.0.0</span>
+<span id="cb2-369"><a href="#cb2-369" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> freetype-py==2.5.1</span>
+<span id="cb2-370"><a href="#cb2-370" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> frozenlist==1.7.0</span>
+<span id="cb2-371"><a href="#cb2-371" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> fsspec==2025.7.0</span>
+<span id="cb2-372"><a href="#cb2-372" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> gensim==4.3.3</span>
+<span id="cb2-373"><a href="#cb2-373" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> geopandas==1.1.1</span>
+<span id="cb2-374"><a href="#cb2-374" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> geosketch==1.3</span>
+<span id="cb2-375"><a href="#cb2-375" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> giddy==2.3.6</span>
+<span id="cb2-376"><a href="#cb2-376" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> grpcio==1.70.0</span>
+<span id="cb2-377"><a href="#cb2-377" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> gseapy==1.1.8</span>
+<span id="cb2-378"><a href="#cb2-378" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> h5py==3.14.0</span>
+<span id="cb2-379"><a href="#cb2-379" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> heapdict==1.0.1</span>
+<span id="cb2-380"><a href="#cb2-380" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> hsluv==5.0.4</span>
+<span id="cb2-381"><a href="#cb2-381" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> humanize==4.11.0</span>
+<span id="cb2-382"><a href="#cb2-382" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> idna==3.10</span>
+<span id="cb2-383"><a href="#cb2-383" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> igraph==0.11.9</span>
+<span id="cb2-384"><a href="#cb2-384" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> imagecodecs==2024.12.30</span>
+<span id="cb2-385"><a href="#cb2-385" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> imageio==2.37.0</span>
+<span id="cb2-386"><a href="#cb2-386" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> imagesize==1.4.1</span>
+<span id="cb2-387"><a href="#cb2-387" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> in-n-out==0.2.1</span>
+<span id="cb2-388"><a href="#cb2-388" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> inequality==1.1.2</span>
+<span id="cb2-389"><a href="#cb2-389" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> iniconfig==2.1.0</span>
+<span id="cb2-390"><a href="#cb2-390" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> interface-meta==1.3.0</span>
+<span id="cb2-391"><a href="#cb2-391" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jax==0.5.0</span>
+<span id="cb2-392"><a href="#cb2-392" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jaxlib==0.5.0</span>
+<span id="cb2-393"><a href="#cb2-393" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jaxopt==0.8.3</span>
+<span id="cb2-394"><a href="#cb2-394" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jaxtyping==0.2.38</span>
+<span id="cb2-395"><a href="#cb2-395" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jinja2==3.1.6</span>
+<span id="cb2-396"><a href="#cb2-396" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> jmespath==1.0.1</span>
+<span id="cb2-397"><a href="#cb2-397" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> joblib==1.5.1</span>
+<span id="cb2-398"><a href="#cb2-398" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> karateclub==1.2.2</span>
+<span id="cb2-399"><a href="#cb2-399" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> lamin-utils==0.13.10</span>
+<span id="cb2-400"><a href="#cb2-400" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> legendkit==0.3.6</span>
+<span id="cb2-401"><a href="#cb2-401" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> levenshtein==0.27.1</span>
+<span id="cb2-402"><a href="#cb2-402" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> libpysal==4.13.0</span>
+<span id="cb2-403"><a href="#cb2-403" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> lightning==2.5.2</span>
+<span id="cb2-404"><a href="#cb2-404" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> lightning-utilities==0.11.9</span>
+<span id="cb2-405"><a href="#cb2-405" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> lineax==0.0.7</span>
+<span id="cb2-406"><a href="#cb2-406" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> llvmlite==0.44.0</span>
+<span id="cb2-407"><a href="#cb2-407" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> loguru==0.7.3</span>
+<span id="cb2-408"><a href="#cb2-408" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> magicgui==0.10.0</span>
+<span id="cb2-409"><a href="#cb2-409" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> markdown==3.7</span>
+<span id="cb2-410"><a href="#cb2-410" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> markdown-it-py==3.0.0</span>
+<span id="cb2-411"><a href="#cb2-411" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> markupsafe==3.0.2</span>
+<span id="cb2-412"><a href="#cb2-412" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> marsilea==0.5.4</span>
+<span id="cb2-413"><a href="#cb2-413" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> matplotlib==3.10.3</span>
+<span id="cb2-414"><a href="#cb2-414" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> matplotlib-venn==1.1.2</span>
+<span id="cb2-415"><a href="#cb2-415" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> mdurl==0.1.2</span>
+<span id="cb2-416"><a href="#cb2-416" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> mgwr==2.2.1</span>
+<span id="cb2-417"><a href="#cb2-417" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> mizani==0.13.1</span>
+<span id="cb2-418"><a href="#cb2-418" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> ml-collections==1.0.0</span>
+<span id="cb2-419"><a href="#cb2-419" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> ml-dtypes==0.5.1</span>
+<span id="cb2-420"><a href="#cb2-420" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> momepy==0.10.0</span>
+<span id="cb2-421"><a href="#cb2-421" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> more-itertools==10.7.0</span>
+<span id="cb2-422"><a href="#cb2-422" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> mudata==0.3.1</span>
+<span id="cb2-423"><a href="#cb2-423" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> multidict==6.6.3</span>
+<span id="cb2-424"><a href="#cb2-424" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> multipledispatch==1.0.0</span>
+<span id="cb2-425"><a href="#cb2-425" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> multiscale-spatial-image==2.0.2</span>
+<span id="cb2-426"><a href="#cb2-426" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> muon==0.1.7</span>
+<span id="cb2-427"><a href="#cb2-427" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari==0.5.6</span>
+<span id="cb2-428"><a href="#cb2-428" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari-console==0.1.3</span>
+<span id="cb2-429"><a href="#cb2-429" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari-matplotlib==3.0.0</span>
+<span id="cb2-430"><a href="#cb2-430" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari-plugin-engine==0.2.0</span>
+<span id="cb2-431"><a href="#cb2-431" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari-plugin-manager==0.1.6</span>
+<span id="cb2-432"><a href="#cb2-432" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> napari-svg==0.2.1</span>
+<span id="cb2-433"><a href="#cb2-433" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> narwhals==2.0.0</span>
+<span id="cb2-434"><a href="#cb2-434" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> networkx==3.5</span>
+<span id="cb2-435"><a href="#cb2-435" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> npe2==0.7.7</span>
+<span id="cb2-436"><a href="#cb2-436" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numba==0.61.2</span>
+<span id="cb2-437"><a href="#cb2-437" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numcodecs==0.15.1</span>
+<span id="cb2-438"><a href="#cb2-438" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numpy==1.26.4</span>
+<span id="cb2-439"><a href="#cb2-439" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numpy-groupies==0.11.2</span>
+<span id="cb2-440"><a href="#cb2-440" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numpydoc==1.8.0</span>
+<span id="cb2-441"><a href="#cb2-441" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> numpyro==0.16.1</span>
+<span id="cb2-442"><a href="#cb2-442" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> ome-types==0.5.3</span>
+<span id="cb2-443"><a href="#cb2-443" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> omnipath==1.0.12</span>
+<span id="cb2-444"><a href="#cb2-444" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> opencv-python==4.11.0.86</span>
+<span id="cb2-445"><a href="#cb2-445" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> opt-einsum==3.4.0</span>
+<span id="cb2-446"><a href="#cb2-446" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> optax==0.2.4</span>
+<span id="cb2-447"><a href="#cb2-447" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> orbax-checkpoint==0.11.0</span>
+<span id="cb2-448"><a href="#cb2-448" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> ott-jax==0.5.0</span>
+<span id="cb2-449"><a href="#cb2-449" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> packaging==25.0</span>
+<span id="cb2-450"><a href="#cb2-450" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pandas==2.3.1</span>
+<span id="cb2-451"><a href="#cb2-451" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> param==2.2.1</span>
+<span id="cb2-452"><a href="#cb2-452" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> partsegcore-compiled-backend==0.15.12</span>
+<span id="cb2-453"><a href="#cb2-453" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pertpy==0.9.5</span>
+<span id="cb2-454"><a href="#cb2-454" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pillow==11.3.0</span>
+<span id="cb2-455"><a href="#cb2-455" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pims==0.7</span>
+<span id="cb2-456"><a href="#cb2-456" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pint==0.24.4</span>
+<span id="cb2-457"><a href="#cb2-457" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> platformdirs==4.3.8</span>
+<span id="cb2-458"><a href="#cb2-458" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> plotly==6.2.0</span>
+<span id="cb2-459"><a href="#cb2-459" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> plotnine==0.14.5</span>
+<span id="cb2-460"><a href="#cb2-460" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pluggy==1.6.0</span>
+<span id="cb2-461"><a href="#cb2-461" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> ply==3.11</span>
+<span id="cb2-462"><a href="#cb2-462" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pointpats==2.5.1</span>
+<span id="cb2-463"><a href="#cb2-463" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pot==0.9.5</span>
+<span id="cb2-464"><a href="#cb2-464" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> propcache==0.3.2</span>
+<span id="cb2-465"><a href="#cb2-465" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> protobuf==5.29.3</span>
+<span id="cb2-466"><a href="#cb2-466" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> psutil==7.0.0</span>
+<span id="cb2-467"><a href="#cb2-467" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> psygnal==0.12.0</span>
+<span id="cb2-468"><a href="#cb2-468" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pubchempy==1.0.4</span>
+<span id="cb2-469"><a href="#cb2-469" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pulp==3.2.1</span>
+<span id="cb2-470"><a href="#cb2-470" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyarrow==21.0.0</span>
+<span id="cb2-471"><a href="#cb2-471" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pycirclize==1.9.0</span>
+<span id="cb2-472"><a href="#cb2-472" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyconify==0.2.1</span>
+<span id="cb2-473"><a href="#cb2-473" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pydantic==2.10.6</span>
+<span id="cb2-474"><a href="#cb2-474" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pydantic-compat==0.1.2</span>
+<span id="cb2-475"><a href="#cb2-475" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pydantic-core==2.27.2</span>
+<span id="cb2-476"><a href="#cb2-476" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pydeseq2==0.5.1</span>
+<span id="cb2-477"><a href="#cb2-477" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pygments==2.19.2</span>
+<span id="cb2-478"><a href="#cb2-478" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pygsp==0.5.1</span>
+<span id="cb2-479"><a href="#cb2-479" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyogrio==0.11.0</span>
+<span id="cb2-480"><a href="#cb2-480" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyomo==6.8.2</span>
+<span id="cb2-481"><a href="#cb2-481" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyopengl==3.1.9</span>
+<span id="cb2-482"><a href="#cb2-482" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyparsing==3.2.3</span>
+<span id="cb2-483"><a href="#cb2-483" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyproj==3.7.1</span>
+<span id="cb2-484"><a href="#cb2-484" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyproject-hooks==1.2.0</span>
+<span id="cb2-485"><a href="#cb2-485" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyqt5==5.15.11</span>
+<span id="cb2-486"><a href="#cb2-486" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyqt5-qt5==5.15.16</span>
+<span id="cb2-487"><a href="#cb2-487" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyqt5-sip==12.17.0</span>
+<span id="cb2-488"><a href="#cb2-488" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyqtgraph==0.13.7</span>
+<span id="cb2-489"><a href="#cb2-489" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyro-api==0.1.2</span>
+<span id="cb2-490"><a href="#cb2-490" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pyro-ppl==1.9.1</span>
+<span id="cb2-491"><a href="#cb2-491" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pysal==25.1</span>
+<span id="cb2-492"><a href="#cb2-492" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pytest==8.4.1</span>
+<span id="cb2-493"><a href="#cb2-493" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> python-igraph==0.11.9</span>
+<span id="cb2-494"><a href="#cb2-494" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> python-levenshtein==0.27.1</span>
+<span id="cb2-495"><a href="#cb2-495" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> python-louvain==0.16</span>
+<span id="cb2-496"><a href="#cb2-496" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pytorch-lightning==2.5.0.post0</span>
+<span id="cb2-497"><a href="#cb2-497" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> pytz==2025.2</span>
+<span id="cb2-498"><a href="#cb2-498" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> qtconsole==5.6.1</span>
+<span id="cb2-499"><a href="#cb2-499" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> qtpy==2.4.2</span>
+<span id="cb2-500"><a href="#cb2-500" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> quantecon==0.8.2</span>
+<span id="cb2-501"><a href="#cb2-501" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rapidfuzz==3.13.0</span>
+<span id="cb2-502"><a href="#cb2-502" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rasterio==1.4.3</span>
+<span id="cb2-503"><a href="#cb2-503" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rasterstats==0.20.0</span>
+<span id="cb2-504"><a href="#cb2-504" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> readfcs==2.0.1</span>
+<span id="cb2-505"><a href="#cb2-505" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> requests==2.32.4</span>
+<span id="cb2-506"><a href="#cb2-506" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rich==14.1.0</span>
+<span id="cb2-507"><a href="#cb2-507" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rpy2==3.5.17</span>
+<span id="cb2-508"><a href="#cb2-508" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> rtree==1.4.0</span>
+<span id="cb2-509"><a href="#cb2-509" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> s3fs==2025.7.0</span>
+<span id="cb2-510"><a href="#cb2-510" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> scanpy==1.10.0</span>
+<span id="cb2-511"><a href="#cb2-511" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> scikit-image==0.25.2</span>
+<span id="cb2-512"><a href="#cb2-512" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> scikit-learn==1.7.1</span>
+<span id="cb2-513"><a href="#cb2-513" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> scikit-misc==0.5.1</span>
+<span id="cb2-514"><a href="#cb2-514" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> scipy==1.16.1</span>
+<span id="cb2-515"><a href="#cb2-515" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> segregation==2.5.2</span>
+<span id="cb2-516"><a href="#cb2-516" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> session-info==1.0.1</span>
+<span id="cb2-517"><a href="#cb2-517" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> session-info2==0.2</span>
+<span id="cb2-518"><a href="#cb2-518" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> setuptools==75.8.0</span>
+<span id="cb2-519"><a href="#cb2-519" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> shapely==2.1.1</span>
+<span id="cb2-520"><a href="#cb2-520" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> shellingham==1.5.4</span>
+<span id="cb2-521"><a href="#cb2-521" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> simplejson==3.19.3</span>
+<span id="cb2-522"><a href="#cb2-522" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> smart-open==7.3.0.post1</span>
+<span id="cb2-523"><a href="#cb2-523" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> snowballstemmer==2.2.0</span>
+<span id="cb2-524"><a href="#cb2-524" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spaghetti==1.7.6</span>
+<span id="cb2-525"><a href="#cb2-525" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sparse==0.15.5</span>
+<span id="cb2-526"><a href="#cb2-526" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sparsecca==0.3.1</span>
+<span id="cb2-527"><a href="#cb2-527" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spatial-image==1.2.1</span>
+<span id="cb2-528"><a href="#cb2-528" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spglm==1.1.0</span>
+<span id="cb2-529"><a href="#cb2-529" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinx==8.1.3</span>
+<span id="cb2-530"><a href="#cb2-530" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-applehelp==2.0.0</span>
+<span id="cb2-531"><a href="#cb2-531" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-devhelp==2.0.0</span>
+<span id="cb2-532"><a href="#cb2-532" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-htmlhelp==2.1.0</span>
+<span id="cb2-533"><a href="#cb2-533" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-jsmath==1.0.1</span>
+<span id="cb2-534"><a href="#cb2-534" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-qthelp==2.0.0</span>
+<span id="cb2-535"><a href="#cb2-535" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sphinxcontrib-serializinghtml==2.0.0</span>
+<span id="cb2-536"><a href="#cb2-536" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spint==1.0.7</span>
+<span id="cb2-537"><a href="#cb2-537" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> splot==1.1.7</span>
+<span id="cb2-538"><a href="#cb2-538" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spopt==0.7.0</span>
+<span id="cb2-539"><a href="#cb2-539" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> spreg==1.8.3</span>
+<span id="cb2-540"><a href="#cb2-540" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> statsmodels==0.14.5</span>
+<span id="cb2-541"><a href="#cb2-541" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> stdlib-list==0.11.1</span>
+<span id="cb2-542"><a href="#cb2-542" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> superqt==0.7.1</span>
+<span id="cb2-543"><a href="#cb2-543" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> sympy==1.14.0</span>
+<span id="cb2-544"><a href="#cb2-544" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tabulate==0.9.0</span>
+<span id="cb2-545"><a href="#cb2-545" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tblib==3.1.0</span>
+<span id="cb2-546"><a href="#cb2-546" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tensorboard==2.18.0</span>
+<span id="cb2-547"><a href="#cb2-547" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tensorboard-data-server==0.7.2</span>
+<span id="cb2-548"><a href="#cb2-548" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tensorstore==0.1.71</span>
+<span id="cb2-549"><a href="#cb2-549" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> threadpoolctl==3.6.0</span>
+<span id="cb2-550"><a href="#cb2-550" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tifffile==2025.6.11</span>
+<span id="cb2-551"><a href="#cb2-551" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tobler==0.12.1</span>
+<span id="cb2-552"><a href="#cb2-552" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tomli-w==1.2.0</span>
+<span id="cb2-553"><a href="#cb2-553" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> torch==2.6.0</span>
+<span id="cb2-554"><a href="#cb2-554" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> torchaudio==2.6.0</span>
+<span id="cb2-555"><a href="#cb2-555" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> torchmetrics==1.6.1</span>
+<span id="cb2-556"><a href="#cb2-556" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> torchvision==0.21.0</span>
+<span id="cb2-557"><a href="#cb2-557" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> triangle==20250106</span>
+<span id="cb2-558"><a href="#cb2-558" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> typeguard==4.4.4</span>
+<span id="cb2-559"><a href="#cb2-559" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> typer==0.15.1</span>
+<span id="cb2-560"><a href="#cb2-560" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> typing-extensions==4.14.1</span>
+<span id="cb2-561"><a href="#cb2-561" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tzdata==2025.2</span>
+<span id="cb2-562"><a href="#cb2-562" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> tzlocal==5.3</span>
+<span id="cb2-563"><a href="#cb2-563" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> umap-learn==0.5.9.post2</span>
+<span id="cb2-564"><a href="#cb2-564" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> urllib3==2.5.0</span>
+<span id="cb2-565"><a href="#cb2-565" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> validators==0.35.0</span>
+<span id="cb2-566"><a href="#cb2-566" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> vispy==0.14.3</span>
+<span id="cb2-567"><a href="#cb2-567" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> wadler-lindig==0.1.3</span>
+<span id="cb2-568"><a href="#cb2-568" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> werkzeug==3.1.3</span>
+<span id="cb2-569"><a href="#cb2-569" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> xarray==2024.11.0</span>
+<span id="cb2-570"><a href="#cb2-570" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> xarray-dataclasses==1.9.1</span>
+<span id="cb2-571"><a href="#cb2-571" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> xsdata==24.3.1</span>
+<span id="cb2-572"><a href="#cb2-572" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> yarl==1.20.1</span>
+<span id="cb2-573"><a href="#cb2-573" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> zarr==2.18.4</span>
+<span id="cb2-574"><a href="#cb2-574" aria-hidden="true" tabindex="-1"></a>      <span class="ex">-</span> zstandard==0.23.0</span>
+<span id="cb2-575"><a href="#cb2-575" aria-hidden="true" tabindex="-1"></a><span class="ex">prefix:</span> /Users/jk/miniconda3/envs/scvi-tools</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>scvi-tools.txt</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="ex">absl-py==2.1.0</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">access</span><span class="op">=</span>=1.1.9</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="va">adjustText</span><span class="op">=</span>=1.3.0</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="va">affine</span><span class="op">=</span>=2.4.0</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="va">aiobotocore</span><span class="op">=</span>=2.23.2</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="va">aiohappyeyeballs</span><span class="op">=</span>=2.6.1</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="va">aiohttp</span><span class="op">=</span>=3.12.14</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="va">aioitertools</span><span class="op">=</span>=0.12.0</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a><span class="va">aiosignal</span><span class="op">=</span>=1.4.0</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a><span class="va">alabaster</span><span class="op">=</span>=1.0.0</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a><span class="va">anndata</span><span class="op">=</span>=0.11.0</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a><span class="va">anndata2ri</span><span class="op">=</span>=1.3.2</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a><span class="ex">annotated-types==0.7.0</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a><span class="ex">anyio</span> @ file:///home/conda/feedstock_root/build_artifacts/anyio_1736174388474/work</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a><span class="ex">app-model==0.3.1</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="va">appdirs</span><span class="op">=</span>=1.4.4</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a><span class="ex">appnope</span> @ file:///home/conda/feedstock_root/build_artifacts/appnope_1733332318622/work</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a><span class="ex">argon2-cffi</span> @ file:///home/conda/feedstock_root/build_artifacts/argon2-cffi_1733311059102/work</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a><span class="ex">argon2-cffi-bindings</span> @ file:///Users/runner/miniforge3/conda-bld/argon2-cffi-bindings_1725356639941/work</span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a><span class="ex">array-api-compat==1.12.0</span></span>
+<span id="cb3-21"><a href="#cb3-21" aria-hidden="true" tabindex="-1"></a><span class="ex">arrow</span> @ file:///home/conda/feedstock_root/build_artifacts/arrow_1733584251875/work</span>
+<span id="cb3-22"><a href="#cb3-22" aria-hidden="true" tabindex="-1"></a><span class="va">asciitree</span><span class="op">=</span>=0.3.3</span>
+<span id="cb3-23"><a href="#cb3-23" aria-hidden="true" tabindex="-1"></a><span class="ex">asttokens</span> @ file:///home/conda/feedstock_root/build_artifacts/asttokens_1733250440834/work</span>
+<span id="cb3-24"><a href="#cb3-24" aria-hidden="true" tabindex="-1"></a><span class="ex">async-lru</span> @ file:///home/conda/feedstock_root/build_artifacts/async-lru_1733584297267/work</span>
+<span id="cb3-25"><a href="#cb3-25" aria-hidden="true" tabindex="-1"></a><span class="va">attrs</span><span class="op">=</span>=25.3.0</span>
+<span id="cb3-26"><a href="#cb3-26" aria-hidden="true" tabindex="-1"></a><span class="ex">babel</span> @ file:///home/conda/feedstock_root/build_artifacts/babel_1733236348445/work</span>
+<span id="cb3-27"><a href="#cb3-27" aria-hidden="true" tabindex="-1"></a><span class="ex">beautifulsoup4</span> @ file:///home/conda/feedstock_root/build_artifacts/beautifulsoup4_1733230845337/work</span>
+<span id="cb3-28"><a href="#cb3-28" aria-hidden="true" tabindex="-1"></a><span class="va">biopython</span><span class="op">=</span>=1.85</span>
+<span id="cb3-29"><a href="#cb3-29" aria-hidden="true" tabindex="-1"></a><span class="ex">bleach</span> @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_bleach_1737382993/work</span>
+<span id="cb3-30"><a href="#cb3-30" aria-hidden="true" tabindex="-1"></a><span class="va">blitzgsea</span><span class="op">=</span>=1.3.47</span>
+<span id="cb3-31"><a href="#cb3-31" aria-hidden="true" tabindex="-1"></a><span class="ex">bokeh</span> @ file:///home/conda/feedstock_root/build_artifacts/bokeh_1733754687975/work</span>
+<span id="cb3-32"><a href="#cb3-32" aria-hidden="true" tabindex="-1"></a><span class="va">botocore</span><span class="op">=</span>=1.39.8</span>
+<span id="cb3-33"><a href="#cb3-33" aria-hidden="true" tabindex="-1"></a><span class="ex">branca</span> @ file:///home/conda/feedstock_root/build_artifacts/branca_1734433375112/work</span>
+<span id="cb3-34"><a href="#cb3-34" aria-hidden="true" tabindex="-1"></a><span class="ex">Brotli</span> @ file:///private/var/folders/k1/30mswbxs7r1g6zwn8y4fyt500000gp/T/abs_f7i0oxypt6/croot/brotli-split_1736182464088/work</span>
+<span id="cb3-35"><a href="#cb3-35" aria-hidden="true" tabindex="-1"></a><span class="va">build</span><span class="op">=</span>=1.2.2.post1</span>
+<span id="cb3-36"><a href="#cb3-36" aria-hidden="true" tabindex="-1"></a><span class="ex">cached-property</span> @ file:///home/conda/feedstock_root/build_artifacts/cached_property_1615209429212/work</span>
+<span id="cb3-37"><a href="#cb3-37" aria-hidden="true" tabindex="-1"></a><span class="va">cachey</span><span class="op">=</span>=0.2.1</span>
+<span id="cb3-38"><a href="#cb3-38" aria-hidden="true" tabindex="-1"></a><span class="ex">cell2location</span> @ git+https://github.com/kimsjune/cell2location.git@02c4a785af404d54947a1b15d6e966e516ecef49</span>
+<span id="cb3-39"><a href="#cb3-39" aria-hidden="true" tabindex="-1"></a><span class="va">certifi</span><span class="op">=</span>=2025.7.14</span>
+<span id="cb3-40"><a href="#cb3-40" aria-hidden="true" tabindex="-1"></a><span class="ex">cffi</span> @ file:///Users/runner/miniforge3/conda-bld/cffi_1725560578465/work</span>
+<span id="cb3-41"><a href="#cb3-41" aria-hidden="true" tabindex="-1"></a><span class="ex">charset-normalizer==3.4.2</span></span>
+<span id="cb3-42"><a href="#cb3-42" aria-hidden="true" tabindex="-1"></a><span class="va">chex</span><span class="op">=</span>=0.1.88</span>
+<span id="cb3-43"><a href="#cb3-43" aria-hidden="true" tabindex="-1"></a><span class="va">click</span><span class="op">=</span>=8.2.1</span>
+<span id="cb3-44"><a href="#cb3-44" aria-hidden="true" tabindex="-1"></a><span class="ex">click-plugins==1.1.1.2</span></span>
+<span id="cb3-45"><a href="#cb3-45" aria-hidden="true" tabindex="-1"></a><span class="va">cligj</span><span class="op">=</span>=0.7.2</span>
+<span id="cb3-46"><a href="#cb3-46" aria-hidden="true" tabindex="-1"></a><span class="va">cloudpickle</span><span class="op">=</span>=3.1.1</span>
+<span id="cb3-47"><a href="#cb3-47" aria-hidden="true" tabindex="-1"></a><span class="ex">colorama</span> @ file:///home/conda/feedstock_root/build_artifacts/colorama_1733218098505/work</span>
+<span id="cb3-48"><a href="#cb3-48" aria-hidden="true" tabindex="-1"></a><span class="va">colorcet</span><span class="op">=</span>=3.1.0</span>
+<span id="cb3-49"><a href="#cb3-49" aria-hidden="true" tabindex="-1"></a><span class="fu">comm</span> @ file:///home/conda/feedstock_root/build_artifacts/comm_1733502965406/work</span>
+<span id="cb3-50"><a href="#cb3-50" aria-hidden="true" tabindex="-1"></a><span class="va">commot</span><span class="op">=</span>=0.0.3</span>
+<span id="cb3-51"><a href="#cb3-51" aria-hidden="true" tabindex="-1"></a><span class="va">contourpy</span><span class="op">=</span>=1.3.3</span>
+<span id="cb3-52"><a href="#cb3-52" aria-hidden="true" tabindex="-1"></a><span class="va">crc32c</span><span class="op">=</span>=2.7.1</span>
+<span id="cb3-53"><a href="#cb3-53" aria-hidden="true" tabindex="-1"></a><span class="va">cycler</span><span class="op">=</span>=0.12.1</span>
+<span id="cb3-54"><a href="#cb3-54" aria-hidden="true" tabindex="-1"></a><span class="ex">cytoolz</span> @ file:///Users/runner/miniforge3/conda-bld/cytoolz_1734107254000/work</span>
+<span id="cb3-55"><a href="#cb3-55" aria-hidden="true" tabindex="-1"></a><span class="va">dask</span><span class="op">=</span>=2024.11.2</span>
+<span id="cb3-56"><a href="#cb3-56" aria-hidden="true" tabindex="-1"></a><span class="ex">dask-expr==1.1.19</span></span>
+<span id="cb3-57"><a href="#cb3-57" aria-hidden="true" tabindex="-1"></a><span class="ex">dask-image==2024.5.3</span></span>
+<span id="cb3-58"><a href="#cb3-58" aria-hidden="true" tabindex="-1"></a><span class="va">datashader</span><span class="op">=</span>=0.18.1</span>
+<span id="cb3-59"><a href="#cb3-59" aria-hidden="true" tabindex="-1"></a><span class="ex">debugpy</span> @ file:///Users/runner/miniforge3/conda-bld/debugpy_1737269807180/work</span>
+<span id="cb3-60"><a href="#cb3-60" aria-hidden="true" tabindex="-1"></a><span class="va">decorator</span><span class="op">=</span>=4.4.2</span>
+<span id="cb3-61"><a href="#cb3-61" aria-hidden="true" tabindex="-1"></a><span class="va">decoupler</span><span class="op">=</span>=2.1.1</span>
+<span id="cb3-62"><a href="#cb3-62" aria-hidden="true" tabindex="-1"></a><span class="ex">defusedxml</span> @ file:///home/conda/feedstock_root/build_artifacts/defusedxml_1615232257335/work</span>
+<span id="cb3-63"><a href="#cb3-63" aria-hidden="true" tabindex="-1"></a><span class="va">Deprecated</span><span class="op">=</span>=1.2.18</span>
+<span id="cb3-64"><a href="#cb3-64" aria-hidden="true" tabindex="-1"></a><span class="va">deprecation</span><span class="op">=</span>=2.1.0</span>
+<span id="cb3-65"><a href="#cb3-65" aria-hidden="true" tabindex="-1"></a><span class="va">distributed</span><span class="op">=</span>=2024.11.2</span>
+<span id="cb3-66"><a href="#cb3-66" aria-hidden="true" tabindex="-1"></a><span class="va">docrep</span><span class="op">=</span>=0.3.2</span>
+<span id="cb3-67"><a href="#cb3-67" aria-hidden="true" tabindex="-1"></a><span class="va">docstring_parser</span><span class="op">=</span>=0.16</span>
+<span id="cb3-68"><a href="#cb3-68" aria-hidden="true" tabindex="-1"></a><span class="va">docutils</span><span class="op">=</span>=0.21.2</span>
+<span id="cb3-69"><a href="#cb3-69" aria-hidden="true" tabindex="-1"></a><span class="va">donfig</span><span class="op">=</span>=0.8.1.post1</span>
+<span id="cb3-70"><a href="#cb3-70" aria-hidden="true" tabindex="-1"></a><span class="ex">entrypoints</span> @ file:///home/conda/feedstock_root/build_artifacts/entrypoints_1733327148154/work</span>
+<span id="cb3-71"><a href="#cb3-71" aria-hidden="true" tabindex="-1"></a><span class="va">equinox</span><span class="op">=</span>=0.11.11</span>
+<span id="cb3-72"><a href="#cb3-72" aria-hidden="true" tabindex="-1"></a><span class="va">esda</span><span class="op">=</span>=2.7.1</span>
+<span id="cb3-73"><a href="#cb3-73" aria-hidden="true" tabindex="-1"></a><span class="ex">et_xmlfile</span> @ file:///home/conda/feedstock_root/build_artifacts/et_xmlfile_1733749653422/work</span>
+<span id="cb3-74"><a href="#cb3-74" aria-hidden="true" tabindex="-1"></a><span class="va">etils</span><span class="op">=</span>=1.11.0</span>
+<span id="cb3-75"><a href="#cb3-75" aria-hidden="true" tabindex="-1"></a><span class="ex">exceptiongroup</span> @ file:///home/conda/feedstock_root/build_artifacts/exceptiongroup_1733208806608/work</span>
+<span id="cb3-76"><a href="#cb3-76" aria-hidden="true" tabindex="-1"></a><span class="ex">executing</span> @ file:///home/conda/feedstock_root/build_artifacts/executing_1733569351617/work</span>
+<span id="cb3-77"><a href="#cb3-77" aria-hidden="true" tabindex="-1"></a><span class="va">fasteners</span><span class="op">=</span>=0.19</span>
+<span id="cb3-78"><a href="#cb3-78" aria-hidden="true" tabindex="-1"></a><span class="ex">fastjsonschema</span> @ file:///home/conda/feedstock_root/build_artifacts/python-fastjsonschema_1733235979760/work/dist</span>
+<span id="cb3-79"><a href="#cb3-79" aria-hidden="true" tabindex="-1"></a><span class="va">fbpca</span><span class="op">=</span>=1.0</span>
+<span id="cb3-80"><a href="#cb3-80" aria-hidden="true" tabindex="-1"></a><span class="va">filelock</span><span class="op">=</span>=3.18.0</span>
+<span id="cb3-81"><a href="#cb3-81" aria-hidden="true" tabindex="-1"></a><span class="va">fiona</span><span class="op">=</span>=1.10.1</span>
+<span id="cb3-82"><a href="#cb3-82" aria-hidden="true" tabindex="-1"></a><span class="va">flax</span><span class="op">=</span>=0.10.2</span>
+<span id="cb3-83"><a href="#cb3-83" aria-hidden="true" tabindex="-1"></a><span class="va">flexcache</span><span class="op">=</span>=0.3</span>
+<span id="cb3-84"><a href="#cb3-84" aria-hidden="true" tabindex="-1"></a><span class="va">flexparser</span><span class="op">=</span>=0.4</span>
+<span id="cb3-85"><a href="#cb3-85" aria-hidden="true" tabindex="-1"></a><span class="va">FlowIO</span><span class="op">=</span>=1.3.0</span>
+<span id="cb3-86"><a href="#cb3-86" aria-hidden="true" tabindex="-1"></a><span class="ex">folium</span> @ file:///home/conda/feedstock_root/build_artifacts/folium_1736247869287/work</span>
+<span id="cb3-87"><a href="#cb3-87" aria-hidden="true" tabindex="-1"></a><span class="va">fonttools</span><span class="op">=</span>=4.59.0</span>
+<span id="cb3-88"><a href="#cb3-88" aria-hidden="true" tabindex="-1"></a><span class="va">formulaic</span><span class="op">=</span>=1.1.1</span>
+<span id="cb3-89"><a href="#cb3-89" aria-hidden="true" tabindex="-1"></a><span class="ex">formulaic-contrasts==1.0.0</span></span>
+<span id="cb3-90"><a href="#cb3-90" aria-hidden="true" tabindex="-1"></a><span class="ex">fqdn</span> @ file:///home/conda/feedstock_root/build_artifacts/fqdn_1733327382592/work/dist</span>
+<span id="cb3-91"><a href="#cb3-91" aria-hidden="true" tabindex="-1"></a><span class="ex">freetype-py==2.5.1</span></span>
+<span id="cb3-92"><a href="#cb3-92" aria-hidden="true" tabindex="-1"></a><span class="va">frozenlist</span><span class="op">=</span>=1.7.0</span>
+<span id="cb3-93"><a href="#cb3-93" aria-hidden="true" tabindex="-1"></a><span class="va">fsspec</span><span class="op">=</span>=2025.7.0</span>
+<span id="cb3-94"><a href="#cb3-94" aria-hidden="true" tabindex="-1"></a><span class="va">gensim</span><span class="op">=</span>=4.3.3</span>
+<span id="cb3-95"><a href="#cb3-95" aria-hidden="true" tabindex="-1"></a><span class="va">geopandas</span><span class="op">=</span>=1.1.1</span>
+<span id="cb3-96"><a href="#cb3-96" aria-hidden="true" tabindex="-1"></a><span class="va">geosketch</span><span class="op">=</span>=1.3</span>
+<span id="cb3-97"><a href="#cb3-97" aria-hidden="true" tabindex="-1"></a><span class="va">giddy</span><span class="op">=</span>=2.3.6</span>
+<span id="cb3-98"><a href="#cb3-98" aria-hidden="true" tabindex="-1"></a><span class="ex">gmpy2</span> @ file:///Users/runner/miniforge3/conda-bld/gmpy2_1733462592473/work</span>
+<span id="cb3-99"><a href="#cb3-99" aria-hidden="true" tabindex="-1"></a><span class="va">grpcio</span><span class="op">=</span>=1.70.0</span>
+<span id="cb3-100"><a href="#cb3-100" aria-hidden="true" tabindex="-1"></a><span class="va">gseapy</span><span class="op">=</span>=1.1.8</span>
+<span id="cb3-101"><a href="#cb3-101" aria-hidden="true" tabindex="-1"></a><span class="ex">h11</span> @ file:///home/conda/feedstock_root/build_artifacts/h11_1733327467879/work</span>
+<span id="cb3-102"><a href="#cb3-102" aria-hidden="true" tabindex="-1"></a><span class="ex">h2</span> @ file:///home/conda/feedstock_root/build_artifacts/h2_1733298745555/work</span>
+<span id="cb3-103"><a href="#cb3-103" aria-hidden="true" tabindex="-1"></a><span class="va">h5py</span><span class="op">=</span>=3.14.0</span>
+<span id="cb3-104"><a href="#cb3-104" aria-hidden="true" tabindex="-1"></a><span class="va">HeapDict</span><span class="op">=</span>=1.0.1</span>
+<span id="cb3-105"><a href="#cb3-105" aria-hidden="true" tabindex="-1"></a><span class="ex">hpack</span> @ file:///home/conda/feedstock_root/build_artifacts/hpack_1737618293087/work</span>
+<span id="cb3-106"><a href="#cb3-106" aria-hidden="true" tabindex="-1"></a><span class="va">hsluv</span><span class="op">=</span>=5.0.4</span>
+<span id="cb3-107"><a href="#cb3-107" aria-hidden="true" tabindex="-1"></a><span class="ex">httpcore</span> @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_httpcore_1731707562/work</span>
+<span id="cb3-108"><a href="#cb3-108" aria-hidden="true" tabindex="-1"></a><span class="ex">httpx</span> @ file:///home/conda/feedstock_root/build_artifacts/httpx_1733663348460/work</span>
+<span id="cb3-109"><a href="#cb3-109" aria-hidden="true" tabindex="-1"></a><span class="va">humanize</span><span class="op">=</span>=4.11.0</span>
+<span id="cb3-110"><a href="#cb3-110" aria-hidden="true" tabindex="-1"></a><span class="ex">hyperframe</span> @ file:///home/conda/feedstock_root/build_artifacts/hyperframe_1737618333194/work</span>
+<span id="cb3-111"><a href="#cb3-111" aria-hidden="true" tabindex="-1"></a><span class="va">idna</span><span class="op">=</span>=3.10</span>
+<span id="cb3-112"><a href="#cb3-112" aria-hidden="true" tabindex="-1"></a><span class="va">igraph</span><span class="op">=</span>=0.11.9</span>
+<span id="cb3-113"><a href="#cb3-113" aria-hidden="true" tabindex="-1"></a><span class="va">imagecodecs</span><span class="op">=</span>=2024.12.30</span>
+<span id="cb3-114"><a href="#cb3-114" aria-hidden="true" tabindex="-1"></a><span class="va">imageio</span><span class="op">=</span>=2.37.0</span>
+<span id="cb3-115"><a href="#cb3-115" aria-hidden="true" tabindex="-1"></a><span class="va">imagesize</span><span class="op">=</span>=1.4.1</span>
+<span id="cb3-116"><a href="#cb3-116" aria-hidden="true" tabindex="-1"></a><span class="ex">importlib_metadata</span> @ file:///home/conda/feedstock_root/build_artifacts/importlib-metadata_1737420181517/work</span>
+<span id="cb3-117"><a href="#cb3-117" aria-hidden="true" tabindex="-1"></a><span class="ex">importlib_resources</span> @ file:///home/conda/feedstock_root/build_artifacts/importlib_resources_1736252299705/work</span>
+<span id="cb3-118"><a href="#cb3-118" aria-hidden="true" tabindex="-1"></a><span class="ex">in-n-out==0.2.1</span></span>
+<span id="cb3-119"><a href="#cb3-119" aria-hidden="true" tabindex="-1"></a><span class="va">inequality</span><span class="op">=</span>=1.1.2</span>
+<span id="cb3-120"><a href="#cb3-120" aria-hidden="true" tabindex="-1"></a><span class="va">inflect</span><span class="op">=</span>=7.5.0</span>
+<span id="cb3-121"><a href="#cb3-121" aria-hidden="true" tabindex="-1"></a><span class="va">iniconfig</span><span class="op">=</span>=2.1.0</span>
+<span id="cb3-122"><a href="#cb3-122" aria-hidden="true" tabindex="-1"></a><span class="ex">interface-meta==1.3.0</span></span>
+<span id="cb3-123"><a href="#cb3-123" aria-hidden="true" tabindex="-1"></a><span class="ex">ipykernel</span> @ file:///Users/runner/miniforge3/conda-bld/ipykernel_1719845458456/work</span>
+<span id="cb3-124"><a href="#cb3-124" aria-hidden="true" tabindex="-1"></a><span class="ex">ipython</span> @ file:///home/conda/feedstock_root/build_artifacts/ipython_1734788142186/work</span>
+<span id="cb3-125"><a href="#cb3-125" aria-hidden="true" tabindex="-1"></a><span class="ex">isoduration</span> @ file:///home/conda/feedstock_root/build_artifacts/isoduration_1733493628631/work/dist</span>
+<span id="cb3-126"><a href="#cb3-126" aria-hidden="true" tabindex="-1"></a><span class="va">jax</span><span class="op">=</span>=0.5.0</span>
+<span id="cb3-127"><a href="#cb3-127" aria-hidden="true" tabindex="-1"></a><span class="va">jaxlib</span><span class="op">=</span>=0.5.0</span>
+<span id="cb3-128"><a href="#cb3-128" aria-hidden="true" tabindex="-1"></a><span class="va">jaxopt</span><span class="op">=</span>=0.8.3</span>
+<span id="cb3-129"><a href="#cb3-129" aria-hidden="true" tabindex="-1"></a><span class="va">jaxtyping</span><span class="op">=</span>=0.2.38</span>
+<span id="cb3-130"><a href="#cb3-130" aria-hidden="true" tabindex="-1"></a><span class="ex">jedi</span> @ file:///home/conda/feedstock_root/build_artifacts/jedi_1733300866624/work</span>
+<span id="cb3-131"><a href="#cb3-131" aria-hidden="true" tabindex="-1"></a><span class="va">Jinja2</span><span class="op">=</span>=3.1.6</span>
+<span id="cb3-132"><a href="#cb3-132" aria-hidden="true" tabindex="-1"></a><span class="va">jmespath</span><span class="op">=</span>=1.0.1</span>
+<span id="cb3-133"><a href="#cb3-133" aria-hidden="true" tabindex="-1"></a><span class="va">joblib</span><span class="op">=</span>=1.5.1</span>
+<span id="cb3-134"><a href="#cb3-134" aria-hidden="true" tabindex="-1"></a><span class="ex">json5</span> @ file:///home/conda/feedstock_root/build_artifacts/json5_1733272076743/work</span>
+<span id="cb3-135"><a href="#cb3-135" aria-hidden="true" tabindex="-1"></a><span class="ex">jsonpointer</span> @ file:///Users/runner/miniforge3/conda-bld/jsonpointer_1725302931775/work</span>
+<span id="cb3-136"><a href="#cb3-136" aria-hidden="true" tabindex="-1"></a><span class="ex">jsonschema</span> @ file:///home/conda/feedstock_root/build_artifacts/jsonschema_1733472696581/work</span>
+<span id="cb3-137"><a href="#cb3-137" aria-hidden="true" tabindex="-1"></a><span class="ex">jsonschema-specifications</span> @ file:///tmp/tmpk0f344m9/src</span>
+<span id="cb3-138"><a href="#cb3-138" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter-events</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter_events_1734531682843/work</span>
+<span id="cb3-139"><a href="#cb3-139" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter-lsp</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter-lsp-meta_1733492907176/work/jupyter-lsp</span>
+<span id="cb3-140"><a href="#cb3-140" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter_client</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter_client_1673615989977/work</span>
+<span id="cb3-141"><a href="#cb3-141" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter_core</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter_core_1727163409502/work</span>
+<span id="cb3-142"><a href="#cb3-142" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter_server</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter_server_1734702637701/work</span>
+<span id="cb3-143"><a href="#cb3-143" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyter_server_terminals</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyter_server_terminals_1733427956852/work</span>
+<span id="cb3-144"><a href="#cb3-144" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyterlab</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_1738184697351/work</span>
+<span id="cb3-145"><a href="#cb3-145" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyterlab_pygments</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_pygments_1733328101776/work</span>
+<span id="cb3-146"><a href="#cb3-146" aria-hidden="true" tabindex="-1"></a><span class="ex">jupyterlab_server</span> @ file:///home/conda/feedstock_root/build_artifacts/jupyterlab_server_1733599573484/work</span>
+<span id="cb3-147"><a href="#cb3-147" aria-hidden="true" tabindex="-1"></a><span class="va">karateclub</span><span class="op">=</span>=1.2.2</span>
+<span id="cb3-148"><a href="#cb3-148" aria-hidden="true" tabindex="-1"></a><span class="va">kiwisolver</span><span class="op">=</span>=1.4.8</span>
+<span id="cb3-149"><a href="#cb3-149" aria-hidden="true" tabindex="-1"></a><span class="va">lamin_utils</span><span class="op">=</span>=0.13.10</span>
+<span id="cb3-150"><a href="#cb3-150" aria-hidden="true" tabindex="-1"></a><span class="va">lazy_loader</span><span class="op">=</span>=0.4</span>
+<span id="cb3-151"><a href="#cb3-151" aria-hidden="true" tabindex="-1"></a><span class="ex">legacy-api-wrap==1.4.1</span></span>
+<span id="cb3-152"><a href="#cb3-152" aria-hidden="true" tabindex="-1"></a><span class="va">legendkit</span><span class="op">=</span>=0.3.6</span>
+<span id="cb3-153"><a href="#cb3-153" aria-hidden="true" tabindex="-1"></a><span class="va">leidenalg</span><span class="op">=</span>=0.10.2</span>
+<span id="cb3-154"><a href="#cb3-154" aria-hidden="true" tabindex="-1"></a><span class="va">Levenshtein</span><span class="op">=</span>=0.27.1</span>
+<span id="cb3-155"><a href="#cb3-155" aria-hidden="true" tabindex="-1"></a><span class="va">libpysal</span><span class="op">=</span>=4.13.0</span>
+<span id="cb3-156"><a href="#cb3-156" aria-hidden="true" tabindex="-1"></a><span class="va">lightning</span><span class="op">=</span>=2.5.2</span>
+<span id="cb3-157"><a href="#cb3-157" aria-hidden="true" tabindex="-1"></a><span class="ex">lightning-utilities==0.11.9</span></span>
+<span id="cb3-158"><a href="#cb3-158" aria-hidden="true" tabindex="-1"></a><span class="va">lineax</span><span class="op">=</span>=0.0.7</span>
+<span id="cb3-159"><a href="#cb3-159" aria-hidden="true" tabindex="-1"></a><span class="va">llvmlite</span><span class="op">=</span>=0.44.0</span>
+<span id="cb3-160"><a href="#cb3-160" aria-hidden="true" tabindex="-1"></a><span class="va">locket</span><span class="op">=</span>=1.0.0</span>
+<span id="cb3-161"><a href="#cb3-161" aria-hidden="true" tabindex="-1"></a><span class="va">loguru</span><span class="op">=</span>=0.7.3</span>
+<span id="cb3-162"><a href="#cb3-162" aria-hidden="true" tabindex="-1"></a><span class="ex">lz4</span> @ file:///Users/runner/miniforge3/conda-bld/lz4_1733474296338/work</span>
+<span id="cb3-163"><a href="#cb3-163" aria-hidden="true" tabindex="-1"></a><span class="va">magicgui</span><span class="op">=</span>=0.10.0</span>
+<span id="cb3-164"><a href="#cb3-164" aria-hidden="true" tabindex="-1"></a><span class="ex">mapclassify</span> @ file:///home/conda/feedstock_root/build_artifacts/mapclassify_1733731066416/work</span>
+<span id="cb3-165"><a href="#cb3-165" aria-hidden="true" tabindex="-1"></a><span class="va">Markdown</span><span class="op">=</span>=3.7</span>
+<span id="cb3-166"><a href="#cb3-166" aria-hidden="true" tabindex="-1"></a><span class="ex">markdown-it-py==3.0.0</span></span>
+<span id="cb3-167"><a href="#cb3-167" aria-hidden="true" tabindex="-1"></a><span class="va">MarkupSafe</span><span class="op">=</span>=3.0.2</span>
+<span id="cb3-168"><a href="#cb3-168" aria-hidden="true" tabindex="-1"></a><span class="va">marsilea</span><span class="op">=</span>=0.5.4</span>
+<span id="cb3-169"><a href="#cb3-169" aria-hidden="true" tabindex="-1"></a><span class="va">matplotlib</span><span class="op">=</span>=3.10.3</span>
+<span id="cb3-170"><a href="#cb3-170" aria-hidden="true" tabindex="-1"></a><span class="ex">matplotlib-inline</span> @ file:///home/conda/feedstock_root/build_artifacts/matplotlib-inline_1733416936468/work</span>
+<span id="cb3-171"><a href="#cb3-171" aria-hidden="true" tabindex="-1"></a><span class="ex">matplotlib-scalebar==0.9.0</span></span>
+<span id="cb3-172"><a href="#cb3-172" aria-hidden="true" tabindex="-1"></a><span class="ex">matplotlib-venn==1.1.2</span></span>
+<span id="cb3-173"><a href="#cb3-173" aria-hidden="true" tabindex="-1"></a><span class="va">mdurl</span><span class="op">=</span>=0.1.2</span>
+<span id="cb3-174"><a href="#cb3-174" aria-hidden="true" tabindex="-1"></a><span class="va">mgwr</span><span class="op">=</span>=2.2.1</span>
+<span id="cb3-175"><a href="#cb3-175" aria-hidden="true" tabindex="-1"></a><span class="ex">mistune</span> @ file:///home/conda/feedstock_root/build_artifacts/mistune_1675771498296/work</span>
+<span id="cb3-176"><a href="#cb3-176" aria-hidden="true" tabindex="-1"></a><span class="va">mizani</span><span class="op">=</span>=0.13.1</span>
+<span id="cb3-177"><a href="#cb3-177" aria-hidden="true" tabindex="-1"></a><span class="va">ml_collections</span><span class="op">=</span>=1.0.0</span>
+<span id="cb3-178"><a href="#cb3-178" aria-hidden="true" tabindex="-1"></a><span class="va">ml_dtypes</span><span class="op">=</span>=0.5.1</span>
+<span id="cb3-179"><a href="#cb3-179" aria-hidden="true" tabindex="-1"></a><span class="va">momepy</span><span class="op">=</span>=0.10.0</span>
+<span id="cb3-180"><a href="#cb3-180" aria-hidden="true" tabindex="-1"></a><span class="ex">more-itertools==10.7.0</span></span>
+<span id="cb3-181"><a href="#cb3-181" aria-hidden="true" tabindex="-1"></a><span class="va">mpmath</span><span class="op">=</span>=1.3.0</span>
+<span id="cb3-182"><a href="#cb3-182" aria-hidden="true" tabindex="-1"></a><span class="va">msgpack</span><span class="op">=</span>=1.1.0</span>
+<span id="cb3-183"><a href="#cb3-183" aria-hidden="true" tabindex="-1"></a><span class="va">mudata</span><span class="op">=</span>=0.3.1</span>
+<span id="cb3-184"><a href="#cb3-184" aria-hidden="true" tabindex="-1"></a><span class="va">multidict</span><span class="op">=</span>=6.6.3</span>
+<span id="cb3-185"><a href="#cb3-185" aria-hidden="true" tabindex="-1"></a><span class="va">multipledispatch</span><span class="op">=</span>=1.0.0</span>
+<span id="cb3-186"><a href="#cb3-186" aria-hidden="true" tabindex="-1"></a><span class="va">multiscale_spatial_image</span><span class="op">=</span>=2.0.2</span>
+<span id="cb3-187"><a href="#cb3-187" aria-hidden="true" tabindex="-1"></a><span class="va">munkres</span><span class="op">=</span>=1.1.4</span>
+<span id="cb3-188"><a href="#cb3-188" aria-hidden="true" tabindex="-1"></a><span class="va">muon</span><span class="op">=</span>=0.1.7</span>
+<span id="cb3-189"><a href="#cb3-189" aria-hidden="true" tabindex="-1"></a><span class="va">napari</span><span class="op">=</span>=0.5.6</span>
+<span id="cb3-190"><a href="#cb3-190" aria-hidden="true" tabindex="-1"></a><span class="ex">napari-console==0.1.3</span></span>
+<span id="cb3-191"><a href="#cb3-191" aria-hidden="true" tabindex="-1"></a><span class="ex">napari-matplotlib==3.0.0</span></span>
+<span id="cb3-192"><a href="#cb3-192" aria-hidden="true" tabindex="-1"></a><span class="ex">napari-plugin-engine==0.2.0</span></span>
+<span id="cb3-193"><a href="#cb3-193" aria-hidden="true" tabindex="-1"></a><span class="ex">napari-plugin-manager==0.1.6</span></span>
+<span id="cb3-194"><a href="#cb3-194" aria-hidden="true" tabindex="-1"></a><span class="ex">napari-svg==0.2.1</span></span>
+<span id="cb3-195"><a href="#cb3-195" aria-hidden="true" tabindex="-1"></a><span class="va">narwhals</span><span class="op">=</span>=2.0.0</span>
+<span id="cb3-196"><a href="#cb3-196" aria-hidden="true" tabindex="-1"></a><span class="va">natsort</span><span class="op">=</span>=8.4.0</span>
+<span id="cb3-197"><a href="#cb3-197" aria-hidden="true" tabindex="-1"></a><span class="ex">nb_conda_kernels</span> @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_0dkvir5_y3/croot/nb_conda_kernels_1744229689603/work</span>
+<span id="cb3-198"><a href="#cb3-198" aria-hidden="true" tabindex="-1"></a><span class="ex">nbclient</span> @ file:///home/conda/feedstock_root/build_artifacts/nbclient_1734628800805/work</span>
+<span id="cb3-199"><a href="#cb3-199" aria-hidden="true" tabindex="-1"></a><span class="ex">nbconvert</span> @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_nbconvert-core_1738067871/work</span>
+<span id="cb3-200"><a href="#cb3-200" aria-hidden="true" tabindex="-1"></a><span class="ex">nbformat</span> @ file:///home/conda/feedstock_root/build_artifacts/nbformat_1733402752141/work</span>
+<span id="cb3-201"><a href="#cb3-201" aria-hidden="true" tabindex="-1"></a><span class="ex">nest-asyncio==1.6.0</span></span>
+<span id="cb3-202"><a href="#cb3-202" aria-hidden="true" tabindex="-1"></a><span class="va">networkx</span><span class="op">=</span>=3.5</span>
+<span id="cb3-203"><a href="#cb3-203" aria-hidden="true" tabindex="-1"></a><span class="ex">notebook</span> @ file:///home/conda/feedstock_root/build_artifacts/notebook_1734789425270/work</span>
+<span id="cb3-204"><a href="#cb3-204" aria-hidden="true" tabindex="-1"></a><span class="ex">notebook_shim</span> @ file:///home/conda/feedstock_root/build_artifacts/notebook-shim_1733408315203/work</span>
+<span id="cb3-205"><a href="#cb3-205" aria-hidden="true" tabindex="-1"></a><span class="va">npe2</span><span class="op">=</span>=0.7.7</span>
+<span id="cb3-206"><a href="#cb3-206" aria-hidden="true" tabindex="-1"></a><span class="va">numba</span><span class="op">=</span>=0.61.2</span>
+<span id="cb3-207"><a href="#cb3-207" aria-hidden="true" tabindex="-1"></a><span class="va">numcodecs</span><span class="op">=</span>=0.15.1</span>
+<span id="cb3-208"><a href="#cb3-208" aria-hidden="true" tabindex="-1"></a><span class="va">numpy</span><span class="op">=</span>=1.26.4</span>
+<span id="cb3-209"><a href="#cb3-209" aria-hidden="true" tabindex="-1"></a><span class="ex">numpy-groupies==0.11.2</span></span>
+<span id="cb3-210"><a href="#cb3-210" aria-hidden="true" tabindex="-1"></a><span class="va">numpydoc</span><span class="op">=</span>=1.8.0</span>
+<span id="cb3-211"><a href="#cb3-211" aria-hidden="true" tabindex="-1"></a><span class="va">numpyro</span><span class="op">=</span>=0.16.1</span>
+<span id="cb3-212"><a href="#cb3-212" aria-hidden="true" tabindex="-1"></a><span class="ex">ome-types==0.5.3</span></span>
+<span id="cb3-213"><a href="#cb3-213" aria-hidden="true" tabindex="-1"></a><span class="va">omnipath</span><span class="op">=</span>=1.0.12</span>
+<span id="cb3-214"><a href="#cb3-214" aria-hidden="true" tabindex="-1"></a><span class="ex">opencv-python==4.11.0.86</span></span>
+<span id="cb3-215"><a href="#cb3-215" aria-hidden="true" tabindex="-1"></a><span class="ex">openpyxl</span> @ file:///Users/runner/miniforge3/conda-bld/openpyxl_1725460839492/work</span>
+<span id="cb3-216"><a href="#cb3-216" aria-hidden="true" tabindex="-1"></a><span class="va">opt_einsum</span><span class="op">=</span>=3.4.0</span>
+<span id="cb3-217"><a href="#cb3-217" aria-hidden="true" tabindex="-1"></a><span class="va">optax</span><span class="op">=</span>=0.2.4</span>
+<span id="cb3-218"><a href="#cb3-218" aria-hidden="true" tabindex="-1"></a><span class="ex">orbax-checkpoint==0.11.0</span></span>
+<span id="cb3-219"><a href="#cb3-219" aria-hidden="true" tabindex="-1"></a><span class="ex">ott-jax==0.5.0</span></span>
+<span id="cb3-220"><a href="#cb3-220" aria-hidden="true" tabindex="-1"></a><span class="ex">overrides</span> @ file:///home/conda/feedstock_root/build_artifacts/overrides_1734587627321/work</span>
+<span id="cb3-221"><a href="#cb3-221" aria-hidden="true" tabindex="-1"></a><span class="va">packaging</span><span class="op">=</span>=25.0</span>
+<span id="cb3-222"><a href="#cb3-222" aria-hidden="true" tabindex="-1"></a><span class="va">pandas</span><span class="op">=</span>=2.3.1</span>
+<span id="cb3-223"><a href="#cb3-223" aria-hidden="true" tabindex="-1"></a><span class="ex">pandocfilters</span> @ file:///home/conda/feedstock_root/build_artifacts/pandocfilters_1631603243851/work</span>
+<span id="cb3-224"><a href="#cb3-224" aria-hidden="true" tabindex="-1"></a><span class="va">param</span><span class="op">=</span>=2.2.1</span>
+<span id="cb3-225"><a href="#cb3-225" aria-hidden="true" tabindex="-1"></a><span class="ex">parso</span> @ file:///home/conda/feedstock_root/build_artifacts/parso_1733271261340/work</span>
+<span id="cb3-226"><a href="#cb3-226" aria-hidden="true" tabindex="-1"></a><span class="va">partd</span><span class="op">=</span>=1.4.2</span>
+<span id="cb3-227"><a href="#cb3-227" aria-hidden="true" tabindex="-1"></a><span class="va">PartSegCore_compiled_backend</span><span class="op">=</span>=0.15.12</span>
+<span id="cb3-228"><a href="#cb3-228" aria-hidden="true" tabindex="-1"></a><span class="va">patsy</span><span class="op">=</span>=1.0.1</span>
+<span id="cb3-229"><a href="#cb3-229" aria-hidden="true" tabindex="-1"></a><span class="va">pertpy</span><span class="op">=</span>=0.9.5</span>
+<span id="cb3-230"><a href="#cb3-230" aria-hidden="true" tabindex="-1"></a><span class="ex">pexpect</span> @ file:///home/conda/feedstock_root/build_artifacts/pexpect_1733301927746/work</span>
+<span id="cb3-231"><a href="#cb3-231" aria-hidden="true" tabindex="-1"></a><span class="ex">pickleshare</span> @ file:///home/conda/feedstock_root/build_artifacts/pickleshare_1733327343728/work</span>
+<span id="cb3-232"><a href="#cb3-232" aria-hidden="true" tabindex="-1"></a><span class="va">pillow</span><span class="op">=</span>=11.3.0</span>
+<span id="cb3-233"><a href="#cb3-233" aria-hidden="true" tabindex="-1"></a><span class="va">PIMS</span><span class="op">=</span>=0.7</span>
+<span id="cb3-234"><a href="#cb3-234" aria-hidden="true" tabindex="-1"></a><span class="va">Pint</span><span class="op">=</span>=0.24.4</span>
+<span id="cb3-235"><a href="#cb3-235" aria-hidden="true" tabindex="-1"></a><span class="ex">pkgutil_resolve_name</span> @ file:///home/conda/feedstock_root/build_artifacts/pkgutil-resolve-name_1733344503739/work</span>
+<span id="cb3-236"><a href="#cb3-236" aria-hidden="true" tabindex="-1"></a><span class="va">platformdirs</span><span class="op">=</span>=4.3.8</span>
+<span id="cb3-237"><a href="#cb3-237" aria-hidden="true" tabindex="-1"></a><span class="va">plotly</span><span class="op">=</span>=6.2.0</span>
+<span id="cb3-238"><a href="#cb3-238" aria-hidden="true" tabindex="-1"></a><span class="va">plotnine</span><span class="op">=</span>=0.14.5</span>
+<span id="cb3-239"><a href="#cb3-239" aria-hidden="true" tabindex="-1"></a><span class="va">pluggy</span><span class="op">=</span>=1.6.0</span>
+<span id="cb3-240"><a href="#cb3-240" aria-hidden="true" tabindex="-1"></a><span class="va">ply</span><span class="op">=</span>=3.11</span>
+<span id="cb3-241"><a href="#cb3-241" aria-hidden="true" tabindex="-1"></a><span class="va">pointpats</span><span class="op">=</span>=2.5.1</span>
+<span id="cb3-242"><a href="#cb3-242" aria-hidden="true" tabindex="-1"></a><span class="va">pooch</span><span class="op">=</span>=1.8.2</span>
+<span id="cb3-243"><a href="#cb3-243" aria-hidden="true" tabindex="-1"></a><span class="va">POT</span><span class="op">=</span>=0.9.5</span>
+<span id="cb3-244"><a href="#cb3-244" aria-hidden="true" tabindex="-1"></a><span class="ex">prometheus_client</span> @ file:///home/conda/feedstock_root/build_artifacts/prometheus_client_1733327310477/work</span>
+<span id="cb3-245"><a href="#cb3-245" aria-hidden="true" tabindex="-1"></a><span class="ex">prompt_toolkit</span> @ file:///home/conda/feedstock_root/build_artifacts/prompt-toolkit_1737453357274/work</span>
+<span id="cb3-246"><a href="#cb3-246" aria-hidden="true" tabindex="-1"></a><span class="va">propcache</span><span class="op">=</span>=0.3.2</span>
+<span id="cb3-247"><a href="#cb3-247" aria-hidden="true" tabindex="-1"></a><span class="va">protobuf</span><span class="op">=</span>=5.29.3</span>
+<span id="cb3-248"><a href="#cb3-248" aria-hidden="true" tabindex="-1"></a><span class="va">psutil</span><span class="op">=</span>=7.0.0</span>
+<span id="cb3-249"><a href="#cb3-249" aria-hidden="true" tabindex="-1"></a><span class="va">psygnal</span><span class="op">=</span>=0.12.0</span>
+<span id="cb3-250"><a href="#cb3-250" aria-hidden="true" tabindex="-1"></a><span class="ex">ptyprocess</span> @ file:///home/conda/feedstock_root/build_artifacts/ptyprocess_1733302279685/work/dist/ptyprocess-0.7.0-py2.py3-none-any.whl#sha256=92c32ff62b5fd8cf325bec5ab90d7be3d2a8ca8c8a3813ff487a8d2002630d1f</span>
+<span id="cb3-251"><a href="#cb3-251" aria-hidden="true" tabindex="-1"></a><span class="va">PubChemPy</span><span class="op">=</span>=1.0.4</span>
+<span id="cb3-252"><a href="#cb3-252" aria-hidden="true" tabindex="-1"></a><span class="va">PuLP</span><span class="op">=</span>=3.2.1</span>
+<span id="cb3-253"><a href="#cb3-253" aria-hidden="true" tabindex="-1"></a><span class="ex">pure_eval</span> @ file:///home/conda/feedstock_root/build_artifacts/pure_eval_1733569405015/work</span>
+<span id="cb3-254"><a href="#cb3-254" aria-hidden="true" tabindex="-1"></a><span class="va">pyarrow</span><span class="op">=</span>=21.0.0</span>
+<span id="cb3-255"><a href="#cb3-255" aria-hidden="true" tabindex="-1"></a><span class="ex">pybind11</span> @ file:///D:/bld/pybind11-split_1730237329882/work</span>
+<span id="cb3-256"><a href="#cb3-256" aria-hidden="true" tabindex="-1"></a><span class="ex">pybind11_global</span> @ file:///home/conda/feedstock_root/build_artifacts/pybind11-split_1730237328107/work</span>
+<span id="cb3-257"><a href="#cb3-257" aria-hidden="true" tabindex="-1"></a><span class="va">pyCirclize</span><span class="op">=</span>=1.9.0</span>
+<span id="cb3-258"><a href="#cb3-258" aria-hidden="true" tabindex="-1"></a><span class="va">pyconify</span><span class="op">=</span>=0.2.1</span>
+<span id="cb3-259"><a href="#cb3-259" aria-hidden="true" tabindex="-1"></a><span class="ex">pycparser</span> @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_pycparser_1733195786/work</span>
+<span id="cb3-260"><a href="#cb3-260" aria-hidden="true" tabindex="-1"></a><span class="va">pyct</span><span class="op">=</span>=0.5.0</span>
+<span id="cb3-261"><a href="#cb3-261" aria-hidden="true" tabindex="-1"></a><span class="va">pydantic</span><span class="op">=</span>=2.10.6</span>
+<span id="cb3-262"><a href="#cb3-262" aria-hidden="true" tabindex="-1"></a><span class="ex">pydantic-compat==0.1.2</span></span>
+<span id="cb3-263"><a href="#cb3-263" aria-hidden="true" tabindex="-1"></a><span class="va">pydantic_core</span><span class="op">=</span>=2.27.2</span>
+<span id="cb3-264"><a href="#cb3-264" aria-hidden="true" tabindex="-1"></a><span class="ex">pydeseq2</span> @ git+https://github.com/kimsjune/PyDESeq2.git@11aed8ccd9bada7188ec377f4fbfb9e0860406ab</span>
+<span id="cb3-265"><a href="#cb3-265" aria-hidden="true" tabindex="-1"></a><span class="va">Pygments</span><span class="op">=</span>=2.19.2</span>
+<span id="cb3-266"><a href="#cb3-266" aria-hidden="true" tabindex="-1"></a><span class="va">PyGSP</span><span class="op">=</span>=0.5.1</span>
+<span id="cb3-267"><a href="#cb3-267" aria-hidden="true" tabindex="-1"></a><span class="va">pynndescent</span><span class="op">=</span>=0.5.13</span>
+<span id="cb3-268"><a href="#cb3-268" aria-hidden="true" tabindex="-1"></a><span class="ex">pyobjc-core</span> @ file:///Users/runner/miniforge3/conda-bld/pyobjc-core_1736890741759/work</span>
+<span id="cb3-269"><a href="#cb3-269" aria-hidden="true" tabindex="-1"></a><span class="ex">pyobjc-framework-Cocoa</span> @ file:///Users/runner/miniforge3/conda-bld/pyobjc-framework-cocoa_1736926938901/work</span>
+<span id="cb3-270"><a href="#cb3-270" aria-hidden="true" tabindex="-1"></a><span class="va">pyogrio</span><span class="op">=</span>=0.11.0</span>
+<span id="cb3-271"><a href="#cb3-271" aria-hidden="true" tabindex="-1"></a><span class="va">Pyomo</span><span class="op">=</span>=6.8.2</span>
+<span id="cb3-272"><a href="#cb3-272" aria-hidden="true" tabindex="-1"></a><span class="va">PyOpenGL</span><span class="op">=</span>=3.1.9</span>
+<span id="cb3-273"><a href="#cb3-273" aria-hidden="true" tabindex="-1"></a><span class="va">pyparsing</span><span class="op">=</span>=3.2.3</span>
+<span id="cb3-274"><a href="#cb3-274" aria-hidden="true" tabindex="-1"></a><span class="va">pyproj</span><span class="op">=</span>=3.7.1</span>
+<span id="cb3-275"><a href="#cb3-275" aria-hidden="true" tabindex="-1"></a><span class="va">pyproject_hooks</span><span class="op">=</span>=1.2.0</span>
+<span id="cb3-276"><a href="#cb3-276" aria-hidden="true" tabindex="-1"></a><span class="va">PyQt5</span><span class="op">=</span>=5.15.11</span>
+<span id="cb3-277"><a href="#cb3-277" aria-hidden="true" tabindex="-1"></a><span class="ex">PyQt5-Qt5==5.15.16</span></span>
+<span id="cb3-278"><a href="#cb3-278" aria-hidden="true" tabindex="-1"></a><span class="va">PyQt5_sip</span><span class="op">=</span>=12.17.0</span>
+<span id="cb3-279"><a href="#cb3-279" aria-hidden="true" tabindex="-1"></a><span class="va">pyqtgraph</span><span class="op">=</span>=0.13.7</span>
+<span id="cb3-280"><a href="#cb3-280" aria-hidden="true" tabindex="-1"></a><span class="ex">pyro-api==0.1.2</span></span>
+<span id="cb3-281"><a href="#cb3-281" aria-hidden="true" tabindex="-1"></a><span class="ex">pyro-ppl==1.9.1</span></span>
+<span id="cb3-282"><a href="#cb3-282" aria-hidden="true" tabindex="-1"></a><span class="va">pysal</span><span class="op">=</span>=25.1</span>
+<span id="cb3-283"><a href="#cb3-283" aria-hidden="true" tabindex="-1"></a><span class="ex">PySocks</span> @ file:///Users/builder/cbouss/perseverance-python-buildout/croot/pysocks_1699237568675/work</span>
+<span id="cb3-284"><a href="#cb3-284" aria-hidden="true" tabindex="-1"></a><span class="va">pytest</span><span class="op">=</span>=8.4.1</span>
+<span id="cb3-285"><a href="#cb3-285" aria-hidden="true" tabindex="-1"></a><span class="ex">python-dateutil==2.9.0.post0</span></span>
+<span id="cb3-286"><a href="#cb3-286" aria-hidden="true" tabindex="-1"></a><span class="ex">python-igraph==0.11.9</span></span>
+<span id="cb3-287"><a href="#cb3-287" aria-hidden="true" tabindex="-1"></a><span class="ex">python-json-logger</span> @ file:///home/conda/feedstock_root/build_artifacts/python-json-logger_1677079630776/work</span>
+<span id="cb3-288"><a href="#cb3-288" aria-hidden="true" tabindex="-1"></a><span class="ex">python-Levenshtein==0.27.1</span></span>
+<span id="cb3-289"><a href="#cb3-289" aria-hidden="true" tabindex="-1"></a><span class="ex">python-louvain==0.16</span></span>
+<span id="cb3-290"><a href="#cb3-290" aria-hidden="true" tabindex="-1"></a><span class="ex">pytorch-lightning==2.5.0.post0</span></span>
+<span id="cb3-291"><a href="#cb3-291" aria-hidden="true" tabindex="-1"></a><span class="va">pytz</span><span class="op">=</span>=2025.2</span>
+<span id="cb3-292"><a href="#cb3-292" aria-hidden="true" tabindex="-1"></a><span class="va">PyWavelets</span><span class="op">=</span>=1.8.0</span>
+<span id="cb3-293"><a href="#cb3-293" aria-hidden="true" tabindex="-1"></a><span class="va">PyYAML</span><span class="op">=</span>=6.0.2</span>
+<span id="cb3-294"><a href="#cb3-294" aria-hidden="true" tabindex="-1"></a><span class="ex">pyzmq</span> @ file:///private/var/folders/nz/j6p8yfhx1mv_0grj5xl4650h0000gp/T/abs_cbtlm0pib_/croot/pyzmq_1709318330127/work</span>
+<span id="cb3-295"><a href="#cb3-295" aria-hidden="true" tabindex="-1"></a><span class="va">qtconsole</span><span class="op">=</span>=5.6.1</span>
+<span id="cb3-296"><a href="#cb3-296" aria-hidden="true" tabindex="-1"></a><span class="va">QtPy</span><span class="op">=</span>=2.4.2</span>
+<span id="cb3-297"><a href="#cb3-297" aria-hidden="true" tabindex="-1"></a><span class="va">quantecon</span><span class="op">=</span>=0.8.2</span>
+<span id="cb3-298"><a href="#cb3-298" aria-hidden="true" tabindex="-1"></a><span class="va">RapidFuzz</span><span class="op">=</span>=3.13.0</span>
+<span id="cb3-299"><a href="#cb3-299" aria-hidden="true" tabindex="-1"></a><span class="va">rasterio</span><span class="op">=</span>=1.4.3</span>
+<span id="cb3-300"><a href="#cb3-300" aria-hidden="true" tabindex="-1"></a><span class="va">rasterstats</span><span class="op">=</span>=0.20.0</span>
+<span id="cb3-301"><a href="#cb3-301" aria-hidden="true" tabindex="-1"></a><span class="va">readfcs</span><span class="op">=</span>=2.0.1</span>
+<span id="cb3-302"><a href="#cb3-302" aria-hidden="true" tabindex="-1"></a><span class="ex">referencing</span> @ file:///home/conda/feedstock_root/build_artifacts/bld/rattler-build_referencing_1737836872/work</span>
+<span id="cb3-303"><a href="#cb3-303" aria-hidden="true" tabindex="-1"></a><span class="va">requests</span><span class="op">=</span>=2.32.4</span>
+<span id="cb3-304"><a href="#cb3-304" aria-hidden="true" tabindex="-1"></a><span class="ex">rfc3339_validator</span> @ file:///home/conda/feedstock_root/build_artifacts/rfc3339-validator_1733599910982/work</span>
+<span id="cb3-305"><a href="#cb3-305" aria-hidden="true" tabindex="-1"></a><span class="ex">rfc3986-validator</span> @ file:///home/conda/feedstock_root/build_artifacts/rfc3986-validator_1598024191506/work</span>
+<span id="cb3-306"><a href="#cb3-306" aria-hidden="true" tabindex="-1"></a><span class="va">rich</span><span class="op">=</span>=14.1.0</span>
+<span id="cb3-307"><a href="#cb3-307" aria-hidden="true" tabindex="-1"></a><span class="ex">rpds-py</span> @ file:///Users/runner/miniforge3/conda-bld/rpds-py_1733366692110/work</span>
+<span id="cb3-308"><a href="#cb3-308" aria-hidden="true" tabindex="-1"></a><span class="va">rpy2</span><span class="op">=</span>=3.5.17</span>
+<span id="cb3-309"><a href="#cb3-309" aria-hidden="true" tabindex="-1"></a><span class="va">rtree</span><span class="op">=</span>=1.4.0</span>
+<span id="cb3-310"><a href="#cb3-310" aria-hidden="true" tabindex="-1"></a><span class="va">s3fs</span><span class="op">=</span>=2025.7.0</span>
+<span id="cb3-311"><a href="#cb3-311" aria-hidden="true" tabindex="-1"></a><span class="va">scanpy</span><span class="op">=</span>=1.10.0</span>
+<span id="cb3-312"><a href="#cb3-312" aria-hidden="true" tabindex="-1"></a><span class="ex">scikit-image==0.25.2</span></span>
+<span id="cb3-313"><a href="#cb3-313" aria-hidden="true" tabindex="-1"></a><span class="ex">scikit-learn==1.7.1</span></span>
+<span id="cb3-314"><a href="#cb3-314" aria-hidden="true" tabindex="-1"></a><span class="ex">scikit-misc==0.5.1</span></span>
+<span id="cb3-315"><a href="#cb3-315" aria-hidden="true" tabindex="-1"></a><span class="va">scipy</span><span class="op">=</span>=1.16.1</span>
+<span id="cb3-316"><a href="#cb3-316" aria-hidden="true" tabindex="-1"></a><span class="ex">scvi-tools</span> @ file:///home/conda/feedstock_root/build_artifacts/scvi-tools_1736352915771/work</span>
+<span id="cb3-317"><a href="#cb3-317" aria-hidden="true" tabindex="-1"></a><span class="va">seaborn</span><span class="op">=</span>=0.13.2</span>
+<span id="cb3-318"><a href="#cb3-318" aria-hidden="true" tabindex="-1"></a><span class="va">segregation</span><span class="op">=</span>=2.5.2</span>
+<span id="cb3-319"><a href="#cb3-319" aria-hidden="true" tabindex="-1"></a><span class="ex">Send2Trash</span> @ file:///Users/runner/miniforge3/conda-bld/send2trash_1733322099476/work</span>
+<span id="cb3-320"><a href="#cb3-320" aria-hidden="true" tabindex="-1"></a><span class="ex">session-info2==0.2</span></span>
+<span id="cb3-321"><a href="#cb3-321" aria-hidden="true" tabindex="-1"></a><span class="va">session_info</span><span class="op">=</span>=1.0.1</span>
+<span id="cb3-322"><a href="#cb3-322" aria-hidden="true" tabindex="-1"></a><span class="va">setuptools</span><span class="op">=</span>=80.9.0</span>
+<span id="cb3-323"><a href="#cb3-323" aria-hidden="true" tabindex="-1"></a><span class="va">shapely</span><span class="op">=</span>=2.1.1</span>
+<span id="cb3-324"><a href="#cb3-324" aria-hidden="true" tabindex="-1"></a><span class="va">shellingham</span><span class="op">=</span>=1.5.4</span>
+<span id="cb3-325"><a href="#cb3-325" aria-hidden="true" tabindex="-1"></a><span class="va">simplejson</span><span class="op">=</span>=3.19.3</span>
+<span id="cb3-326"><a href="#cb3-326" aria-hidden="true" tabindex="-1"></a><span class="va">six</span><span class="op">=</span>=1.17.0</span>
+<span id="cb3-327"><a href="#cb3-327" aria-hidden="true" tabindex="-1"></a><span class="va">slicerator</span><span class="op">=</span>=1.1.0</span>
+<span id="cb3-328"><a href="#cb3-328" aria-hidden="true" tabindex="-1"></a><span class="va">smart_open</span><span class="op">=</span>=7.3.0.post1</span>
+<span id="cb3-329"><a href="#cb3-329" aria-hidden="true" tabindex="-1"></a><span class="ex">sniffio</span> @ file:///home/conda/feedstock_root/build_artifacts/sniffio_1733244044561/work</span>
+<span id="cb3-330"><a href="#cb3-330" aria-hidden="true" tabindex="-1"></a><span class="va">snowballstemmer</span><span class="op">=</span>=2.2.0</span>
+<span id="cb3-331"><a href="#cb3-331" aria-hidden="true" tabindex="-1"></a><span class="va">sortedcontainers</span><span class="op">=</span>=2.4.0</span>
+<span id="cb3-332"><a href="#cb3-332" aria-hidden="true" tabindex="-1"></a><span class="ex">soupsieve</span> @ file:///home/conda/feedstock_root/build_artifacts/soupsieve_1693929250441/work</span>
+<span id="cb3-333"><a href="#cb3-333" aria-hidden="true" tabindex="-1"></a><span class="va">spaghetti</span><span class="op">=</span>=1.7.6</span>
+<span id="cb3-334"><a href="#cb3-334" aria-hidden="true" tabindex="-1"></a><span class="va">sparse</span><span class="op">=</span>=0.15.5</span>
+<span id="cb3-335"><a href="#cb3-335" aria-hidden="true" tabindex="-1"></a><span class="va">sparsecca</span><span class="op">=</span>=0.3.1</span>
+<span id="cb3-336"><a href="#cb3-336" aria-hidden="true" tabindex="-1"></a><span class="va">spatial_image</span><span class="op">=</span>=1.2.1</span>
+<span id="cb3-337"><a href="#cb3-337" aria-hidden="true" tabindex="-1"></a><span class="va">spglm</span><span class="op">=</span>=1.1.0</span>
+<span id="cb3-338"><a href="#cb3-338" aria-hidden="true" tabindex="-1"></a><span class="va">Sphinx</span><span class="op">=</span>=8.1.3</span>
+<span id="cb3-339"><a href="#cb3-339" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-applehelp==2.0.0</span></span>
+<span id="cb3-340"><a href="#cb3-340" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-devhelp==2.0.0</span></span>
+<span id="cb3-341"><a href="#cb3-341" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-htmlhelp==2.1.0</span></span>
+<span id="cb3-342"><a href="#cb3-342" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-jsmath==1.0.1</span></span>
+<span id="cb3-343"><a href="#cb3-343" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-qthelp==2.0.0</span></span>
+<span id="cb3-344"><a href="#cb3-344" aria-hidden="true" tabindex="-1"></a><span class="ex">sphinxcontrib-serializinghtml==2.0.0</span></span>
+<span id="cb3-345"><a href="#cb3-345" aria-hidden="true" tabindex="-1"></a><span class="va">spint</span><span class="op">=</span>=1.0.7</span>
+<span id="cb3-346"><a href="#cb3-346" aria-hidden="true" tabindex="-1"></a><span class="va">splot</span><span class="op">=</span>=1.1.7</span>
+<span id="cb3-347"><a href="#cb3-347" aria-hidden="true" tabindex="-1"></a><span class="va">spopt</span><span class="op">=</span>=0.7.0</span>
+<span id="cb3-348"><a href="#cb3-348" aria-hidden="true" tabindex="-1"></a><span class="va">spreg</span><span class="op">=</span>=1.8.3</span>
+<span id="cb3-349"><a href="#cb3-349" aria-hidden="true" tabindex="-1"></a><span class="ex">stack_data</span> @ file:///home/conda/feedstock_root/build_artifacts/stack_data_1733569443808/work</span>
+<span id="cb3-350"><a href="#cb3-350" aria-hidden="true" tabindex="-1"></a><span class="va">statsmodels</span><span class="op">=</span>=0.14.5</span>
+<span id="cb3-351"><a href="#cb3-351" aria-hidden="true" tabindex="-1"></a><span class="ex">stdlib-list==0.11.1</span></span>
+<span id="cb3-352"><a href="#cb3-352" aria-hidden="true" tabindex="-1"></a><span class="va">superqt</span><span class="op">=</span>=0.7.1</span>
+<span id="cb3-353"><a href="#cb3-353" aria-hidden="true" tabindex="-1"></a><span class="va">sympy</span><span class="op">=</span>=1.14.0</span>
+<span id="cb3-354"><a href="#cb3-354" aria-hidden="true" tabindex="-1"></a><span class="va">tabulate</span><span class="op">=</span>=0.9.0</span>
+<span id="cb3-355"><a href="#cb3-355" aria-hidden="true" tabindex="-1"></a><span class="va">tblib</span><span class="op">=</span>=3.1.0</span>
+<span id="cb3-356"><a href="#cb3-356" aria-hidden="true" tabindex="-1"></a><span class="va">tensorboard</span><span class="op">=</span>=2.18.0</span>
+<span id="cb3-357"><a href="#cb3-357" aria-hidden="true" tabindex="-1"></a><span class="ex">tensorboard-data-server==0.7.2</span></span>
+<span id="cb3-358"><a href="#cb3-358" aria-hidden="true" tabindex="-1"></a><span class="va">tensorstore</span><span class="op">=</span>=0.1.71</span>
+<span id="cb3-359"><a href="#cb3-359" aria-hidden="true" tabindex="-1"></a><span class="ex">terminado</span> @ file:///Users/runner/miniforge3/conda-bld/terminado_1710263781917/work</span>
+<span id="cb3-360"><a href="#cb3-360" aria-hidden="true" tabindex="-1"></a><span class="va">texttable</span><span class="op">=</span>=1.7.0</span>
+<span id="cb3-361"><a href="#cb3-361" aria-hidden="true" tabindex="-1"></a><span class="va">threadpoolctl</span><span class="op">=</span>=3.6.0</span>
+<span id="cb3-362"><a href="#cb3-362" aria-hidden="true" tabindex="-1"></a><span class="va">tifffile</span><span class="op">=</span>=2025.6.11</span>
+<span id="cb3-363"><a href="#cb3-363" aria-hidden="true" tabindex="-1"></a><span class="ex">tinycss2</span> @ file:///home/conda/feedstock_root/build_artifacts/tinycss2_1729802851396/work</span>
+<span id="cb3-364"><a href="#cb3-364" aria-hidden="true" tabindex="-1"></a><span class="va">tobler</span><span class="op">=</span>=0.12.1</span>
+<span id="cb3-365"><a href="#cb3-365" aria-hidden="true" tabindex="-1"></a><span class="ex">tomli</span> @ file:///home/conda/feedstock_root/build_artifacts/tomli_1733256695513/work</span>
+<span id="cb3-366"><a href="#cb3-366" aria-hidden="true" tabindex="-1"></a><span class="va">tomli_w</span><span class="op">=</span>=1.2.0</span>
+<span id="cb3-367"><a href="#cb3-367" aria-hidden="true" tabindex="-1"></a><span class="va">toolz</span><span class="op">=</span>=1.0.0</span>
+<span id="cb3-368"><a href="#cb3-368" aria-hidden="true" tabindex="-1"></a><span class="ex">torch</span> @ file:///Users/runner/miniforge3/conda-bld/libtorch_1738206012956/work</span>
+<span id="cb3-369"><a href="#cb3-369" aria-hidden="true" tabindex="-1"></a><span class="va">torchaudio</span><span class="op">=</span>=2.6.0</span>
+<span id="cb3-370"><a href="#cb3-370" aria-hidden="true" tabindex="-1"></a><span class="va">torchmetrics</span><span class="op">=</span>=1.6.1</span>
+<span id="cb3-371"><a href="#cb3-371" aria-hidden="true" tabindex="-1"></a><span class="ex">torchvision</span> @ file:///Users/runner/miniforge3/conda-bld/bld/rattler-build_torchvision_1737215442/work</span>
+<span id="cb3-372"><a href="#cb3-372" aria-hidden="true" tabindex="-1"></a><span class="va">tornado</span><span class="op">=</span>=6.4.2</span>
+<span id="cb3-373"><a href="#cb3-373" aria-hidden="true" tabindex="-1"></a><span class="va">tqdm</span><span class="op">=</span>=4.67.1</span>
+<span id="cb3-374"><a href="#cb3-374" aria-hidden="true" tabindex="-1"></a><span class="ex">traitlets</span> @ file:///home/conda/feedstock_root/build_artifacts/traitlets_1733367359838/work</span>
+<span id="cb3-375"><a href="#cb3-375" aria-hidden="true" tabindex="-1"></a><span class="va">triangle</span><span class="op">=</span>=20250106</span>
+<span id="cb3-376"><a href="#cb3-376" aria-hidden="true" tabindex="-1"></a><span class="va">typeguard</span><span class="op">=</span>=4.4.4</span>
+<span id="cb3-377"><a href="#cb3-377" aria-hidden="true" tabindex="-1"></a><span class="va">typer</span><span class="op">=</span>=0.15.1</span>
+<span id="cb3-378"><a href="#cb3-378" aria-hidden="true" tabindex="-1"></a><span class="ex">types-python-dateutil</span> @ file:///home/conda/feedstock_root/build_artifacts/types-python-dateutil_1733612335562/work</span>
+<span id="cb3-379"><a href="#cb3-379" aria-hidden="true" tabindex="-1"></a><span class="va">typing_extensions</span><span class="op">=</span>=4.14.1</span>
+<span id="cb3-380"><a href="#cb3-380" aria-hidden="true" tabindex="-1"></a><span class="ex">typing_utils</span> @ file:///home/conda/feedstock_root/build_artifacts/typing_utils_1733331286120/work</span>
+<span id="cb3-381"><a href="#cb3-381" aria-hidden="true" tabindex="-1"></a><span class="va">tzdata</span><span class="op">=</span>=2025.2</span>
+<span id="cb3-382"><a href="#cb3-382" aria-hidden="true" tabindex="-1"></a><span class="va">tzlocal</span><span class="op">=</span>=5.3</span>
+<span id="cb3-383"><a href="#cb3-383" aria-hidden="true" tabindex="-1"></a><span class="ex">umap-learn==0.5.9.post2</span></span>
+<span id="cb3-384"><a href="#cb3-384" aria-hidden="true" tabindex="-1"></a><span class="ex">unicodedata2</span> @ file:///Users/runner/miniforge3/conda-bld/unicodedata2_1736692573761/work</span>
+<span id="cb3-385"><a href="#cb3-385" aria-hidden="true" tabindex="-1"></a><span class="ex">uri-template</span> @ file:///home/conda/feedstock_root/build_artifacts/uri-template_1733323593477/work/dist</span>
+<span id="cb3-386"><a href="#cb3-386" aria-hidden="true" tabindex="-1"></a><span class="va">urllib3</span><span class="op">=</span>=2.5.0</span>
+<span id="cb3-387"><a href="#cb3-387" aria-hidden="true" tabindex="-1"></a><span class="va">validators</span><span class="op">=</span>=0.35.0</span>
+<span id="cb3-388"><a href="#cb3-388" aria-hidden="true" tabindex="-1"></a><span class="va">vispy</span><span class="op">=</span>=0.14.3</span>
+<span id="cb3-389"><a href="#cb3-389" aria-hidden="true" tabindex="-1"></a><span class="va">wadler_lindig</span><span class="op">=</span>=0.1.3</span>
+<span id="cb3-390"><a href="#cb3-390" aria-hidden="true" tabindex="-1"></a><span class="ex">wcwidth</span> @ file:///home/conda/feedstock_root/build_artifacts/wcwidth_1733231326287/work</span>
+<span id="cb3-391"><a href="#cb3-391" aria-hidden="true" tabindex="-1"></a><span class="ex">webcolors</span> @ file:///home/conda/feedstock_root/build_artifacts/webcolors_1733359735138/work</span>
+<span id="cb3-392"><a href="#cb3-392" aria-hidden="true" tabindex="-1"></a><span class="ex">webencodings</span> @ file:///home/conda/feedstock_root/build_artifacts/webencodings_1733236011802/work</span>
+<span id="cb3-393"><a href="#cb3-393" aria-hidden="true" tabindex="-1"></a><span class="ex">websocket-client</span> @ file:///home/conda/feedstock_root/build_artifacts/websocket-client_1733157342724/work</span>
+<span id="cb3-394"><a href="#cb3-394" aria-hidden="true" tabindex="-1"></a><span class="va">Werkzeug</span><span class="op">=</span>=3.1.3</span>
+<span id="cb3-395"><a href="#cb3-395" aria-hidden="true" tabindex="-1"></a><span class="va">wheel</span><span class="op">=</span>=0.45.1</span>
+<span id="cb3-396"><a href="#cb3-396" aria-hidden="true" tabindex="-1"></a><span class="va">wrapt</span><span class="op">=</span>=1.17.2</span>
+<span id="cb3-397"><a href="#cb3-397" aria-hidden="true" tabindex="-1"></a><span class="va">xarray</span><span class="op">=</span>=2024.11.0</span>
+<span id="cb3-398"><a href="#cb3-398" aria-hidden="true" tabindex="-1"></a><span class="ex">xarray-dataclasses==1.9.1</span></span>
+<span id="cb3-399"><a href="#cb3-399" aria-hidden="true" tabindex="-1"></a><span class="ex">xarray-datatree</span> @ file:///home/conda/feedstock_root/build_artifacts/xarray-datatree_1707506363407/work</span>
+<span id="cb3-400"><a href="#cb3-400" aria-hidden="true" tabindex="-1"></a><span class="ex">xarray-schema==0.0.3</span></span>
+<span id="cb3-401"><a href="#cb3-401" aria-hidden="true" tabindex="-1"></a><span class="ex">xarray-spatial==0.4.0</span></span>
+<span id="cb3-402"><a href="#cb3-402" aria-hidden="true" tabindex="-1"></a><span class="va">xsdata</span><span class="op">=</span>=24.3.1</span>
+<span id="cb3-403"><a href="#cb3-403" aria-hidden="true" tabindex="-1"></a><span class="ex">xyzservices</span> @ file:///home/conda/feedstock_root/build_artifacts/xyzservices_1737234886776/work</span>
+<span id="cb3-404"><a href="#cb3-404" aria-hidden="true" tabindex="-1"></a><span class="va">yarl</span><span class="op">=</span>=1.20.1</span>
+<span id="cb3-405"><a href="#cb3-405" aria-hidden="true" tabindex="-1"></a><span class="va">zarr</span><span class="op">=</span>=2.18.4</span>
+<span id="cb3-406"><a href="#cb3-406" aria-hidden="true" tabindex="-1"></a><span class="va">zict</span><span class="op">=</span>=3.0.0</span>
+<span id="cb3-407"><a href="#cb3-407" aria-hidden="true" tabindex="-1"></a><span class="va">zipp</span><span class="op">=</span>=3.21.0</span>
+<span id="cb3-408"><a href="#cb3-408" aria-hidden="true" tabindex="-1"></a><span class="va">zstandard</span><span class="op">=</span>=0.23.0</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+</div>
+<p>There is just one little hair in the soup. The yml file can’t be used to create a new conda environment due to package version conflicts (with <code>conda env create -f scvi-tools.yml</code>). This is really beyond me because if there’s conflict, how is my current environment functioning? Maybe I will have to use pip’s venv in the future… (but what if I have to install a package with conda!?). These are the packages with sensitive versions: scanpy, anndata, jax, jaxlib, and numpy.</p>
+</section>
+<section id="aftermath" class="level2">
+<h2 class="anchored" data-anchor-id="aftermath">Aftermath</h2>
+<p>I think two lessons were learned.<br>
+1. Don’t install new packages into working conda env without “backing up”.<br>
+2. Package updates come with two steps forward (for the masses) and twenty steps back (for the few).</p>
+<div class="center">
+<p>\ (•◡•) /</p>
+</div>
+
+
+</section>
+
+<a onclick="window.scrollTo(0, 0); return false;" role="button" id="quarto-back-to-top"><i class="bi bi-arrow-up"></i> Back to top</a></main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const disableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'prefetch';
+    }
+  }
+  const enableStylesheet = (stylesheets) => {
+    for (let i=0; i < stylesheets.length; i++) {
+      const stylesheet = stylesheets[i];
+      stylesheet.rel = 'stylesheet';
+    }
+  }
+  const manageTransitions = (selector, allowTransitions) => {
+    const els = window.document.querySelectorAll(selector);
+    for (let i=0; i < els.length; i++) {
+      const el = els[i];
+      if (allowTransitions) {
+        el.classList.remove('notransition');
+      } else {
+        el.classList.add('notransition');
+      }
+    }
+  }
+  const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+    const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+    const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+    let newTheme = '';
+    if(darkModeDefault) {
+      newTheme = isAlternate ? baseTheme : alternateTheme;
+    } else {
+      newTheme = isAlternate ? alternateTheme : baseTheme;
+    }
+    const changeGiscusTheme = () => {
+      // From: https://github.com/giscus/giscus/issues/336
+      const sendMessage = (message) => {
+        const iframe = document.querySelector('iframe.giscus-frame');
+        if (!iframe) return;
+        iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+      }
+      sendMessage({
+        setConfig: {
+          theme: newTheme
+        }
+      });
+    }
+    const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+    if (isGiscussLoaded) {
+      changeGiscusTheme();
+    }
+  }
+  const toggleColorMode = (alternate) => {
+    // Switch the stylesheets
+    const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+    manageTransitions('#quarto-margin-sidebar .nav-link', false);
+    if (alternate) {
+      enableStylesheet(alternateStylesheets);
+      for (const sheetNode of alternateStylesheets) {
+        if (sheetNode.id === "quarto-bootstrap") {
+          toggleBodyColorMode(sheetNode);
+        }
+      }
+    } else {
+      disableStylesheet(alternateStylesheets);
+      toggleBodyColorPrimary();
+    }
+    manageTransitions('#quarto-margin-sidebar .nav-link', true);
+    // Switch the toggles
+    const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+    for (let i=0; i < toggles.length; i++) {
+      const toggle = toggles[i];
+      if (toggle) {
+        if (alternate) {
+          toggle.classList.add("alternate");     
+        } else {
+          toggle.classList.remove("alternate");
+        }
+      }
+    }
+    // Hack to workaround the fact that safari doesn't
+    // properly recolor the scrollbar when toggling (#1455)
+    if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+      manageTransitions("body", false);
+      window.scrollTo(0, 1);
+      setTimeout(() => {
+        window.scrollTo(0, 0);
+        manageTransitions("body", true);
+      }, 40);  
+    }
+  }
+  const isFileUrl = () => { 
+    return window.location.protocol === 'file:';
+  }
+  const hasAlternateSentinel = () => {  
+    let styleSentinel = getColorSchemeSentinel();
+    if (styleSentinel !== null) {
+      return styleSentinel === "alternate";
+    } else {
+      return false;
+    }
+  }
+  const setStyleSentinel = (alternate) => {
+    const value = alternate ? "alternate" : "default";
+    if (!isFileUrl()) {
+      window.localStorage.setItem("quarto-color-scheme", value);
+    } else {
+      localAlternateSentinel = value;
+    }
+  }
+  const getColorSchemeSentinel = () => {
+    if (!isFileUrl()) {
+      const storageValue = window.localStorage.getItem("quarto-color-scheme");
+      return storageValue != null ? storageValue : localAlternateSentinel;
+    } else {
+      return localAlternateSentinel;
+    }
+  }
+  const darkModeDefault = false;
+  let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+  // Dark / light mode switch
+  window.quartoToggleColorScheme = () => {
+    // Read the current dark / light value 
+    let toAlternate = !hasAlternateSentinel();
+    toggleColorMode(toAlternate);
+    setStyleSentinel(toAlternate);
+    toggleGiscusIfUsed(toAlternate, darkModeDefault);
+  };
+  // Ensure there is a toggle, if there isn't float one in the top right
+  if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+    const a = window.document.createElement('a');
+    a.classList.add('top-right');
+    a.classList.add('quarto-color-scheme-toggle');
+    a.href = "";
+    a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+    const i = window.document.createElement("i");
+    i.classList.add('bi');
+    a.appendChild(i);
+    window.document.body.appendChild(a);
+  }
+  // Switch to dark mode if need be
+  if (hasAlternateSentinel()) {
+    toggleColorMode(true);
+  } else {
+    toggleColorMode(false);
+  }
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const onCopySuccess = function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  }
+  const getTextToCopy = function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+    text: getTextToCopy
+  });
+  clipboard.on('success', onCopySuccess);
+  if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+    // For code content inside modals, clipBoardJS needs to be initialized with a container option
+    // TODO: Check when it could be a function (https://github.com/zenorocha/clipboard.js/issues/860)
+    const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+      text: getTextToCopy,
+      container: window.document.getElementById('quarto-embedded-source-code-modal')
+    });
+    clipboardModal.on('success', onCopySuccess);
+  }
+    var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+    var mailtoRegex = new RegExp(/^mailto:/);
+      var filterRegex = new RegExp('/' + window.location.host + '/');
+    var isInternal = (href) => {
+        return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+    }
+    // Inspect non-navigation links and adorn them if external
+ 	var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+    for (var i=0; i<links.length; i++) {
+      const link = links[i];
+      if (!isInternal(link.href)) {
+        // undo the damage that might have been done by quarto-nav.js in the case of
+        // links that we want to consider external
+        if (link.dataset.originalHref !== undefined) {
+          link.href = link.dataset.originalHref;
+        }
+      }
+    }
+  function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+    const config = {
+      allowHTML: true,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start',
+    };
+    if (contentFn) {
+      config.content = contentFn;
+    }
+    if (onTriggerFn) {
+      config.onTrigger = onTriggerFn;
+    }
+    if (onUntriggerFn) {
+      config.onUntrigger = onUntriggerFn;
+    }
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      if (note) {
+        return note.innerHTML;
+      } else {
+        return "";
+      }
+    });
+  }
+  const xrefs = window.document.querySelectorAll('a.quarto-xref');
+  const processXRef = (id, note) => {
+    // Strip column container classes
+    const stripColumnClz = (el) => {
+      el.classList.remove("page-full", "page-columns");
+      if (el.children) {
+        for (const child of el.children) {
+          stripColumnClz(child);
+        }
+      }
+    }
+    stripColumnClz(note)
+    if (id === null || id.startsWith('sec-')) {
+      // Special case sections, only their first couple elements
+      const container = document.createElement("div");
+      if (note.children && note.children.length > 2) {
+        container.appendChild(note.children[0].cloneNode(true));
+        for (let i = 1; i < note.children.length; i++) {
+          const child = note.children[i];
+          if (child.tagName === "P" && child.innerText === "") {
+            continue;
+          } else {
+            container.appendChild(child.cloneNode(true));
+            break;
+          }
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(container);
+        }
+        return container.innerHTML
+      } else {
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        return note.innerHTML;
+      }
+    } else {
+      // Remove any anchor links if they are present
+      const anchorLink = note.querySelector('a.anchorjs-link');
+      if (anchorLink) {
+        anchorLink.remove();
+      }
+      if (window.Quarto?.typesetMath) {
+        window.Quarto.typesetMath(note);
+      }
+      // TODO in 1.5, we should make sure this works without a callout special case
+      if (note.classList.contains("callout")) {
+        return note.outerHTML;
+      } else {
+        return note.innerHTML;
+      }
+    }
+  }
+  for (var i=0; i<xrefs.length; i++) {
+    const xref = xrefs[i];
+    tippyHover(xref, undefined, function(instance) {
+      instance.disable();
+      let url = xref.getAttribute('href');
+      let hash = undefined; 
+      if (url.startsWith('#')) {
+        hash = url;
+      } else {
+        try { hash = new URL(url).hash; } catch {}
+      }
+      if (hash) {
+        const id = hash.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note !== null) {
+          try {
+            const html = processXRef(id, note.cloneNode(true));
+            instance.setContent(html);
+          } finally {
+            instance.enable();
+            instance.show();
+          }
+        } else {
+          // See if we can fetch this
+          fetch(url.split('#')[0])
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.getElementById(id);
+            if (note !== null) {
+              const html = processXRef(id, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      } else {
+        // See if we can fetch a full url (with no hash to target)
+        // This is a special case and we should probably do some content thinning / targeting
+        fetch(url)
+        .then(res => res.text())
+        .then(html => {
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(html, "text/html");
+          const note = htmlDoc.querySelector('main.content');
+          if (note !== null) {
+            // This should only happen for chapter cross references
+            // (since there is no id in the URL)
+            // remove the first header
+            if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+              note.children[0].remove();
+            }
+            const html = processXRef(null, note);
+            instance.setContent(html);
+          } 
+        }).finally(() => {
+          instance.enable();
+          instance.show();
+        });
+      }
+    }, function(instance) {
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            div.style.left = 0;
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+        // Handle positioning of the toggle
+    window.addEventListener(
+      "resize",
+      throttle(() => {
+        elRect = undefined;
+        if (selectedAnnoteEl) {
+          selectCodeLines(selectedAnnoteEl);
+        }
+      }, 10)
+    );
+    function throttle(fn, ms) {
+    let throttle = false;
+    let timer;
+      return (...args) => {
+        if(!throttle) { // first call gets through
+            fn.apply(this, args);
+            throttle = true;
+        } else { // all the others get throttled
+            if(timer) clearTimeout(timer); // cancel #2
+            timer = setTimeout(() => {
+              fn.apply(this, args);
+              timer = throttle = false;
+            }, ms);
+        }
+      };
+    }
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>Built with <a href="https://quarto.org/">Quarto</a>. License: <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a>.</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
