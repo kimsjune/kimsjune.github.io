@@ -15,7 +15,7 @@ categories: [Python]
 
 ## The problem in detail
 
-I ran into a funny error while trying to save a Visium spatial data to disk. `adata_vis.write("adata_vis.h5ad")` would return `ValueError: Forward slashes are not allowed in keys`. This is funny because I previously saved plenty of other files with forward slashes in `adata_vis.obs` column names. *Why now?* After faffing around I vaguely remembered I messed around with re-installing some packages in my `conda` environment earlier. Finally found a breaking change in `anndata` version 0.12.1 released on July 23rd, 2025, [disallowing forward slashes in keys for writing](https://github.com/scverse/anndata/pull/1940). I'm sure it's been done for good reasons, but I'm not keen on updating all slashes into dashes in my figures... To revert my conda environment back to its working state, I also had to complete two side quests: re-installing `numpy` and `numcodecs` to 1.26.4 and 0.15.1, respectively. A part of the problem could be that I'm using `pip` to install packages in a `conda` environment. I'm just used to `conda`, but some packages only ship with `pip`. 
+I ran into a funny error while trying to save a Visium spatial data to disk. `adata_vis.write("adata_vis.h5ad")` would return `ValueError: Forward slashes are not allowed in keys`. This is funny because I previously saved plenty of other files with forward slashes in `adata_vis.obs` column names. *Why now?* After faffing around I vaguely remembered I messed around with re-installing some packages in my `conda` environment earlier. Finally found a breaking change in `anndata` version 0.12.1 released on July 23rd, 2025, [disallowing forward slashes in keys for writing](https://github.com/scverse/anndata/pull/1940). I'm sure it's been done for good reasons, but I'm not keen on updating all slashes into dashes in my figures... To revert my conda environment back to its working state, I also had to complete two side quests: re-installing `numpy` and `numcodecs` to 1.26.4 and 0.15.1, respectively. A part of the problem could be that I'm using `pip` to install packages in a `conda` environment. I'm just used to `conda`, but some packages only ship with `pip`.
 
 ## The solution
 
@@ -611,7 +611,6 @@ prefix: /Users/jk/miniconda3/envs/scvi-tools
 
 ```
 
-
 ```{bash}
 #| eval: false
 #| code-fold: true
@@ -1031,9 +1030,9 @@ There is just one little hair in the soup. The yml file can't be used to create 
 
 ## Aftermath
 
-I think two lessons were learned.  
-1. Don't install new packages into working conda env without "backing up".  
-2. Package updates come with two steps forward (for the masses) and twenty steps back (for the few).  
+I think two lessons were learned.\
+1. Don't install new packages into working conda env without "backing up".\
+2. Package updates come with two steps forward (for the masses) and twenty steps back (for the few).
 
 ::: center
 \\ (•◡•) /
