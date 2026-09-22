@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "blog",
     "section": "",
-    "text": "Resisting python package updates\n\n\n\nPython\n\n\n\nwhen my working conda env is no longer\n\n\n\n\n\nJul 28, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up pytorch on Lambda cloud\n\n\n\nHPC\n\ncloud\n\n\n\nUnfortunately a recurring theme\n\n\n\n\n\nJan 20, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nAffordable short read sequencing\n\n\n\nother\n\n\n\nIn praise of Illumina’s NovaSeq\n\n\n\n\n\nNov 17, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nggplot2 aesthetics: scatter plot\n\n\n\nR\n\ndata visualization\n\n\n\nggplot2 settings I like\n\n\n\n\n\nAug 3, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nNextflow: using splitCsv() operator\n\n\n\nnextflow\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 2\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nhosting a shiny app on the web\n\n\n\n\n\nMar 22, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\nR\n\nRNA-seq\n\nHPC\n\nrevealjs\n\ndata visualization\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nMigrating to Nextflow on AWS\n\n\n\nnextflow\n\nAWS\n\n\n\na short complementary guide with videos\n\n\n\n\n\nAug 29, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\nnews\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\nNo matching items\n Back to top"
+    "text": "Setting up a virtual python environment on a HPC\n\n\n\nPython\n\nR\n\ncloud\n\n\n\nI need that GPU power\n\n\n\n\n\nSep 2, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nResisting python package updates\n\n\n\nPython\n\n\n\nwhen my working conda env is no longer\n\n\n\n\n\nJul 28, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up pytorch on Lambda cloud\n\n\n\nHPC\n\ncloud\n\n\n\nUnfortunately a recurring theme\n\n\n\n\n\nJan 20, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up pytorch on Lambda cloud\n\n\n\nHPC\n\ncloud\n\n\n\nUnfortunately a recurring theme\n\n\n\n\n\nJan 20, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nAffordable short read sequencing\n\n\n\nother\n\n\n\nIn praise of Illumina’s NovaSeq\n\n\n\n\n\nNov 17, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nggplot2 aesthetics: scatter plot\n\n\n\nR\n\ndata visualization\n\n\n\nggplot2 settings I like\n\n\n\n\n\nAug 3, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nNextflow: using splitCsv() operator\n\n\n\nnextflow\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 2\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nhosting a shiny app on the web\n\n\n\n\n\nMar 22, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\nR\n\nRNA-seq\n\nHPC\n\nrevealjs\n\ndata visualization\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nMigrating to Nextflow on AWS\n\n\n\nnextflow\n\nAWS\n\n\n\na short complementary guide with videos\n\n\n\n\n\nAug 29, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\nnews\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\nNo matching items\n Back to top"
   },
   {
     "objectID": "posts/250120-lambda-setup/index.html",
@@ -152,5 +152,33 @@
     "title": "About",
     "section": "Purpose of this blog",
     "text": "Purpose of this blog\nI find myself going back to my old code to find some key snippets that I cannot recall. Or it’s some one-off trick that I couldn’t possible retain. It’s a bit of a dumpster dive every time. I hope writing it down here will help me retrieve those easier. This kind of format is apparently called a “digital garden”. The outlook for this blog does not look good given my experience with gardening.\nThere are some coding “projects” in planning/dev phase that I wouldn’t be able to digitally document otherwise."
+  },
+  {
+    "objectID": "posts/250902-python-setup-drac/index.html",
+    "href": "posts/250902-python-setup-drac/index.html",
+    "title": "Setting up a virtual python environment on a HPC",
+    "section": "",
+    "text": "I find myself routinely going back to use DRAC HPCs especially for some GPU-heavy tasks. I’m used to using conda, which is not available for reasons. Instead I need to use virtualenv, which is no problem. But, it gets a bit complicated. For example, I need to use R inside a python virtualenv, so an R install must be available as some environment variable. But I’m not going to manually download and install R because standard programs are already available as modules. The order of setting this up is also important as I found out the hard way."
+  },
+  {
+    "objectID": "posts/250902-python-setup-drac/index.html#introduction",
+    "href": "posts/250902-python-setup-drac/index.html#introduction",
+    "title": "Setting up a virtual python environment on a HPC",
+    "section": "",
+    "text": "I find myself routinely going back to use DRAC HPCs especially for some GPU-heavy tasks. I’m used to using conda, which is not available for reasons. Instead I need to use virtualenv, which is no problem. But, it gets a bit complicated. For example, I need to use R inside a python virtualenv, so an R install must be available as some environment variable. But I’m not going to manually download and install R because standard programs are already available as modules. The order of setting this up is also important as I found out the hard way."
+  },
+  {
+    "objectID": "posts/250902-python-setup-drac/index.html#load-modules",
+    "href": "posts/250902-python-setup-drac/index.html#load-modules",
+    "title": "Setting up a virtual python environment on a HPC",
+    "section": "Load modules",
+    "text": "Load modules\nFirst, load the right modules:\n\nmodule load StdEnv/2023 python/3.12.4 r/4.5.0\n\nThen, create a new virtualenv:\n\nvirtualenv --no-download ~/new_env\n\nActivating:\n\nsource ~/new_env/bin/activate\n\nTo install packages with pip, it’s probably the best to install from wheels to avoid errors:\n\npip install --no-index PACKAGE_NAME\n\nBefore running compute jobs, all python packages should be installed inside the new_env environment. All of this information is explained well in the wiki."
+  },
+  {
+    "objectID": "posts/250902-python-setup-drac/index.html#submitting-slurm-jobs-the-right-way",
+    "href": "posts/250902-python-setup-drac/index.html#submitting-slurm-jobs-the-right-way",
+    "title": "Setting up a virtual python environment on a HPC",
+    "section": "Submitting slurm jobs the right way",
+    "text": "Submitting slurm jobs the right way\nThis is a boilerplate for submitting compute jobs to slurm:\n\nmodule load StdEnv/2023 python/3.12.4 r/4.5.0\nexport R_LIBS=/home/skim823/.local/R/4.5.0/\nsource ~/new_env/bin/activate\npython script.py\n\nEven before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it’s useful to have a local, version-specific install location path for R packages as explained here. Then, export the right R_LIBS, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my ~/.bashrc file at log in 🙄… Of course, all necessary R packages need to be installed via the R console. Unlike python, there are R “wheels”, so just run install.packages() or BiocManager::install().\nThis blog was written in appreciation of, but was not endorsed by…\n\n\n\\ (•◡•) /"
   }
 ]

@@ -2,7 +2,9 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/250902-python-setup-drac/index.html",
       "/posts/20250728-version-control/index.html",
+      "/posts/250120-lambda-setup/index.html",
       "/posts/250120-lambda-setup/index.html",
       "/posts/241117-sequencing-cost/index.html",
       "/posts/240803-ggplot-aes/index.html",

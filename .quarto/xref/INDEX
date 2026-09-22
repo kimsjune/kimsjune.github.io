@@ -69,5 +69,11 @@
   },
   "posts/20250728-version-control/index.qmd": {
     "index.html": "b19d7bd5"
+  },
+  "posts/250902-python-setup-drac/index.qmd": {
+    "index.html": "d06c7a5d"
+  },
+  "posts/250120-lambda-setup/index.rmarkdown": {
+    "index.html": "8b8478a1"
   }
 }
