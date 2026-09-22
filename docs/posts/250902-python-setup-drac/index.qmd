@@ -1,0 +1,74 @@
+---
+title: "Setting up a virtual python environment on a HPC"
+author: "jk"
+description: "I need that GPU power"
+date: "2025-09-02"
+format: 
+  html: default
+toc: true
+categories: [Python, R, cloud]
+---
+
+## Introduction
+
+I find myself routinely going back to use [DRAC](https://docs.alliancecan.ca/wiki/National_systems#Compute_clusters) HPCs especially for some GPU-heavy tasks. I'm used to using conda, which is not available for [reasons](https://docs.alliancecan.ca/wiki/Anaconda/en). Instead I need to use virtualenv, which is no problem. But, it gets a bit complicated. For example, I need to use R inside a python virtualenv, so an R install must be available as some environment variable. But I'm not going to manually download and install R because standard programs are already available as modules. The order of setting this up is also important as I found out the hard way.
+
+## Load modules
+
+First, load the right modules:
+
+```{r, engine='bash'}
+#| eval: false
+
+module load StdEnv/2023 python/3.12.4 r/4.5.0
+```
+
+Then, create a new virtualenv:
+
+```{r, engine='bash'}
+#| eval: false
+
+virtualenv --no-download ~/new_env
+```
+
+Activating:
+
+```{r, engine='bash'}
+#| eval: false
+
+source ~/new_env/bin/activate
+```
+
+To install packages with `pip`, it's probably the best to install from [wheels](https://docs.alliancecan.ca/wiki/Anaconda/en) to avoid errors:
+
+```{r, engine='bash'}
+#| eval: false
+
+pip install --no-index PACKAGE_NAME
+```
+
+Before running compute jobs, all python packages should be installed inside the `new_env` environment. All of this information is explained well in the [wiki](https://docs.alliancecan.ca/wiki/Python).
+
+## Submitting slurm jobs the *right* way
+
+This is a boilerplate for submitting compute jobs to slurm:
+
+```{r, engine = 'bash'}
+#| eval: false
+
+module load StdEnv/2023 python/3.12.4 r/4.5.0
+export R_LIBS=/home/skim823/.local/R/4.5.0/
+source ~/new_env/bin/activate
+python script.py
+```
+
+Even before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it's useful to have a local, version-specific install location path for R packages as explained [here](https://docs.alliancecan.ca/wiki/R). Then, `export` the right `R_LIBS`, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my `~/.bashrc` file at log in 🙄... Of course, all necessary R packages need to be installed via the R console. Unlike python, there are R "wheels", so just run `install.packages()` or `BiocManager::install()`.
+
+This blog was written in appreciation of, but was not endorsed by... 
+
+![](https://www.alliancecan.ca/assets/logo-en.svg)
+
+
+::: center
+\\ (•◡•) /
+:::
