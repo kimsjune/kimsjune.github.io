@@ -414,7 +414,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <div class="cell">
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/new_env/bin/activate</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>To install packages with <code>pip</code>, it’s probably the best to install from <a href="https://docs.alliancecan.ca/wiki/Anaconda/en">wheels</a> to avoid errors:</p>
+<p>To install packages with <code>pip</code>, it’s probably the best to install from <a href="https://docs.alliancecan.ca/wiki/Available_Python_wheels">wheels</a> to avoid errors:</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb4"><pre class="sourceCode bash code-with-copy"><code class="sourceCode bash"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="ex">pip</span> install <span class="at">--no-index</span> PACKAGE_NAME</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
@@ -429,7 +429,7 @@ gtag('config', 'G-LETXD56KZ0', { 'anonymize_ip': true});
 <span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="bu">source</span> ~/new_env/bin/activate</span>
 <span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> script.py</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Even before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it’s useful to have a local, version-specific install location path for R packages as explained <a href="https://docs.alliancecan.ca/wiki/R">here</a>. Then, <code>export</code> the right <code>R_LIBS</code>, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my <code>~/.bashrc</code> file at log in 🙄… Of course, all necessary R packages need to be installed via the R console. Unlike python, there are R “wheels”, so just run <code>install.packages()</code> or <code>BiocManager::install()</code>.</p>
+<p>Even before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it’s useful to have a local, version-specific install location path for R packages as explained <a href="https://docs.alliancecan.ca/wiki/R">here</a>. Then, <code>export</code> the right <code>R_LIBS</code>, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my <code>~/.bashrc</code> file at log in 🙄… Of course, all necessary R packages need to be installed via the R console. Unlike python, there are <em>no</em> R “wheels”, so just run <code>install.packages()</code> or <code>BiocManager::install()</code>.</p>
 <p>This blog was written in appreciation of, but was not endorsed by…</p>
 <p><img src="https://www.alliancecan.ca/assets/logo-en.svg" class="img-fluid"></p>
 <div class="center">

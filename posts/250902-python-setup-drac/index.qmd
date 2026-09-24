@@ -39,7 +39,7 @@ Activating:
 source ~/new_env/bin/activate
 ```
 
-To install packages with `pip`, it's probably the best to install from [wheels](https://docs.alliancecan.ca/wiki/Anaconda/en) to avoid errors:
+To install packages with `pip`, it's probably the best to install from [wheels](https://docs.alliancecan.ca/wiki/Available_Python_wheels) to avoid errors:
 
 ```{r, engine='bash'}
 #| eval: false
@@ -62,7 +62,7 @@ source ~/new_env/bin/activate
 python script.py
 ```
 
-Even before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it's useful to have a local, version-specific install location path for R packages as explained [here](https://docs.alliancecan.ca/wiki/R). Then, `export` the right `R_LIBS`, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my `~/.bashrc` file at log in 🙄... Of course, all necessary R packages need to be installed via the R console. Unlike python, there are R "wheels", so just run `install.packages()` or `BiocManager::install()`.
+Even before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it's useful to have a local, version-specific install location path for R packages as explained [here](https://docs.alliancecan.ca/wiki/R). Then, `export` the right `R_LIBS`, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my `~/.bashrc` file at log in 🙄... Of course, all necessary R packages need to be installed via the R console. Unlike python, there are *no* R "wheels", so just run `install.packages()` or `BiocManager::install()`.
 
 This blog was written in appreciation of, but was not endorsed by...
 
