@@ -4,7 +4,7 @@
     "href": "index.html",
     "title": "blog",
     "section": "",
-    "text": "Setting up a virtual python environment on a HPC\n\n\n\nPython\n\nR\n\ncloud\n\n\n\nI need that GPU power\n\n\n\n\n\nSep 2, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nResisting python package updates\n\n\n\nPython\n\n\n\nwhen my working conda env is no longer\n\n\n\n\n\nJul 28, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up pytorch on Lambda cloud\n\n\n\nHPC\n\ncloud\n\n\n\nUnfortunately a recurring theme\n\n\n\n\n\nJan 20, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nAffordable short read sequencing\n\n\n\nother\n\n\n\nIn praise of Illumina’s NovaSeq\n\n\n\n\n\nNov 17, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nggplot2 aesthetics: scatter plot\n\n\n\nR\n\ndata visualization\n\n\n\nggplot2 settings I like\n\n\n\n\n\nAug 3, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nNextflow: using splitCsv() operator\n\n\n\nnextflow\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 2\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nhosting a shiny app on the web\n\n\n\n\n\nMar 22, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\nR\n\nRNA-seq\n\nHPC\n\nrevealjs\n\ndata visualization\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nMigrating to Nextflow on AWS\n\n\n\nnextflow\n\nAWS\n\n\n\na short complementary guide with videos\n\n\n\n\n\nAug 29, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\nnews\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\nNo matching items\n Back to top"
+    "text": "HPC tricks\n\n\n\ncloud\n\n\n\nThose that I wish I could recall from memory\n\n\n\n\n\nFeb 13, 2026\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up a virtual python environment on a HPC\n\n\n\nPython\n\nR\n\ncloud\n\n\n\nI need that GPU power\n\n\n\n\n\nSep 2, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nSetting up pytorch on Lambda cloud\n\n\n\nHPC\n\ncloud\n\n\n\nUnfortunately a recurring theme\n\n\n\n\n\nJan 20, 2025\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nAffordable short read sequencing\n\n\n\nother\n\n\n\nIn praise of Illumina’s NovaSeq\n\n\n\n\n\nNov 17, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nggplot2 aesthetics: scatter plot\n\n\n\nR\n\ndata visualization\n\n\n\nggplot2 settings I like\n\n\n\n\n\nAug 3, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nNextflow: using splitCsv() operator\n\n\n\nnextflow\n\n\n\na tech tip to future self\n\n\n\n\n\nMay 8, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 2\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nhosting a shiny app on the web\n\n\n\n\n\nMar 22, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nShiny app for data viz part 1\n\n\n\nR\n\nshiny\n\ndata visualization\n\n\n\nunderstanding the flow between inputs, variables and outputs\n\n\n\n\n\nJan 15, 2024\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nA primer on RNA-seq analysis\n\n\n\nR\n\nRNA-seq\n\nHPC\n\nrevealjs\n\ndata visualization\n\n\n\nworkshop material\n\n\n\n\n\nNov 6, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nMigrating to Nextflow on AWS\n\n\n\nnextflow\n\nAWS\n\n\n\na short complementary guide with videos\n\n\n\n\n\nAug 29, 2023\n\n\njk\n\n\n\n\n\n\n\n\n\n\n\n\nFirst blog\n\n\n\nnews\n\n\n\nhi there\n\n\n\n\n\nMay 8, 2023\n\n\njk\n\n\n\n\n\nNo matching items\n Back to top"
   },
   {
     "objectID": "posts/250120-lambda-setup/index.html",
@@ -180,5 +180,33 @@
     "title": "Setting up a virtual python environment on a HPC",
     "section": "Submitting slurm jobs the right way",
     "text": "Submitting slurm jobs the right way\nThis is a boilerplate for submitting compute jobs to slurm:\n\nmodule load StdEnv/2023 python/3.12.4 r/4.5.0\nexport R_LIBS=/home/skim823/.local/R/4.5.0/\nsource ~/new_env/bin/activate\npython script.py\n\nEven before getting to submitting jobs, the first two lines are still relevant for loading and installing packages to the right version of R. I think it’s useful to have a local, version-specific install location path for R packages as explained here. Then, export the right R_LIBS, the one that matches the loaded version. I had trouble with this step because I was exporting the wrong version from my ~/.bashrc file at log in 🙄… Of course, all necessary R packages need to be installed via the R console. Unlike python, there are no R “wheels”, so just run install.packages() or BiocManager::install().\nThis blog was written in appreciation of, but was not endorsed by…\n\n\n\\ (•◡•) /"
+  },
+  {
+    "objectID": "posts/20250728-version-control/index.html",
+    "href": "posts/20250728-version-control/index.html",
+    "title": "HPC tricks",
+    "section": "",
+    "text": "Some “one-liners” that I use pretty often on an HPC. The goal is to add to this list piecemeal and eventually memorize some of ’em."
+  },
+  {
+    "objectID": "posts/20250728-version-control/index.html#introduction",
+    "href": "posts/20250728-version-control/index.html#introduction",
+    "title": "HPC tricks",
+    "section": "",
+    "text": "Some “one-liners” that I use pretty often on an HPC. The goal is to add to this list piecemeal and eventually memorize some of ’em."
+  },
+  {
+    "objectID": "posts/20250728-version-control/index.html#slurm-related",
+    "href": "posts/20250728-version-control/index.html#slurm-related",
+    "title": "HPC tricks",
+    "section": "Slurm-related",
+    "text": "Slurm-related\n\nSee partition usage by all users\n\nsqueue -p partition_name\n\n\n\nUsing a job array\n\n# This is in a job submission script.\n# Values provided to --array become an environment variable, $SLURM_ARRAY_TASK_ID\n# Automatically spawns n jobs\n# Use the variable as an argument for the main script\nSBATCH --array=0-3\n...\npython script.py --argument1 $SLURM_ARRAY_TASK_ID \n\n\n\nLimiting the number of concurrent jobs spawned by an array\n\n# To be a good boi on a server\n# The integer after % determines how many concurrent jobs can run\nSBATCH --array=1-1000%5\n\n\n\nUpdating the number of concurrent jobs in an array\n\n# No longer a good boi on a server\nscontrol update JobId=&lt;JobID&gt; ArrayTaskThrottle=&lt;count&gt;\n\n\n\nUsing a job array with multiple arguments\n\n# Map the array variable to line numbers of another file containing more arguments\nSBATCH --array=1-3\nLINE=$(sed -n \"${SLURM_ARRAY_TASK_ID}p\" file.csv)\narg1=$(echo $LINE | awk -F ',' '{print $1}')\narg2=$(echo $LINE | awk -F ',' '{print $2}')\npython script.py --argument1 $arg1 --argument2 $arg2"
+  },
+  {
+    "objectID": "posts/20250728-version-control/index.html#rsync-related",
+    "href": "posts/20250728-version-control/index.html#rsync-related",
+    "title": "HPC tricks",
+    "section": "Rsync-related",
+    "text": "Rsync-related\n\nDelete many files quickly\n\n# Basically target_dir is synced to empty_dir (so everything is deleted)\n# Apparently faster than rm -rf?\nrsync -aP --delete empty_dir/ target_dir/\n\n\n\nCopy pattern-matching files recursively\n\n# ** searches recursively\n# --include and --exclude arguments are processed in order\n# option -n for dry-run\nrsync -avhm --stats --progress  --include=\"**/*.csv\" --include=\"**/*.json\"  --include=\"*/\"  --exclude=\"*\" path/to/source /path/to/destination\n\n\n\\ (•◡•) /"
   }
 ]
