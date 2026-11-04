@@ -2,6 +2,7 @@
   {
     "listing": "/index.html",
     "items": [
+      "/posts/260213-hpc-tricks/index.html",
       "/posts/250902-python-setup-drac/index.html",
       "/posts/250728-version-control/index.html",
       "/posts/250120-lambda-setup/index.html",

@@ -1,0 +1,15 @@
+{
+  "hash": "71ebb08a9653ade97444062013d4a517",
+  "result": {
+    "engine": "knitr",
+    "markdown": "---\ntitle: \"HPC tricks\"\nauthor: \"jk\"\ndescription: \"Those that I wish I could recall from memory\"\ndate: \"2026-02-13\"\nformat: \n  html: default\ntoc: true\ncategories: [cloud]\nexecute:\n  eval: false\n---\n\n## Introduction\n\nSome \"one-liners\" that I use pretty often on an HPC. The goal is to add to this list piecemeal and eventually memorize some of 'em.\n\n## Slurm-related\n\n#### See partition usage by all users\n\n\n::: {.cell}\n\n```{.bash .cell-code}\nsqueue -p partition_name\n```\n:::\n\n\n#### Using a job array \n\n::: {.cell}\n\n```{.bash .cell-code}\n# This is in a job submission script.\n# Values provided to --array become an environment variable, $SLURM_ARRAY_TASK_ID\n# Automatically spawns n jobs\n# Use the variable as an argument for the main script\nSBATCH --array=0-3\n...\npython script.py --argument1 $SLURM_ARRAY_TASK_ID \n```\n:::\n\n\n#### Limiting the number of concurrent jobs spawned by an array\n\n::: {.cell}\n\n```{.bash .cell-code}\n# To be a good boi on a server\n# The integer after % determines how many concurrent jobs can run\nSBATCH --array=1-1000%5\n```\n:::\n\n\n#### Updating the number of concurrent jobs in an array\n\n::: {.cell}\n\n```{.bash .cell-code}\n# No longer a good boi on a server\nscontrol update JobId=<JobID> ArrayTaskThrottle=<count>\n```\n:::\n\n\n#### Using a job array with multiple arguments\n\n::: {.cell}\n\n```{.bash .cell-code}\n# Map the array variable to line numbers of another file containing more arguments\nSBATCH --array=1-3\nLINE=$(sed -n \"${SLURM_ARRAY_TASK_ID}p\" file.csv)\narg1=$(echo $LINE | awk -F ',' '{print $1}')\narg2=$(echo $LINE | awk -F ',' '{print $2}')\npython script.py --argument1 $arg1 --argument2 $arg2\n```\n:::\n\n\n\n## Rsync-related\n\n#### *Delete* many files quickly\n\n\n::: {.cell}\n\n```{.bash .cell-code}\n# Basically target_dir is synced to empty_dir (so everything is deleted)\n# Apparently faster than rm -rf?\nrsync -aP --delete empty_dir/ target_dir/\n```\n:::\n\n\n#### Copy pattern-matching files recursively\n\n::: {.cell}\n\n```{.bash .cell-code}\n# ** searches recursively\n# --include and --exclude arguments are processed in order\n# option -n for dry-run\nrsync -avhm --stats --progress  --include=\"**/*.csv\" --include=\"**/*.json\"  --include=\"*/\"  --exclude=\"*\" path/to/source /path/to/destination\n```\n:::\n\n\n\n\n::: center\n\\\\ (•◡•) /\n:::\n",
+    "supporting": [],
+    "filters": [
+      "rmarkdown/pagebreak.lua"
+    ],
+    "includes": {},
+    "engineDependencies": {},
+    "preserve": {},
+    "postProcess": true
+  }
+}
